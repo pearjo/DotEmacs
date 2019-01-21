@@ -1,7 +1,7 @@
 # emacs.d
 emacs init configuration
 
-## Custom keybindings
+## Custom key bindings
 
 | Key Binding | Command (M-x <cmd>)|
 |-------------|--------------------|
