@@ -5,4 +5,4 @@ emacs init configuration
 
 | Key Binding | Command (M-x <cmd>)|
 |-------------|--------------------|
-| C-#         | comment-line       |
+| `C-#`       | `comment-line`     |
