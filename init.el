@@ -7,6 +7,7 @@
 (global-set-key (kbd "C-c z") 'undo)
 
 ;; Minimal UI
+(setq inhibit-startup-screen t)
 (scroll-bar-mode -1)
 (tool-bar-mode   -1)
 (tooltip-mode    -1)
@@ -59,7 +60,7 @@
 ;; Tree view
 (use-package neotree
   :ensure t
-  :bind (("C-c t" . neotree-toggle))
+  :bind (("C-<tab>" . neotree-toggle))
   :defer
   :config
   (setq neo-theme 'icons)
@@ -83,6 +84,12 @@
   :defer t
   :ensure t
   :config
+  ;; RefTeX
+  (use-package reftex
+    :ensure t
+    :defer t
+    :config
+    (setq reftex-cite-prompt-optional-args t))
   ;; LaTeX setup
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
@@ -129,23 +136,19 @@
   :config
   (yas-global-mode 1))
 
-;; minimap
-;; (use-package minimap
-;;   :ensure t)
-
 ;; column indicator
 (use-package fill-column-indicator
   :ensure t
-  :after
+  :config
   (add-hook 'after-change-major-mode-hook 'fci-mode))
 
 ;; set custom font
-(when (member "Droid Sans Mono" (font-family-list))
-  (add-to-list 'default-frame-alist '(font . "Droid Sans Mono-10"))
-  (set-face-attribute 'default nil :family "Droid Sans Mono-10"))
-;; (when (member "Hack" (font-family-list))
-;;   (add-to-list 'default-frame-alist '(font . "Hack-10"))
-;;   (set-face-attribute 'default nil :family "Hack"))
+;; (when (member "Droid Sans Mono" (font-family-list))
+;;   (add-to-list 'default-frame-alist '(font . "Droid Sans Mono-10"))
+;;   (set-face-attribute 'default nil :family "Droid Sans Mono-10"))
+(when (member "Hack" (font-family-list))
+  (add-to-list 'default-frame-alist '(font . "Hack-12"))
+  (set-face-attribute 'default nil :family "Hack"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for OpenFOAM
@@ -230,17 +233,10 @@
 ;; backup files in emacs dict
 (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(inhibit-startup-screen t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
+;; smooth scrolling
+(setq scroll-conservatively 10)
+(setq scroll-margin 5)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 ;;; init.el ends here
