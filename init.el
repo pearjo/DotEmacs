@@ -1,10 +1,38 @@
 ;;; init.el --- emacs configuration file
+
+;; Copyright (C) 2019 Joe Pearson
+
+;; Author: Joe Pearson <joe.pearson@mail.de>
+;; Keywords: emacs, init
+
+;; This file is not part of GNU Emacs.
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 ;;; Commentary:
-;; Emacs config of J. N. P.
+;; Emacs config file.
+
 ;;; Code:
+
+;;--------------------------------------------------------------------
+;;; Editor configuration
+
 ;; Custom key bindings
 (global-set-key (kbd "C-#") 'comment-line)
-(global-set-key (kbd "C-c z") 'undo)
+(global-set-key (kbd "C-<next>") 'next-buffer)
+(global-set-key (kbd "C-<prior>") 'previous-buffer)
+(global-set-key (kbd "C-<tab>") 'helm-buffers-list)
 
 ;; Minimal UI
 (setq inhibit-startup-screen t)
@@ -12,32 +40,99 @@
 (tool-bar-mode   -1)
 (tooltip-mode    -1)
 (menu-bar-mode   -1)
+(setq cursor-type 'box)
+
+;; Frame size
+(add-to-list 'default-frame-alist '(height . 50))
+(add-to-list 'default-frame-alist '(width . 90))
+
+;; display line numbers
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
+
+;; smooth scrolling
+(setq scroll-conservatively 10)
+(setq scroll-margin 5)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 
 ;; Package configs
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives '(("org"   . "http://orgmode.org/elpa/")
-                         ("gnu"   . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+			 ("gnu"   . "http://elpa.gnu.org/packages/")
+			 ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
-;; Bootstrap `use-package`
+;; Load path
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+;; Backup files
+(setq create-lockfiles nil)
+;; (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+
+;; Keep a list of recently opened files
+(recentf-mode 1)
+
+;; Bootstrap use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 (require 'use-package)
 
-;; Vim mode
+;; Extensible vi layer for Emacs
 (use-package evil
   :ensure t
   :config
-  (evil-mode 1))
+  (evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-c") 'copy-region-as-kill)
+  (define-key evil-insert-state-map (kbd "C-v") 'yank)
+  (define-key evil-insert-state-map (kbd "C-x") 'kill-region)
+  (define-key evil-insert-state-map (kbd "C-z") 'undo)
+  (define-key evil-insert-state-map (kbd "C-S-z") 'undo-tree-redo)
+  ;; esc quits
+  (define-key evil-normal-state-map [escape] 'keyboard-quit)
+  (define-key evil-visual-state-map [escape] 'keyboard-quit)
+  (define-key minibuffer-local-map [escape]
+    'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-ns-map [escape]
+    'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-completion-map [escape]
+    'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-must-match-map [escape]
+    'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-isearch-map [escape]
+    'minibuffer-keyboard-quit))
 
-  ;; Theme
+;; Theme
 (use-package doom-themes
+  :ensure t)
+
+(use-package solarized-theme
   :ensure t
   :config
-  (load-theme 'doom-one t))
+  (setq solarized-use-variable-pitch nil)
+  (setq solarized-use-less-bold t)
+  (setq solarized-use-more-italic t)
+  (setq solarized-emphasize-indicators nil)
+  (setq solarized-scale-org-headlines nil)
+  (setq solarized-height-minus-1 1.0)
+  (setq solarized-height-plus-1 1.0)
+  (setq solarized-height-plus-2 1.0)
+  (setq solarized-height-plus-3 1.0)
+  (setq solarized-height-plus-4 1.0))
+
+;; load theme depending on the day time
+(use-package circadian
+  :ensure t
+  :config
+  ;; coordinates of Hamburg, HH, Germany
+  (setq calendar-latitude 53.55)
+  (setq calendar-longitude 9.99)
+  (setq circadian-themes '((:sunrise . solarized-light)
+                           (:sunset  . solarized-dark)))
+  (circadian-setup))
 
 ;; Editor config
 (use-package editorconfig
@@ -45,25 +140,25 @@
   :config
   (editorconfig-mode 1))
 
-;; Helm
-(use-package helm
-  :ensure t
-  :init
-  (setq helm-mode-fuzzy-match t)
-  (setq helm-completion-in-region-fuzzy-match t)
-  (setq helm-candidate-number-list 50))
-
-;; Icons
+;; icon set
 (use-package all-the-icons
   :ensure t)
 
 ;; Tree view
 (use-package neotree
   :ensure t
-  :bind (("C-<tab>" . neotree-toggle))
+  :bind (("<f8>" . neotree-toggle))
   :defer
   :config
-  (setq neo-theme 'icons)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (setq neo-window-fixed-size nil)
+  (setq all-the-icons-color-icons t)
+  (setq neo-smart-open t)
+  ;; turn fci mode and line numbers off
+  (add-hook 'neo-after-create-hook
+            (lambda (&rest _)
+	      (turn-off-fci-mode)
+	      (display-line-numbers-mode -1)))
   (evil-set-initial-state 'neotree-mode 'normal)
   (evil-define-key 'normal neotree-mode-map
     (kbd "RET") 'neotree-enter
@@ -79,62 +174,105 @@
     (kbd "q")   'neotree-hide
     (kbd "l")   'neotree-enter))
 
-;; AUCTeX
-(use-package auctex
-  :defer t
+;; Use the undo-tree
+(use-package undo-tree
   :ensure t
+  ;; :diminish undo-tree-mode
+  ;; :init
   :config
-  ;; RefTeX
-  (use-package reftex
-    :ensure t
-    :defer t
-    :config
-    (setq reftex-cite-prompt-optional-args t))
-  ;; LaTeX setup
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq-default TeX-master nil)
-  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-  (setq reftex-plug-into-AUCTeX t))
+  (global-undo-tree-mode 1))
 
-;; flycheck
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
+;; Overwrite selected region
+(delete-selection-mode 1)
 
-;; auto-complete
-(use-package auto-complete
+;; Move lines and regions
+(defun move-line-up ()
+  "Move line up."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2))
+
+(defun move-line-down ()
+  "Move line down."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1))
+
+(defun move-region (start end n)
+  "Move the current region from START to END up or down by N lines."
+  (interactive "r\np")
+  (let ((line-text (delete-and-extract-region start end)))
+    (forward-line n)
+    (let ((start (point)))
+      (insert line-text)
+      (setq deactivate-mark nil)
+      (set-mark start))))
+
+(defun move-region-up (start end n)
+  "Move the current region from START to END up by N lines."
+  (interactive "r\np")
+  (move-region start end (if (null n) -1 (- n))))
+
+(defun move-region-down (start end n)
+  "Move the current region form START to END down by N lines."
+  (interactive "r\np")
+  (move-region start end (if (null n) 1 n)))
+
+(defun move-line-region-up (&optional start end n)
+  "Move a line or region from START to END up by N lines."
+  (interactive "r\np")
+  (if (use-region-p) (move-region-up start end n) (move-line-up)))
+
+(defun move-line-region-down (&optional start end n)
+  "Move a line or region from START to END down by N lines."
+  (interactive "r\np")
+  (if (use-region-p) (move-region-down start end n) (move-line-down)))
+
+(global-set-key (kbd "M-<up>") 'move-line-region-up)
+(global-set-key (kbd "M-<down>") 'move-line-region-down)
+
+;; auto complete using company
+(use-package company
   :ensure t
+  :custom
+  (global-company-mode t)
+  (company-idle-delay 0)
+  (company-minimum-prefix-length 1)
   :config
-  (add-to-list 'ac-modes 'latex-mode)
-  ;; LaTeX setup
-  (use-package ac-math
-    :ensure t
-    :config
-    (defun custom-ac-latex-mode ()
-      (setq ac-sources
-	    (append '(ac-source-math-unicode
-		      ac-source-math-latex
-		      ac-source-latex-commands)
-		    ac-sources)))
-    (add-hook 'LaTeX-mode-hook 'custom-ac-latex-mode)
-    (setq ac-math-unicode-in-math-p t)
-    (ac-flyspell-workaround)
-    (add-to-list 'ac-modes 'org-mode)
-    (require 'auto-complete-config)
-    (ac-config-default)
-    (setq ac-auto-start t)
-    (setq ac-auto-show-menu t))
-  (global-auto-complete-mode t))
+  (progn
+    ;; Enable company mode in every programming mode
+    (add-hook 'prog-mode-hook 'company-mode)
+    ;; Set my own default company backends
+    (setq-default
+     company-backends
+     '(company-files
+       company-keywords
+       company-dabbrev-code
+       company-dabbrev))))
 
 ;; yasnippet
 (use-package yasnippet
   :ensure t
   :config
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  (setq yas-indent-line 'auto)
+  (add-hook 'Snippet-mode 'require-final-newline nil))
+
+;; Add yasnippet support for all company backends
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
+
+(defun company-mode/backend-with-yas (backend)
+  "Fix things for BACKEND."
+  (if (or (not company-mode/enable-yas)
+	  (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(setq company-backends
+      (mapcar #'company-mode/backend-with-yas company-backends))
 
 ;; column indicator
 (use-package fill-column-indicator
@@ -142,16 +280,157 @@
   :config
   (add-hook 'after-change-major-mode-hook 'fci-mode))
 
-;; set custom font
-;; (when (member "Droid Sans Mono" (font-family-list))
-;;   (add-to-list 'default-frame-alist '(font . "Droid Sans Mono-10"))
-;;   (set-face-attribute 'default nil :family "Droid Sans Mono-10"))
-(when (member "Hack" (font-family-list))
-  (add-to-list 'default-frame-alist '(font . "Hack-12"))
-  (set-face-attribute 'default nil :family "Hack"))
+(defun on-off-fci-before-company(command)
+  "Show or hide fci with COMMAND before company."
+  (when (string= "show" command)
+    (turn-off-fci-mode))
+  (when (string= "hide" command)
+    (turn-on-fci-mode)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; for OpenFOAM
+(advice-add 'company-call-frontends :before #'on-off-fci-before-company)
+
+;; set custom font
+(when (member "Inconsolata" (font-family-list))
+  (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
+  (set-face-attribute 'default nil :family "Inconsolata"))
+
+;; autopair brackets and highlight them
+(require 'autopair)
+(autopair-global-mode)
+(show-paren-mode 1)
+(setq show-paren-delay 0)
+
+;; Helm
+(use-package helm
+  :ensure t)
+
+;; move over camelCase words correctly
+(subword-mode)
+
+
+;;--------------------------------------------------------------------
+;;; Mode line
+;; minimal ui of mode-line
+(set-face-attribute 'mode-line nil
+                    :box nil
+                    :overline nil
+                    :underline nil)
+
+(set-face-attribute 'mode-line-inactive nil
+                    :box nil
+                    :overline nil
+                    :underline nil)
+
+;; hide minor modes
+(define-minor-mode minor-mode-blackout-mode
+  "Hides minor modes from the mode line."
+  t)
+
+(catch 'done
+  (mapc (lambda (x)
+          (when (and (consp x)
+                     (equal (cadr x) '("" minor-mode-alist)))
+            (let ((original (copy-sequence x)))
+              (setcar x 'minor-mode-blackout-mode)
+              (setcdr x (list "" original)))
+            (throw 'done t)))
+        mode-line-modes))
+
+(global-set-key (kbd "C-c m") 'minor-mode-blackout-mode)
+
+
+;;--------------------------------------------------------------------
+;;; Spell checking
+
+;; dictionary setup
+(setq ispell-program-name "aspell")
+(setq ispell-really-aspell t)
+(setq ispell-extra-args '("--sug-mode=fast"))
+(setq ispell-list-command "--list")
+(setq ispell-dictionary "english")
+(setq flyspell-issue-message-flag nil)
+
+;; flyspell in other modes
+(dolist (hook '(text-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
+(dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode -1))))
+
+;; check comments in C++ code
+(add-hook 'c++-mode-hook
+	  (lambda ()
+	    (flyspell-prog-mode)))
+
+(defun fd-switch-dictionary()
+  "Change dictionaries.
+Switch between English and German."
+  (interactive)
+  (let* ((dic ispell-current-dictionary)
+	 (change (if (string= dic "deutsch8") "english" "deutsch8")))
+    (ispell-change-dictionary change)
+    (message "Dictionary switched from %s to %s" dic change)
+    ))
+
+(global-set-key (kbd "C-d")   'fd-switch-dictionary)
+
+
+;;--------------------------------------------------------------------
+;;; Code checker
+
+;; flycheckr
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
+
+;;--------------------------------------------------------------------
+;;; TeX/LaTeX settings
+
+;; AUCTeX
+(use-package auctex
+  :defer t
+  :ensure t
+  :config
+  ;; RefTeX
+  (use-package reftex
+    :ensure t)
+  ;; LaTeX setup
+  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  (add-hook 'LaTeX-mode-hook 'reftex-initialize-temporary-buffers)
+  :init (progn
+	  (setq-default TeX-auto-save t)
+	  (setq-default TeX-parse-self t)
+	  (setq-default TeX-source-correlate-mode t)
+	  (setq-default TeX-master nil)
+	  (setq-default reftex-save-parse-info t)
+	  (setq-default reftex-plug-into-AUCTeX t)
+	  (setq-default reftex-keep-temporary-buffers t))
+  :bind
+  ("C-c =" . reftex-toc))
+
+(use-package company-auctex
+  :ensure t
+  :defer t
+  :hook ((LaTeX-mode . company-auctex-init)))
+
+(use-package company-reftex
+  :ensure t
+  :init (progn
+          (add-to-list 'company-backends 'company-reftex-labels)
+	  (add-to-list 'company-backends 'company-reftex-citations)))
+
+;; BibTeX for Helm
+(use-package helm-bibtex
+  :ensure t)
+
+
+;;--------------------------------------------------------------------
+;;; C/C++
+
+;; OpenFOAM
 (c-add-style "OpenFOAM_HGW"
 	     '(
      (c-basic-offset . 4)
@@ -161,7 +440,7 @@
      (c-indent-comments-syntactically-p . t)
      (c-block-comments-indent-p nil)
      (c-cleanup-list .
-         '((defun-close-semi) (list-close-comma) (scope-operator)))
+	 '((defun-close-semi) (list-close-comma) (scope-operator)))
      (c-backslash-column . 48)
      (c-offsets-alist .
      (
@@ -174,7 +453,7 @@
      (inline-open . +)           ;; brace that opens an in-class inline method
      (inline-close . 0)          ;; brace that closes an in-class inline method
      (topmost-intro . 0)         ;; the first line in a topmost construct
-                                 ;; definition
+				 ;; definition
      (topmost-intro-cont . 0)    ;; topmost definition continuation lines
      (member-init-intro . +)     ;; first line in a member initialization list
      (member-init-cont . 0)      ;; subsequent member initialization list lines
@@ -186,13 +465,13 @@
      (brace-list-close . 0)      ;; open brace of an enum or static array list
      (brace-list-intro . +)      ;; first line in an enum or static array list
      (brace-list-entry . 0)      ;; subsequent lines in an enum or static array
-                                 ;; list
+				 ;; list
      (statement . 0)             ;; a C/C++/ObjC statement
      (statement-cont . +)        ;; a continuation of a C/C++/ObjC statement
      (statement-block-intro . +) ;; the first line in a new statement block
      (statement-case-intro . +)  ;; the first line in a case `block'
      (statement-case-open . +)   ;; the first line in a case `block'
-                                 ;; starting with brace
+				 ;; starting with brace
      (substatement . +)          ;; the first line after an if/while/for/do/else
      (substatement-open . 0)     ;; the brace that opens a substatement block
      (case-label . +)            ;; a case or default label
@@ -203,19 +482,19 @@
      (comment-intro . 0)         ;; line containing only a comment introduction
      (arglist-intro . +)         ;; the first line in an argument list
      (arglist-cont . 0)          ;; subsequent argument list lines when no
-                                 ;; subsequent argument list lines
-                                 ;; when no the
-                                 ;; arglist opening paren
+				 ;; subsequent argument list lines
+				 ;; when no the
+				 ;; arglist opening paren
      (arglist-cont-nonempty . 0) ;; subsequent argument list lines when at
-                                 ;; subsequent argument list lines
-                                 ;; when at line
-                                 ;; as the arglist opening paren
+				 ;; subsequent argument list lines
+				 ;; when at line
+				 ;; as the arglist opening paren
      (arglist-close . 0)         ;; line as the arglist opening paren
      (stream-op . +)             ;; lines continuing a stream operator construct
      (inclass . +)               ;; the construct is nested inside a class
-                                 ;; definition
+				 ;; definition
      (cpp-macro . +)             ;; the construct is nested inside a class
-                                 ;; definition
+				 ;; definition
      (friend . 0)                ;; a C++ friend declaration
      (namespace-open  . 0)
      (namespace-close . 0)
@@ -224,19 +503,49 @@
      )
      )
 )
- 
+
 (defun openfoam-hgw-c-mode-hook ()
   "OpenFOAM C++ style."
   (c-set-style "OpenFOAM_HGW"))
 ;; (add-hook 'c-mode-common-hook 'openfoam-hgw-c-mode-hook)
 
-;; backup files in emacs dict
-(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
 
-;; smooth scrolling
-(setq scroll-conservatively 10)
-(setq scroll-margin 5)
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
-(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+;;--------------------------------------------------------------------
+;;; Python
+
+;; elpy
+(use-package elpy
+  :ensure t
+  :config
+  (progn
+    (elpy-enable)))
+
+
+;;--------------------------------------------------------------------
+;;; Version control
+
+;; use magit
+(use-package magit
+  :ensure t)
+
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-idle-delay 0)
+ '(company-minimum-prefix-length 1)
+ '(custom-safe-themes
+   (quote
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+ '(global-company-mode t)
+ '(package-selected-packages
+   (quote
+    (helm-bibtex solarized-themes use-package theme-changer tabbar neotree magit flycheck fill-column-indicator evil elpy editorconfig doom-themes company-reftex company-auctex circadian))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
