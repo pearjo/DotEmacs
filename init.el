@@ -41,14 +41,25 @@
 (tooltip-mode    -1)
 (menu-bar-mode   -1)
 (setq cursor-type 'box)
+(column-number-mode 1)
 
 ;; Frame size
 (add-to-list 'default-frame-alist '(height . 50))
 (add-to-list 'default-frame-alist '(width . 90))
 
 ;; display line numbers
-(when (version<= "26.0.50" emacs-version )
-  (global-display-line-numbers-mode))
+(if (version<= "26.0.50" emacs-version)
+  (global-display-line-numbers-mode)
+  (global-linum-mode 1))
+
+;; soft wrap lines
+(global-visual-line-mode 1)
+
+;; kill buffers
+(defun kill-other-buffers ()
+      "Kill all other buffers."
+      (interactive)
+      (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 ;; smooth scrolling
 (setq scroll-conservatively 10)
@@ -70,6 +81,7 @@
 
 ;; Backup files
 (setq create-lockfiles nil)
+(setq make-backup-files nil)
 ;; (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
 
 ;; Keep a list of recently opened files
@@ -106,9 +118,6 @@
     'minibuffer-keyboard-quit))
 
 ;; Theme
-(use-package doom-themes
-  :ensure t)
-
 (use-package solarized-theme
   :ensure t
   :config
@@ -291,7 +300,7 @@
 
 ;; set custom font
 (when (member "Inconsolata" (font-family-list))
-  (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
+  (add-to-list 'default-frame-alist '(font . "Inconsolata-12"))
   (set-face-attribute 'default nil :family "Inconsolata"))
 
 ;; autopair brackets and highlight them
@@ -542,7 +551,7 @@ Switch between English and German."
  '(global-company-mode t)
  '(package-selected-packages
    (quote
-    (helm-bibtex solarized-themes use-package theme-changer tabbar neotree magit flycheck fill-column-indicator evil elpy editorconfig doom-themes company-reftex company-auctex circadian))))
+    (solarized-theme helm-bibtex solarized-themes use-package theme-changer tabbar neotree magit flycheck fill-column-indicator evil elpy editorconfig doom-themes company-reftex company-auctex circadian))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
