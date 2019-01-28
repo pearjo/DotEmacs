@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: figure
+# key: fig
+# group: figure
+# --
+\begin{figure}[${1:$$(yas-choose-value '("h" "t" "b"))}]
+\centering \includegraphic{$2}
+\caption{$3}%
+\label{fig:$3}
+\end{figure}

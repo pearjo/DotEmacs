@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: figure
+# expand-env: ((yas-indent-line 'auto))
+# key: fig
+# --
+\begin{figure}[${1:h}]
+\centering \includegraphic{$2}
+\caption{$3}%
+\label{fig:$3}
+\end{figure}

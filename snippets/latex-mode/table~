@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: table 
+# key: table
+# --
+\begin{table}
+\caption{$2}%
+\label{tab:$2}
+\begin{tabular}{$3}
+\toprule
+$4
+\midrule
+$5
+\bottomrule
+\end{tabular}
+\end{table}

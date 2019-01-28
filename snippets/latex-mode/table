@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: table 
+# key: table
+# --
+\begin{table}[${1:$$(yas-choose-value '("h" "t" "b"))}]
+\centering
+\caption{$2}%
+\label{tab:$2}
+\begin{tabular}{$3}
+\toprule
+$4
+\midrule
+$5
+\bottomrule
+\end{tabular}
+\end{table}
