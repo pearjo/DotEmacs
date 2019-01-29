@@ -48,25 +48,31 @@
 (add-to-list 'default-frame-alist '(width . 90))
 
 ;; display line numbers
-(if (version<= "26.0.50" emacs-version)
-  (global-display-line-numbers-mode)
-  (global-linum-mode 1))
+(add-hook 'after-make-frame-functions
+	  '(lambda (frame)
+	     (select-frame frame)
+	     (if (version<= "26.0.50" emacs-version)
+		 (global-display-line-numbers-mode)
+	       (global-linum-mode 1))))
 
 ;; soft wrap lines
 (global-visual-line-mode 1)
 
 ;; kill buffers
 (defun kill-other-buffers ()
-      "Kill all other buffers."
-      (interactive)
-      (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 ;; smooth scrolling
-(setq scroll-conservatively 10)
-(setq scroll-margin 5)
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
-(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+(setq scroll-margin 5
+      mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-wheel-follow-mouse 't
+      mouse-wheel-progressive-speed nil
+      fast-but-imprecise-scrolling nil
+      scroll-step 1
+      scroll-conservatively 10
+      scroll-preserve-screen-position 1)
 
 ;; Package configs
 (require 'package)
@@ -103,6 +109,7 @@
   (define-key evil-insert-state-map (kbd "C-x") 'kill-region)
   (define-key evil-insert-state-map (kbd "C-z") 'undo)
   (define-key evil-insert-state-map (kbd "C-S-z") 'undo-tree-redo)
+  (define-key evil-insert-state-map (kbd "C-a") 'mark-whole-buffer)
   ;; esc quits
   (define-key evil-normal-state-map [escape] 'keyboard-quit)
   (define-key evil-visual-state-map [escape] 'keyboard-quit)
@@ -140,8 +147,23 @@
   (setq calendar-latitude 53.55)
   (setq calendar-longitude 9.99)
   (setq circadian-themes '((:sunrise . solarized-light)
-                           (:sunset  . solarized-dark)))
-  (circadian-setup))
+                           (:sunset  . solarized-dark))))
+
+;; load theme
+(add-hook 'after-make-frame-functions
+	  '(lambda (frame)
+	     (select-frame frame)
+	     (if (display-graphic-p)
+		 (circadian-setup)
+	       (add-to-list 'default-frame-alist '(tty-color-mode . -1)))))
+
+;; set custom font
+(add-hook 'after-make-frame-functions
+	  '(lambda (frame)
+	     (select-frame frame)
+	     (when (member "Inconsolata" (font-family-list))
+	       (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
+	       (set-face-attribute 'default nil :family "Inconsolata"))))
 
 ;; Editor config
 (use-package editorconfig
@@ -298,11 +320,6 @@
 
 (advice-add 'company-call-frontends :before #'on-off-fci-before-company)
 
-;; set custom font
-(when (member "Inconsolata" (font-family-list))
-  (add-to-list 'default-frame-alist '(font . "Inconsolata-12"))
-  (set-face-attribute 'default nil :family "Inconsolata"))
-
 ;; autopair brackets and highlight them
 (require 'autopair)
 (autopair-global-mode)
@@ -316,19 +333,27 @@
 ;; move over camelCase words correctly
 (subword-mode)
 
+;; define function to shutdown emacs server instance
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server."
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs))
 
 ;;--------------------------------------------------------------------
 ;;; Mode line
 ;; minimal ui of mode-line
-(set-face-attribute 'mode-line nil
-                    :box nil
-                    :overline nil
-                    :underline nil)
-
-(set-face-attribute 'mode-line-inactive nil
-                    :box nil
-                    :overline nil
-                    :underline nil)
+(add-hook 'after-make-frame-functions
+	  '(lambda (frame)
+	     (select-frame frame)
+	     (set-face-attribute 'mode-line nil
+				 :box nil
+				 :overline nil
+				 :underline nil)
+	     (set-face-attribute 'mode-line-inactive nil
+				 :box nil
+				 :overline nil
+				 :underline nil)))
 
 ;; hide minor modes
 (define-minor-mode minor-mode-blackout-mode
@@ -538,23 +563,3 @@ Switch between English and German."
   :ensure t)
 
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-idle-delay 0)
- '(company-minimum-prefix-length 1)
- '(custom-safe-themes
-   (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
- '(global-company-mode t)
- '(package-selected-packages
-   (quote
-    (solarized-theme helm-bibtex solarized-themes use-package theme-changer tabbar neotree magit flycheck fill-column-indicator evil elpy editorconfig doom-themes company-reftex company-auctex circadian))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
