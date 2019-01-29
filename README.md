@@ -1,5 +1,5 @@
-# emacs.d
-emacs init configuration
+# my-emacs-init
+emacs configuration
 
 ## Custom key bindings
 
