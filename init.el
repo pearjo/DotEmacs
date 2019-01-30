@@ -340,6 +340,9 @@
   (save-some-buffers)
   (kill-emacs))
 
+;; Dired
+(global-auto-revert-mode 1)
+
 ;;--------------------------------------------------------------------
 ;;; Mode line
 ;; minimal ui of mode-line
@@ -389,11 +392,6 @@
   (add-hook hook (lambda () (flyspell-mode 1))))
 (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
   (add-hook hook (lambda () (flyspell-mode -1))))
-
-;; check comments in C++ code
-(add-hook 'c++-mode-hook
-	  (lambda ()
-	    (flyspell-prog-mode)))
 
 (defun fd-switch-dictionary()
   "Change dictionaries.
@@ -541,8 +539,11 @@ Switch between English and German."
 (defun openfoam-hgw-c-mode-hook ()
   "OpenFOAM C++ style."
   (c-set-style "OpenFOAM_HGW"))
-;; (add-hook 'c-mode-common-hook 'openfoam-hgw-c-mode-hook)
 
+;; check comments in C++ code
+(add-hook 'c++-mode-hook
+	  (lambda ()
+	    (flyspell-prog-mode)))
 
 ;;--------------------------------------------------------------------
 ;;; Python
@@ -554,6 +555,17 @@ Switch between English and German."
   (progn
     (elpy-enable)))
 
+;; PEP8 Compliance
+(use-package py-autopep8
+  :ensure t
+  :config
+  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
+
+;; check comments in Python code
+(add-hook 'python-mode-hook
+	  (lambda ()
+	    (flyspell-prog-mode)))
+
 
 ;;--------------------------------------------------------------------
 ;;; Version control
@@ -561,5 +573,7 @@ Switch between English and German."
 ;; use magit
 (use-package magit
   :ensure t)
+
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;;; init.el ends here
