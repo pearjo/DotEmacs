@@ -306,11 +306,22 @@
       (mapcar #'company-mode/backend-with-yas company-backends))
 
 ;; column indicator
+
+;; after load theme hook to update fill-column-indicator
+(defvar after-load-theme-hook nil
+  "Hook run after a color theme is loaded using 'load-theme'.")
+(defadvice load-theme (after run-after-load-theme-hook activate)
+  "Run `after-load-theme-hook'."
+  (run-hooks 'after-load-theme-hook))
+
 (use-package fill-column-indicator
   :ensure t
   :config
-  (add-hook 'after-change-major-mode-hook 'fci-mode))
+  (add-hook 'after-change-major-mode-hook 'fci-mode)
+  (add-hook 'after-load-theme-hook 'turn-off-fci-mode)
+  (add-hook 'after-load-theme-hook 'turn-on-fci-mode))
 
+;; make fci and company work together
 (defun on-off-fci-before-company(command)
   "Show or hide fci with COMMAND before company."
   (when (string= "show" command)
@@ -341,6 +352,11 @@
   (kill-emacs))
 
 ;; Dired
+(use-package all-the-icons-dired
+  :ensure t
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+
 (global-auto-revert-mode 1)
 
 ;;--------------------------------------------------------------------
@@ -426,22 +442,30 @@ Switch between English and German."
   ;; RefTeX
   (use-package reftex
     :ensure t)
-  ;; LaTeX setup
+  ;; LaTeX hooks
   (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-  (add-hook 'LaTeX-mode-hook 'reftex-initialize-temporary-buffers)
+  ;; (add-hook 'LaTeX-mode-hook 'reftex-initialize-temporary-buffers)
   :init (progn
-	  (setq-default TeX-auto-save t)
+	  (setq-default TeX-auto-save nil)
 	  (setq-default TeX-parse-self t)
 	  (setq-default TeX-source-correlate-mode t)
 	  (setq-default TeX-master nil)
-	  (setq-default reftex-save-parse-info t)
+	  ;; BibTeX settings
+	  (setq-default bibtex-align-at-equal-sign t)
+	  ;; RefTeX settings
 	  (setq-default reftex-plug-into-AUCTeX t)
-	  (setq-default reftex-keep-temporary-buffers t))
+	  (setq-default reftex-save-parse-info nil)
+	  (setq-default reftex-keep-temporary-buffers nil))
   :bind
-  ("C-c =" . reftex-toc))
+  ("C-c t" . reftex-toc)
+  ("C-c c" . reftex-citation)
+  ("C-c l" . reftex-label)
+  ("C-c r" . reftex-reference)
+  ("C-c v" . reftex-view-crossref)
+  ("C-c g" . reftex-grep-document))
 
 (use-package company-auctex
   :ensure t
@@ -577,3 +601,17 @@ Switch between English and German."
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (all-the-icons-dired use-package theme-changer tabbar spaceline-all-the-icons solarized-theme py-autopep8 neotree magit helm-bibtex flycheck fill-column-indicator evil elpy editorconfig doom-themes company-reftex company-quickhelp company-auctex circadian))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

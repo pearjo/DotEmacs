@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: text style
+# key: text
+# --
+\text${1:$$(yas-choose-value '("rm" "sl" "tt" "md" "bf" "up" "sl" "it" "sc" "normal"))}{$2}
