@@ -173,7 +173,9 @@
 
 ;; icon set
 (use-package all-the-icons
-  :ensure t)
+  :ensure t
+  :config
+  (require 'font-lock+))
 
 ;; Tree view
 (use-package neotree
@@ -362,17 +364,20 @@
 ;;--------------------------------------------------------------------
 ;;; Mode line
 ;; minimal ui of mode-line
-(add-hook 'after-make-frame-functions
-	  '(lambda (frame)
-	     (select-frame frame)
-	     (set-face-attribute 'mode-line nil
-				 :box nil
-				 :overline nil
-				 :underline nil)
-	     (set-face-attribute 'mode-line-inactive nil
-				 :box nil
-				 :overline nil
-				 :underline nil)))
+(defun minimal-mode-line (frame)
+  "Minimal mode-line for a FRAME."
+  (select-frame frame)
+  (set-face-attribute 'mode-line nil
+		      :box nil
+		      :overline nil
+		      :underline nil)
+  (set-face-attribute 'mode-line-inactive nil
+		      :box nil
+		      :overline nil
+		      :underline nil))
+
+(add-hook 'after-make-frame-functions 'minimal-mode-line)
+(add-hook 'after-load-theme-hook 'minimal-mode-line)
 
 ;; hide minor modes
 (define-minor-mode minor-mode-blackout-mode
@@ -601,17 +606,3 @@ Switch between English and German."
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (all-the-icons-dired use-package theme-changer tabbar spaceline-all-the-icons solarized-theme py-autopep8 neotree magit helm-bibtex flycheck fill-column-indicator evil elpy editorconfig doom-themes company-reftex company-quickhelp company-auctex circadian))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
