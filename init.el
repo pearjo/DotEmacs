@@ -25,7 +25,6 @@
 
 ;;; Code:
 
-;;--------------------------------------------------------------------
 ;;; Editor configuration
 
 ;; Custom key bindings
@@ -162,7 +161,7 @@
 	  '(lambda (frame)
 	     (select-frame frame)
 	     (when (member "Inconsolata" (font-family-list))
-	       (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
+	       (add-to-list 'default-frame-alist '(font . "Inconsolata-12"))
 	       (set-face-attribute 'default nil :family "Inconsolata"))))
 
 ;; Editor config
@@ -341,7 +340,11 @@
 
 ;; Helm
 (use-package helm
-  :ensure t)
+  :ensure t
+  :config
+  (semantic-mode 1)
+  :bind
+  ("C-<dead-circumflex>" . helm-semantic))
 
 ;; move over camelCase words correctly
 (subword-mode)
@@ -361,7 +364,8 @@
 
 (global-auto-revert-mode 1)
 
-;;--------------------------------------------------------------------
+
+
 ;;; Mode line
 ;; minimal ui of mode-line
 (defun minimal-mode-line (frame)
@@ -397,7 +401,6 @@
 (global-set-key (kbd "C-c m") 'minor-mode-blackout-mode)
 
 
-;;--------------------------------------------------------------------
 ;;; Spell checking
 
 ;; dictionary setup
