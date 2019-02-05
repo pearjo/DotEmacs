@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: subcaption
+# key: subcaption
+# --
+\subcaptionbox{$1\label{fig:$2}}[$3]{%
+\includegraphics[width=\linewidth]{$4}}

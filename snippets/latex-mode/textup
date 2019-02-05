@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: textup
+# key: up
+# --
+\textup{$1}

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: textmd
+# key: md
+# --
+\textmd{$1}

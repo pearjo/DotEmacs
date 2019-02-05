@@ -161,7 +161,7 @@
 	  '(lambda (frame)
 	     (select-frame frame)
 	     (when (member "Inconsolata" (font-family-list))
-	       (add-to-list 'default-frame-alist '(font . "Inconsolata-12"))
+	       (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
 	       (set-face-attribute 'default nil :family "Inconsolata"))))
 
 ;; Editor config
@@ -307,20 +307,14 @@
       (mapcar #'company-mode/backend-with-yas company-backends))
 
 ;; column indicator
-
-;; after load theme hook to update fill-column-indicator
-(defvar after-load-theme-hook nil
-  "Hook run after a color theme is loaded using 'load-theme'.")
-(defadvice load-theme (after run-after-load-theme-hook activate)
-  "Run `after-load-theme-hook'."
-  (run-hooks 'after-load-theme-hook))
-
 (use-package fill-column-indicator
   :ensure t
   :config
   (add-hook 'after-change-major-mode-hook 'fci-mode)
-  (add-hook 'after-load-theme-hook 'turn-off-fci-mode)
-  (add-hook 'after-load-theme-hook 'turn-on-fci-mode))
+  (add-hook 'circadian-after-load-theme-hook
+	    '(lambda ()
+	       turn-off-fci-mode
+	       turn-on-fci-mode)))
 
 ;; make fci and company work together
 (defun on-off-fci-before-company(command)
@@ -365,7 +359,6 @@
 (global-auto-revert-mode 1)
 
 
-
 ;;; Mode line
 ;; minimal ui of mode-line
 (defun minimal-mode-line (frame)
@@ -381,7 +374,7 @@
 		      :underline nil))
 
 (add-hook 'after-make-frame-functions 'minimal-mode-line)
-(add-hook 'after-load-theme-hook 'minimal-mode-line)
+(add-hook 'circadian-after-load-theme-hook 'minimal-mode-line)
 
 ;; hide minor modes
 (define-minor-mode minor-mode-blackout-mode
