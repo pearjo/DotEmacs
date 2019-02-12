@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: mathrm
 # key: rm
+# condition: (texmathp)
 # --
 \mathrm{$1}

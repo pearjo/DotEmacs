@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: acronym
+# key: acr
+# --
+\acr${1:$$(yas-choose-value '("short" "long"))}{$2}
