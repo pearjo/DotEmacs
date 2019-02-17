@@ -123,6 +123,10 @@
   (define-key minibuffer-local-isearch-map [escape]
     'minibuffer-keyboard-quit))
 
+;; make evil and magit work together
+(use-package evil-magit
+  :ensure t)
+
 ;; Theme
 (use-package solarized-theme
   :ensure t
@@ -311,6 +315,7 @@
 ;; Column length waring
 (require 'whitespace)
 (setq whitespace-style '(face empty lines-tail trailing))
+(setq whitespace-line-column fill-column)
 (global-whitespace-mode t)
 
 ;;; Mode line
@@ -544,5 +549,15 @@ Switch between English and German."
   :ensure t)
 
 (global-set-key (kbd "C-x g") 'magit-status)
+
+
+;;; Maintain emacs
+;; update packages
+(use-package auto-package-update
+   :ensure t
+   :config
+   (setq auto-package-update-delete-old-versions t
+         auto-package-update-interval 4)
+   (auto-package-update-maybe))
 
 ;;; init.el ends here
