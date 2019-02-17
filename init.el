@@ -176,36 +176,6 @@
   :config
   (require 'font-lock+))
 
-;; Tree view
-(use-package neotree
-  :ensure t
-  :bind (("<f8>" . neotree-toggle))
-  :defer
-  :config
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-  (setq neo-window-fixed-size nil)
-  (setq all-the-icons-color-icons t)
-  (setq neo-smart-open t)
-  ;; turn fci mode and line numbers off
-  (add-hook 'neo-after-create-hook
-            (lambda (&rest _)
-	      (turn-off-fci-mode)
-	      (display-line-numbers-mode -1)))
-  (evil-set-initial-state 'neotree-mode 'normal)
-  (evil-define-key 'normal neotree-mode-map
-    (kbd "RET") 'neotree-enter
-    (kbd "c")   'neotree-create-node
-    (kbd "r")   'neotree-rename-node
-    (kbd "d")   'neotree-delete-node
-    (kbd "j")   'neotree-next-node
-    (kbd "k")   'neotree-previous-node
-    (kbd "g")   'neotree-refresh
-    (kbd "C")   'neotree-change-root
-    (kbd "I")   'neotree-hidden-file-toggle
-    (kbd "H")   'neotree-hidden-file-toggle
-    (kbd "q")   'neotree-hide
-    (kbd "l")   'neotree-enter))
-
 ;; Use the undo-tree
 (use-package undo-tree
   :ensure t
@@ -306,26 +276,6 @@
 (setq company-backends
       (mapcar #'company-mode/backend-with-yas company-backends))
 
-;; column indicator
-(use-package fill-column-indicator
-  :ensure t
-  :config
-  (add-hook 'after-change-major-mode-hook 'fci-mode)
-  (add-hook 'circadian-after-load-theme-hook
-	    '(lambda ()
-	       turn-off-fci-mode
-	       turn-on-fci-mode)))
-
-;; make fci and company work together
-(defun on-off-fci-before-company(command)
-  "Show or hide fci with COMMAND before company."
-  (when (string= "show" command)
-    (turn-off-fci-mode))
-  (when (string= "hide" command)
-    (turn-on-fci-mode)))
-
-(advice-add 'company-call-frontends :before #'on-off-fci-before-company)
-
 ;; autopair brackets and highlight them
 (require 'autopair)
 (autopair-global-mode)
@@ -338,7 +288,7 @@
   :config
   (semantic-mode 1)
   :bind
-  ("C-<dead-circumflex>" . helm-semantic))
+  ("C-<escape>" . helm-semantic))
 
 ;; move over camelCase words correctly
 (subword-mode)
@@ -358,6 +308,10 @@
 
 (global-auto-revert-mode 1)
 
+;; Column length waring
+(require 'whitespace)
+(setq whitespace-style '(face empty lines-tail trailing))
+(global-whitespace-mode t)
 
 ;;; Mode line
 ;; minimal ui of mode-line
@@ -395,7 +349,6 @@
 
 
 ;;; Spell checking
-
 ;; dictionary setup
 (setq ispell-program-name "aspell")
 (setq ispell-really-aspell t)
@@ -423,18 +376,14 @@ Switch between English and German."
 (global-set-key (kbd "C-d")   'fd-switch-dictionary)
 
 
-;;--------------------------------------------------------------------
 ;;; Code checker
-
 ;; flycheckr
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
 
 
-;;--------------------------------------------------------------------
 ;;; TeX/LaTeX settings
-
 ;; AUCTeX
 (use-package auctex
   :defer t
@@ -484,9 +433,7 @@ Switch between English and German."
   :ensure t)
 
 
-;;--------------------------------------------------------------------
 ;;; C/C++
-
 ;; OpenFOAM
 (c-add-style "OpenFOAM_HGW"
 	     '(
@@ -570,9 +517,8 @@ Switch between English and German."
 	  (lambda ()
 	    (flyspell-prog-mode)))
 
-;;--------------------------------------------------------------------
-;;; Python
 
+;;; Python
 ;; elpy
 (use-package elpy
   :ensure t
@@ -592,9 +538,7 @@ Switch between English and German."
 	    (flyspell-prog-mode)))
 
 
-;;--------------------------------------------------------------------
 ;;; Version control
-
 ;; use magit
 (use-package magit
   :ensure t)
