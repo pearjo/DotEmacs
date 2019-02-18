@@ -124,8 +124,8 @@
     'minibuffer-keyboard-quit))
 
 ;; make evil and magit work together
-(use-package evil-magit
-  :ensure t)
+;; (use-package evil-magit
+;;   :ensure t)
 
 ;; Theme
 (use-package solarized-theme
