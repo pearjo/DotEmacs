@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: article class
+# key: article
+# --
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp} % additional symbols
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage[pdfborder={0 0 0}]{hyperref}
+
+\title{$1}
+\author{$2 \textsc{$3}}
+
+\begin{document}
+\maketitle
+
+$4
+
+\end{document}
+
