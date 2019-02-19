@@ -315,8 +315,9 @@
 ;; Column length waring
 (require 'whitespace)
 (setq whitespace-style '(face empty lines-tail trailing))
-(setq whitespace-line-column fill-column)
-(global-whitespace-mode t)
+(setq whitespace-line-column nil)
+(add-hook 'prog-mode-hook 'whitespace-mode)
+(add-hook 'LaTeX-mode-hook 'whitespace-mode)
 
 ;;; Mode line
 ;; minimal ui of mode-line
