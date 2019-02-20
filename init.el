@@ -292,7 +292,7 @@
   :config
   (semantic-mode 1)
   :bind
-  ("C-<escape>" . helm-semantic))
+  ("C-^" . helm-semantic))
 
 ;; move over camelCase words correctly
 (subword-mode)
