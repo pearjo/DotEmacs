@@ -25,8 +25,8 @@
 
 ;;; Code:
 
-;;; Editor configuration
-
+;; Editor configuration
+;; -----------------------------------------------------------------------------
 ;; Custom key bindings
 (global-set-key (kbd "C-#") 'comment-line)
 (global-set-key (kbd "C-<next>") 'next-buffer)
@@ -295,7 +295,7 @@
   ("C-^" . helm-semantic))
 
 ;; move over camelCase words correctly
-(subword-mode)
+(subword-mode +1)
 
 ;; define function to shutdown emacs server instance
 (defun server-shutdown ()
@@ -320,7 +320,8 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'LaTeX-mode-hook 'whitespace-mode)
 
-;;; Mode line
+;; Mode line
+;; -----------------------------------------------------------------------------
 ;; minimal ui of mode-line
 (defun minimal-mode-line (frame)
   "Minimal mode-line for a FRAME."
@@ -383,14 +384,16 @@ Switch between English and German."
 (global-set-key (kbd "C-d")   'fd-switch-dictionary)
 
 
-;;; Code checker
+;; Code checker
+;; -----------------------------------------------------------------------------
 ;; flycheckr
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
 
 
-;;; TeX/LaTeX settings
+;; TeX/LaTeX settings
+;; -----------------------------------------------------------------------------
 ;; AUCTeX
 (use-package auctex
   :defer t
@@ -439,8 +442,19 @@ Switch between English and German."
 (use-package helm-bibtex
   :ensure t)
 
+;; nomenclature for latex
+(eval-after-load "tex"
+  '(add-to-list 'TeX-command-list
+                '("Nomenclature" "makeindex %s.nlo -s nomencl.ist -o %s.nls"
+                  (lambda (name command file)
+                    (TeX-run-compile name command file)
+                    (TeX-process-set-variable file 'TeX-command-next
+                                              TeX-command-default))
+                  nil t :help "Create nomenclature file")))
 
-;;; C/C++
+
+;; C/C++
+;; -----------------------------------------------------------------------------
 ;; OpenFOAM
 (c-add-style "OpenFOAM_HGW"
 	     '(
@@ -525,13 +539,13 @@ Switch between English and German."
 	    (flyspell-prog-mode)))
 
 
-;;; Python
+;; Python
+;; -----------------------------------------------------------------------------
 ;; elpy
 (use-package elpy
   :ensure t
-  :config
-  (progn
-    (elpy-enable)))
+  :commands elpy-enable
+  :init (with-eval-after-load 'python (elpy-enable)))
 
 ;; PEP8 Compliance
 (use-package py-autopep8
@@ -544,8 +558,12 @@ Switch between English and German."
 	  (lambda ()
 	    (flyspell-prog-mode)))
 
+;; IPython
+(use-package ein
+  :ensure t)
 
-;;; Version control
+;; Version control
+;; -----------------------------------------------------------------------------
 ;; use magit
 (use-package magit
   :ensure t)
@@ -553,7 +571,8 @@ Switch between English and German."
 (global-set-key (kbd "C-x g") 'magit-status)
 
 
-;;; Maintain emacs
+;; Maintain emacs
+;; -----------------------------------------------------------------------------
 ;; update packages
 (use-package auto-package-update
    :ensure t
