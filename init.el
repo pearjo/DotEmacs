@@ -25,8 +25,10 @@
 
 ;;; Code:
 
-;; Editor configuration
-;; -----------------------------------------------------------------------------
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;: Editor configuration
+;;
 ;; Custom key bindings
 (global-set-key (kbd "C-#") 'comment-line)
 (global-set-key (kbd "C-<next>") 'next-buffer)
@@ -320,8 +322,20 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'LaTeX-mode-hook 'whitespace-mode)
 
+;; fit frame to buffer
+;; (require 'fit-frame)
+;; (add-hook 'after-change-major-mode-hook 'fit-frame)
+;; (setq fit-frame-fill-column-margin 10)
+;; (setq fit-frame-empty-height 50)
+(defun resize-frame ()
+  "Resize the frame to `fill-column' plus 10."
+  (interactive)
+  (set-frame-width (selected-frame) (+ fill-column 10)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;; Mode line
-;; -----------------------------------------------------------------------------
+;;
 ;; minimal ui of mode-line
 (defun minimal-mode-line (frame)
   "Minimal mode-line for a FRAME."
@@ -355,8 +369,10 @@
 
 (global-set-key (kbd "C-c m") 'minor-mode-blackout-mode)
 
-
-;;; Spell checking
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Spell checking
+;;
 ;; dictionary setup
 (setq ispell-program-name "aspell")
 (setq ispell-really-aspell t)
@@ -383,17 +399,19 @@ Switch between English and German."
 
 (global-set-key (kbd "C-d")   'fd-switch-dictionary)
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;; Code checker
-;; -----------------------------------------------------------------------------
+;;
 ;; flycheckr
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
 
-
-;; TeX/LaTeX settings
-;; -----------------------------------------------------------------------------
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; TeX/LaTeX
+;;
 ;; AUCTeX
 (use-package auctex
   :defer t
@@ -452,9 +470,10 @@ Switch between English and German."
                                               TeX-command-default))
                   nil t :help "Create nomenclature file")))
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;; C/C++
-;; -----------------------------------------------------------------------------
+;;
 ;; OpenFOAM
 (c-add-style "OpenFOAM_HGW"
 	     '(
@@ -538,9 +557,10 @@ Switch between English and German."
 	  (lambda ()
 	    (flyspell-prog-mode)))
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;; Python
-;; -----------------------------------------------------------------------------
+;;
 ;; elpy
 (use-package elpy
   :ensure t
@@ -562,17 +582,20 @@ Switch between English and German."
 (use-package ein
   :ensure t)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;; Version control
-;; -----------------------------------------------------------------------------
+;;
 ;; use magit
 (use-package magit
   :ensure t)
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;; Maintain emacs
-;; -----------------------------------------------------------------------------
+;;
 ;; update packages
 (use-package auto-package-update
    :ensure t
