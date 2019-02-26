@@ -181,7 +181,7 @@
 	  '(lambda (frame)
 	     (select-frame frame)
 	     (when (member "Inconsolata" (font-family-list))
-	       (add-to-list 'default-frame-alist '(font . "Inconsolata-12"))
+	       (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
 	       (set-face-attribute 'default nil :family "Inconsolata"))))
 
 ;; Editor config
