@@ -1,16 +1,16 @@
 ;;; init.el --- emacs configuration file
-
+;;
 ;; Copyright (C) 2019 Joe Pearson
-
+;;
 ;; Author: Joe Pearson <joe.pearson@mail.de>
 ;; Keywords: emacs, init
-
-;; This file is not part of GNU Emacs.
-
-;; This program is free software: you can redistribute it and/or modify
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
+;; the Free Software Foundation; either version 3, or (at your option)
+;; any later version.
 
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,16 +18,23 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+;; along with this program; see the file COPYING.  If not, write to
+;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
+;; Floor, Boston, MA 02110-1301, USA.
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;;; Commentary:
-;; Emacs config file.
-
+;;
+;;    Emacs config file.
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;: Editor configuration
+;;: Editor configuration
 ;;
 ;; Custom key bindings
 (global-set-key (kbd "C-#") 'comment-line)
@@ -45,8 +52,8 @@
 (column-number-mode 1)
 
 ;; Frame size
-(add-to-list 'default-frame-alist '(height . 50))
-(add-to-list 'default-frame-alist '(width . 90))
+;; (add-to-list 'default-frame-alist '(height . 50))
+;; (add-to-list 'default-frame-alist '(width . 90))
 
 ;; display line numbers
 (add-hook 'after-make-frame-functions
@@ -323,18 +330,17 @@
 (add-hook 'LaTeX-mode-hook 'whitespace-mode)
 
 ;; fit frame to buffer
-;; (require 'fit-frame)
-;; (add-hook 'after-change-major-mode-hook 'fit-frame)
-;; (setq fit-frame-fill-column-margin 10)
-;; (setq fit-frame-empty-height 50)
-(defun resize-frame ()
-  "Resize the frame to `fill-column' plus 10."
-  (interactive)
-  (set-frame-width (selected-frame) (+ fill-column 10)))
+(require 'fit-frame)
+(setq fit-frame-min-width (+ fill-column
+                             fit-frame-fill-column-margin))
+(setq fit-frame-min-height 50)
+(let  ((fit-frame-inhibit-fitting-flag t))
+  (display-buffer (current-buffer)))
+(add-hook 'after-make-frame-functions 'fit-frame)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Mode line
+;;; Mode line
 ;;
 ;; minimal ui of mode-line
 (defun minimal-mode-line (frame)
@@ -371,7 +377,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Spell checking
+;;; Spell checking
 ;;
 ;; dictionary setup
 (setq ispell-program-name "aspell")
@@ -401,7 +407,7 @@ Switch between English and German."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Code checker
+;;; Code checker
 ;;
 ;; flycheckr
 (use-package flycheck
@@ -410,7 +416,7 @@ Switch between English and German."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; TeX/LaTeX
+;;; TeX/LaTeX
 ;;
 ;; AUCTeX
 (use-package auctex
@@ -431,6 +437,7 @@ Switch between English and German."
 	  (setq-default TeX-parse-self t)
 	  (setq-default TeX-source-correlate-mode t)
 	  (setq-default TeX-master nil)
+          ;; (setq-default preview-transparent-color fffff)
 	  ;; BibTeX settings
 	  (setq-default bibtex-align-at-equal-sign t)
 	  ;; RefTeX settings
@@ -472,7 +479,7 @@ Switch between English and German."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; C/C++
+;;; C/C++
 ;;
 ;; OpenFOAM
 (c-add-style "OpenFOAM_HGW"
@@ -559,7 +566,7 @@ Switch between English and German."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Python
+;;; Python
 ;;
 ;; elpy
 (use-package elpy
@@ -584,7 +591,7 @@ Switch between English and German."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Version control
+;;; Version control
 ;;
 ;; use magit
 (use-package magit
@@ -594,7 +601,7 @@ Switch between English and German."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Maintain emacs
+;;; Maintain emacs
 ;;
 ;; update packages
 (use-package auto-package-update
