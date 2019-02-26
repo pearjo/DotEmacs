@@ -36,6 +36,9 @@
 ;;
 ;;: Editor configuration
 ;;
+;; dead keys
+(require 'iso-transl)
+
 ;; Custom key bindings
 (global-set-key (kbd "C-#") 'comment-line)
 (global-set-key (kbd "C-<next>") 'next-buffer)
@@ -61,8 +64,8 @@
 	       (global-linum-mode 1))))
 
 ;; line wrapping
-;; (global-visual-line-mode 1)
-(set-default 'truncate-lines -1)
+(global-visual-line-mode 1)
+(set-default 'truncate-lines 1)
 
 ;; kill buffers
 (defun kill-other-buffers ()
@@ -178,7 +181,7 @@
 	  '(lambda (frame)
 	     (select-frame frame)
 	     (when (member "Inconsolata" (font-family-list))
-	       (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
+	       (add-to-list 'default-frame-alist '(font . "Inconsolata-12"))
 	       (set-face-attribute 'default nil :family "Inconsolata"))))
 
 ;; Editor config
@@ -305,7 +308,8 @@
   :config
   (semantic-mode 1)
   :bind
-  ("C-^" . helm-semantic))
+  ("C-^" . helm-semantic)
+  ("C-<dead-circumflex>" . helm-semantic))
 
 ;; move over camelCase words correctly
 (subword-mode +1)
