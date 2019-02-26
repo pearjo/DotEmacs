@@ -71,11 +71,12 @@
 ;;
 ;;  Customize the menu-bar.  Uncomment this to try it out.
 ;;
-;; (defvar menu-bar-frames-menu (make-sparse-keymap "Frames"))
-;; (define-key global-map [menu-bar frames]
-;;   (cons "Frames" menu-bar-frames-menu)))
-;; (define-key menu-bar-frames-menu [fit-frame]
-;;   '("Fit This Frame" . fit-frame))
+;;   (defvar menu-bar-frames-menu (make-sparse-keymap "Frames"))
+;;   (define-key global-map [menu-bar frames]
+;;     (cons "Frames" menu-bar-frames-menu)))
+;;   (define-key menu-bar-frames-menu [fit-frame]
+;;     '("Fit This Frame" . fit-frame))
+;;
 ;;
 ;;  Commands defined here:
 ;;
@@ -298,7 +299,7 @@
 (defvar image-minor-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
-
+ 
 ;;; User options ---------------------------------------------------
 
 ;;;###autoload
@@ -422,7 +423,7 @@ Each item in the alist is of form (MODE . LINES).
   :type '(repeat (cons :format "%v" (symbol :tag "Major Mode")
                        (integer :tag "Header Lines to Ignore")))
   :group 'fit-frame)
-
+ 
 ;;; Commands ---------------------------------------------------
 
 ;;;###autoload
@@ -636,7 +637,7 @@ This function assumes that FRAME has only one window."
       (if (fboundp 'thumfr-really-iconify-frame)
           'thumfr-really-iconify-frame
         'iconify-frame)))
-
+ 
 ;;; Non-Interactive Functions -------------------------------------------
 
 (defun fit-frame-max-width (&optional frame)

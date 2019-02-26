@@ -41,6 +41,7 @@
 (global-set-key (kbd "C-<next>") 'next-buffer)
 (global-set-key (kbd "C-<prior>") 'previous-buffer)
 (global-set-key (kbd "C-<tab>") 'helm-buffers-list)
+(global-set-key (kbd "C-c $") 'toggle-truncate-lines)
 
 ;; Minimal UI
 (setq inhibit-startup-screen t)
@@ -51,10 +52,6 @@
 (setq cursor-type 'box)
 (column-number-mode 1)
 
-;; Frame size
-;; (add-to-list 'default-frame-alist '(height . 50))
-;; (add-to-list 'default-frame-alist '(width . 90))
-
 ;; display line numbers
 (add-hook 'after-make-frame-functions
 	  '(lambda (frame)
@@ -63,8 +60,9 @@
 		 (global-display-line-numbers-mode)
 	       (global-linum-mode 1))))
 
-;; soft wrap lines
-(global-visual-line-mode 1)
+;; line wrapping
+;; (global-visual-line-mode 1)
+(set-default 'truncate-lines -1)
 
 ;; kill buffers
 (defun kill-other-buffers ()
@@ -81,6 +79,12 @@
       scroll-step 1
       scroll-conservatively 10
       scroll-preserve-screen-position 1)
+
+;; Horizontal scrolling mouse events should actually scroll left and right.
+(global-set-key (kbd "<mouse-6>") (lambda () (interactive)
+				    (if truncate-lines (scroll-right 1))))
+(global-set-key (kbd "<mouse-7>") (lambda () (interactive)
+				    (if truncate-lines (scroll-left 1))))
 
 ;; Package configs
 (require 'package)
@@ -330,12 +334,11 @@
 (add-hook 'LaTeX-mode-hook 'whitespace-mode)
 
 ;; fit frame to buffer
-(require 'fit-frame)
-(setq fit-frame-min-width (+ fill-column
-                             fit-frame-fill-column-margin))
+(require 'autofit-frame)
+(setq fit-frame-min-width (+ fill-column fit-frame-fill-column-margin))
 (setq fit-frame-min-height 50)
-(let  ((fit-frame-inhibit-fitting-flag t))
-  (display-buffer (current-buffer)))
+;; (let  ((fit-frame-inhibit-fitting-flag t))
+;;   (display-buffer (current-buffer)))
 (add-hook 'after-make-frame-functions 'fit-frame)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
