@@ -215,7 +215,7 @@
   (defvar display-buffer-reuse-frames))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
- 
+
 ;;; User options ---------------------------------------------------
 
 ;;;###autoload
@@ -229,7 +229,14 @@ autofit-frame.el bug: \
 Don't forget to mention your Emacs and library versions.")))
 
 
-
+;;; Custom function -------------------------------------------
+(defun my-fit-frame ()
+  "Call the function `fit-frame' with a prefix argument.
+The prefix argument is negative to set the width to `fill-column' +
+`fit-frame-fill-column-margin'."
+  (interactive)
+  (let ((current-prefix-arg -1))
+    (call-interactively 'fit-frame)))
 
 ;;; Non-interactive functions ---------------------------------
 
@@ -240,7 +247,7 @@ Don't forget to mention your Emacs and library versions.")))
   "Resize frame to fit selected window if it is alone in the frame.
 Usable in `temp-buffer-show-hook'.
 This does nothing if `autofit-frames-flag' is nil."
-  (and (one-window-p t) autofit-frames-flag (fit-frame)))
+  (and (one-window-p t) autofit-frames-flag (my-fit-frame)))
 
 
 (when (< emacs-major-version 23)
@@ -273,7 +280,7 @@ This uses function `display-buffer' as a subroutine; see the documentation
 of `display-buffer' for additional customization information."
     (display-buffer (get-buffer-create buffer))
     (old-pop-to-buffer buffer other-window norecord)))
- 
+
 ;;; Commands ---------------------------------------------------
 
 (when (< emacs-major-version 23)
@@ -341,7 +348,7 @@ it manually)."
             (and (one-window-p t)
                  autofit-frames-flag
                  (not (member win old-wins)) ; Don't fit if already displayed.
-                 (fit-frame)))))
+                 (my-fit-frame)))))
       win)))                            ; Return the window
 
 
@@ -373,7 +380,7 @@ Return WINDOW."
         (save-excursion
           (save-selected-window
             (select-window window)
-            (and (one-window-p t) autofit-frames-flag (fit-frame)))))
+            (and (one-window-p t) autofit-frames-flag (my-fit-frame)))))
       window)))
 
 
@@ -424,7 +431,7 @@ Resize frame to fit sole window if `autofit-frames-flag'
           (and (one-window-p t)
                (not (eq buffer orig-buf)) ; Don't resize if same buffer.
                autofit-frames-flag
-               (fit-frame)))))
+               (my-fit-frame)))))
 
   ;; REPLACES ORIGINAL (built-in):
   ;;
@@ -476,7 +483,7 @@ If the selected window is not dedicated, then:
       (when (and (one-window-p t)
                  (not (eq switch-buf orig-buf)) ; Don't resize if same buffer.
                  autofit-frames-flag
-                 (fit-frame)))
+                 (my-fit-frame)))
       switch-buf)))
 
 
@@ -512,7 +519,7 @@ If the selected window is not dedicated, then:
 ;;;         (and (one-window-p t)
 ;;;              (not (eq buffer-or-name orig-buf)) ; No resize if same buffer.
 ;;;              autofit-frames-flag
-;;;              (fit-frame))))))
+;;;              (my-fit-frame))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 

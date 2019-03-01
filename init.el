@@ -64,7 +64,7 @@
 	       (global-linum-mode 1))))
 
 ;; line wrapping
-(global-visual-line-mode 1)
+;; (global-visual-line-mode 1)
 (set-default 'truncate-lines 1)
 
 ;; kill buffers
@@ -338,14 +338,22 @@
 (add-hook 'LaTeX-mode-hook 'whitespace-mode)
 
 ;; fit frame to buffer
+(add-to-list 'default-frame-alist '(height . 50))
 (require 'autofit-frame)
-(setq fit-frame-min-width (+ fill-column fit-frame-fill-column-margin))
-(setq fit-frame-min-height 50)
-;; (let  ((fit-frame-inhibit-fitting-flag t))
-;;   (display-buffer (current-buffer)))
-(add-hook 'after-make-frame-functions 'fit-frame)
+(setq-default fit-frame-min-height 50)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun fit-frame-hook (frame)
+  "Normal hook to fit the current FRAME using `fit-frame'.
+The function `fit-frame' is called with a negative prefix argument to
+set the width to `fill-column' + `fit-frame-fill-column-margin'."
+  (interactive)
+  (let ((current-prefix-arg -1)
+        (select-frame frame))
+    (call-interactively 'fit-frame)))
+
+(add-hook 'after-make-frame-functions 'fit-frame-hook)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:;;;;;;;;;;;
 ;;
 ;;; Mode line
 ;;
