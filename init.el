@@ -564,11 +564,7 @@ Switch between English and German."
      (friend . 0)                ;; a C++ friend declaration
      (namespace-open  . 0)
      (namespace-close . 0)
-     (innamespace     . 0)
-     )
-     )
-     )
-)
+     (innamespace     . 0)))))
 
 (defun openfoam-hgw-c-mode-hook ()
   "OpenFOAM C++ style."
@@ -578,6 +574,49 @@ Switch between English and German."
 (add-hook 'c++-mode-hook
 	  (lambda ()
 	    (flyspell-prog-mode)))
+
+(use-package irony
+  :ensure t
+  :config
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'objc-mode-hook 'irony-mode)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
+(use-package company-irony
+  :ensure t
+  :after company
+  :config
+  (add-to-list 'company-backends 'company-irony))
+
+(use-package company-irony-c-headers
+  :ensure t
+  :after company
+  :config
+  (add-to-list 'company-backends 'company-irony-c-headers))
+
+(defun create-etags (dir)
+  "Create tags file for source files in DIR."
+  (interactive "Ddirectory: ")
+  (eshell-command
+   (format "find %s -type f -name '*.cpp' | etags -" dir)))
+
+(use-package irony-eldoc
+  :ensure t
+  :config
+  (add-hook 'irony-mode-hook 'irony-eldoc))
+
+(use-package flycheck-irony
+  :ensure t
+  :after flycheck
+  :config
+  (add-hook 'flycheck-mode-hook 'flycheck-irony-setup))
+
+(use-package flycheck-clang-analyzer
+  :ensure t
+  :after flycheck
+  :config
+  (flycheck-clang-analyzer-setup))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
