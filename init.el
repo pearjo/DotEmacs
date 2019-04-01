@@ -599,7 +599,7 @@ Switch between English and German."
   "Create tags file for source files in DIR."
   (interactive "Ddirectory: ")
   (eshell-command
-   (format "find %s -type f -name '*.cpp' | etags -" dir)))
+   (format "find %s -type f -name '*.[c,cpp,c++,C,h,H]' | etags -" dir)))
 
 (use-package irony-eldoc
   :ensure t
