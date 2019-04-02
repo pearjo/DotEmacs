@@ -152,6 +152,8 @@
   (setq solarized-use-more-italic t)
   (setq solarized-emphasize-indicators nil)
   (setq solarized-scale-org-headlines nil)
+  (setq solarized-high-contrast-mode-line nil)
+  (setq solarized-distinct-fringe-background nil)
   (setq solarized-height-minus-1 1.0)
   (setq solarized-height-plus-1 1.0)
   (setq solarized-height-plus-2 1.0)
@@ -166,15 +168,8 @@
   (setq calendar-latitude 53.55)
   (setq calendar-longitude 9.99)
   (setq circadian-themes '((:sunrise . solarized-light)
-                           (:sunset  . solarized-dark))))
-
-;; load theme
-(add-hook 'after-make-frame-functions
-	  '(lambda (frame)
-	     (select-frame frame)
-	     (if (display-graphic-p)
-		 (circadian-setup)
-	       (add-to-list 'default-frame-alist '(tty-color-mode . -1)))))
+                           (:sunset  . solarized-dark)))
+  (circadian-setup))
 
 ;; set custom font
 (add-hook 'after-make-frame-functions
@@ -358,20 +353,14 @@ set the width to `fill-column' + `fit-frame-fill-column-margin'."
 ;;; Mode line
 ;;
 ;; minimal ui of mode-line
-(defun minimal-mode-line (frame)
-  "Minimal mode-line for a FRAME."
-  (select-frame frame)
-  (set-face-attribute 'mode-line nil
-		      :box nil
-		      :overline nil
-		      :underline nil)
-  (set-face-attribute 'mode-line-inactive nil
-		      :box nil
-		      :overline nil
-		      :underline nil))
-
-(add-hook 'after-make-frame-functions 'minimal-mode-line)
-(add-hook 'circadian-after-load-theme-hook 'minimal-mode-line)
+(set-face-attribute 'mode-line nil
+		    :box nil
+		    :overline nil
+		    :underline nil)
+(set-face-attribute 'mode-line-inactive nil
+		    :box nil
+		    :overline nil
+		    :underline nil)
 
 ;; hide minor modes
 (define-minor-mode minor-mode-blackout-mode
