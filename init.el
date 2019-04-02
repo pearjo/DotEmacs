@@ -321,9 +321,7 @@
   :ensure t
   :config
   (setq dired-listing-switches "-lGh1v --group-directories-first")
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-  :bind
-  ("<dead-circumflex>" . dired-up-directory))
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (global-auto-revert-mode 1)
 
