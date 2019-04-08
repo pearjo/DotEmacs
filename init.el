@@ -54,6 +54,7 @@
 (menu-bar-mode   -1)
 (setq cursor-type 'box)
 (column-number-mode 1)
+(setq-default frame-title-format '("%f"))
 
 ;; display line numbers
 (add-hook 'after-make-frame-functions
@@ -323,6 +324,10 @@
   (setq dired-listing-switches "-lGh1v --group-directories-first")
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (local-set-key (kbd "<dead-circumflex>") 'dired-up-directory)))
+
 (global-auto-revert-mode 1)
 
 ;; Column length waring
@@ -362,7 +367,7 @@ set the width to `fill-column' + `fit-frame-fill-column-margin'."
 		    :overline nil
 		    :underline nil)
 
-;; hide minor modes
+;; ;; hide minor modes
 (define-minor-mode minor-mode-blackout-mode
   "Hides minor modes from the mode line."
   t)
@@ -378,6 +383,8 @@ set the width to `fill-column' + `fit-frame-fill-column-margin'."
         mode-line-modes))
 
 (global-set-key (kbd "C-c m") 'minor-mode-blackout-mode)
+
+(use-package my-mode-line)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -629,6 +636,9 @@ Switch between English and German."
 	    (flyspell-prog-mode)))
 
 ;; IPython
+(use-package poly-markdown
+  :ensure t)
+
 (use-package ein
   :ensure t)
 
