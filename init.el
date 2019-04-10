@@ -304,8 +304,7 @@
   :config
   (semantic-mode 1)
   :bind
-  ("C-^" . helm-semantic)
-  ("C-<dead-circumflex>" . helm-semantic))
+  ("C-°" . helm-semantic))
 
 ;; move over camelCase words correctly
 (subword-mode +1)
@@ -665,6 +664,9 @@ Switch between English and German."
 
 ;; IPython
 (use-package poly-markdown
+  :ensure t)
+
+(use-package poly-rst
   :ensure t)
 
 (use-package ein
