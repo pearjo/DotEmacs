@@ -380,6 +380,17 @@ set the width to `fill-column' + `fit-frame-fill-column-margin'."
 
 (add-hook 'after-make-frame-functions 'fit-frame-hook)
 
+(put 'downcase-region 'disabled nil)
+
+(defun sudo-save ()
+  "Save file as sudo."
+  (interactive)
+  (if (not buffer-file-name)
+      (write-file (concat "/sudo:root@localhost:"
+                          (ido-read-file-name "File:")))
+    (write-file (concat "/sudo:root@localhost:"
+                        buffer-file-name))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:;;;;;;;;;;;
 ;;
 ;;; Mode line
@@ -592,6 +603,8 @@ Switch between English and German."
 (defun openfoam-hgw-c-mode-hook ()
   "OpenFOAM C++ style."
   (c-set-style "OpenFOAM_HGW"))
+
+(add-hook 'c-mode-common-hook 'openfoam-hgw-c-mode-hook)
 
 ;; check comments in C++ code
 (add-hook 'c++-mode-hook
