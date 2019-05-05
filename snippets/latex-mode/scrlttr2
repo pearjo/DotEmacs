@@ -15,18 +15,26 @@ fromphone=true,fromemail=true,11pt]{scrlttr2}
 
 \setkomafont{backaddress}{\normalfont}
 \setkomavar{fromname}{Joe Nicholas \textsc{Pearson}}
-\setkomavar{fromaddress}{Weißenburger Straße 8\\22049 Hamburg}
+\setkomavar{fromaddress}{Weißenburger Straße 8\\\\22049 Hamburg}
 \setkomavar{fromphone}{+49~(0)~1578~7269660}
 \setkomavar{fromemail}{Joe.Pearson@mail.de}
 \setkomavar{signature}{Joe Nicholas \textsc{Pearson}}
 
-% remove addrfield and its space
+% Remove addrfield and move textbody up.
 % \KOMAoptions{addrfield=false}
 % \makeatletter
 % \@setplength{refvpos}{\useplength{toaddrvpos}}
 % \makeatletter
 
+% Add post stamp to addrfield.
+% \newcommand\BackgroundPic{%
+%   \begin{tikzpicture}[overlay,shift={(current page.north west)}]
+%     \node[anchor=south east,xshift=100mm,yshift=-85mm]{%
+%       \includegraphics{$5}};
+%   \end{tikzpicture}}
+
 \begin{document}
+% \AddToShipoutPicture*{\BackgroundPic}
 \begin{letter}{$1}
 
 \setkomavar{subject}{$2}
