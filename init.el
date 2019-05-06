@@ -147,6 +147,7 @@
 ;; Theme
 (use-package solarized-theme
   :ensure t
+  :defer
   :config
   (setq solarized-use-variable-pitch nil)
   (setq solarized-use-less-bold t)
