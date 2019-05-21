@@ -365,6 +365,15 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'LaTeX-mode-hook 'whitespace-mode)
 
+;; (setq font-size 14)
+;; (defun get-frame-height ()
+;;   "Calculate the frame height from font and display size."
+;;   (round (* (display-pixel-height)
+;; 	    0.75		  ; scale pixel to points
+;; 	    (/ 1.0 font-size)	  ; devide by font size to get number of lines
+;; 	    0.8			  ; use 80 % of screen height
+;; 	    )))
+
 ;; fit frame to buffer
 (add-to-list 'default-frame-alist '(height . 50))
 (require 'autofit-frame)
@@ -379,7 +388,17 @@ set the width to `fill-column' + `fit-frame-fill-column-margin'."
         (select-frame frame))
     (call-interactively 'fit-frame)))
 
+(defun center-frame-hook (frame)
+  "Center the current FRAME on the monitor."
+  (interactive)
+  (set-frame-position (select-frame frame)
+                      (- (/ (display-pixel-width) 2)
+                         (/ (frame-pixel-width) 2))
+                      (- (/ (display-pixel-height) 2)
+                         (/ (frame-pixel-height) 2))))
+
 (add-hook 'after-make-frame-functions 'fit-frame-hook)
+(add-hook 'after-make-frame-functions 'center-frame-hook)
 
 (put 'downcase-region 'disabled nil)
 
