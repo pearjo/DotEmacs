@@ -305,7 +305,7 @@
   :config
   (semantic-mode 1)
   :bind
-  ("C-°" . helm-semantic))
+  ("C-°" . helm-semantic-or-imenu))
 
 ;; move over camelCase words correctly
 (subword-mode +1)
@@ -375,9 +375,9 @@
 ;; 	    )))
 
 ;; fit frame to buffer
-(add-to-list 'default-frame-alist '(height . 50))
+(add-to-list 'default-frame-alist '(height . 40))
 (require 'autofit-frame)
-(setq-default fit-frame-min-height 50)
+(setq-default fit-frame-min-height 40)
 
 (defun fit-frame-hook (frame)
   "Normal hook to fit the current FRAME using `fit-frame'.
@@ -695,15 +695,29 @@ Switch between English and German."
 	  (lambda ()
 	    (flyspell-prog-mode)))
 
-;; IPython
-(use-package poly-markdown
-  :ensure t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Ruby
+;;
+;; robe
+;; NOTE: To install robe, pry and pry-doc needs to be installed
+;;       using gem.
+(use-package robe
+  :ensure t
+  :config
+  (add-hook 'ruby-mode-hook 'robe-mode)
+  (add-to-list 'company-backends 'company-robe))
 
-(use-package poly-rst
-  :ensure t)
+(use-package flymake-ruby
+  :ensure t
+  :config
+  (add-hook 'ruby-mode-hook 'flymake-ruby-load))
 
-(use-package ein
-  :ensure t)
+(use-package rubocop
+  :ensure t
+  :init
+  (add-hook 'ruby-mode-hook 'rubocop-mode)
+  :diminish rubocop-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
