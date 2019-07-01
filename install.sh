@@ -14,7 +14,10 @@ cp -rf fonts/* ~/.local/share/fonts/
 cp -rf lisp ~/.emacs.d/
 
 # copy desktop file
-# cp -f emacsclient.desktop ~/.local/share/applications/
+if [ ! -d "~/.local/share/applications" ];then
+    mkdir -p ~/.local/share/applications
+fi
+cp -f emacsclient.desktop ~/.local/share/applications/
 
 # copy emacs service
 if [ ! -d "~/.config/systemd/user/" ];then
