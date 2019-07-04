@@ -29,9 +29,7 @@
   "An `all-the-icons' segment for the Git Version Control icon."
   (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
     (concat
-     (propertize (format " %s" (all-the-icons-octicon "git-branch"))
-                 'face `(:height 1 :family ,(all-the-icons-octicon-family))
-                 'display '(raise 0))
+     (propertize (format "Git"))
      (propertize (format " %s" branch))
      (propertize " "))))
 
@@ -39,7 +37,7 @@
   "An `all-the-icons' segment for the SVN Version Control icon."
   (let ((revision (cadr (split-string vc-mode "-"))))
     (concat
-     (propertize (format " %s" (all-the-icons-faicon "cloud"))
+     (propertize (format "SVN")
                  'face `(:height 1)
                  'display '(raise 0))
      (propertize (format " %s" revision) 'face `(:height 0.9)))))
