@@ -2,7 +2,7 @@
 ;;
 ;; Copyright (C) 2019 Joe Pearson
 ;;
-;; Author: Joe Pearson <joe.pearson@mail.de>
+;; Author: Joe Pearson <pearjo@protonmail.com>
 ;; Keywords: emacs, init
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -173,13 +173,21 @@
                            (:sunset  . solarized-dark)))
   (circadian-setup))
 
-;; set custom font
+;; set custom font and fallback if font is not installed
 (add-hook 'after-make-frame-functions
 	  '(lambda (frame)
 	     (select-frame frame)
-	     (when (member "Inconsolata" (font-family-list))
-	       (set-face-attribute 'default nil :font "Inconsolata-14")
-               (set-frame-font "Inconsolata-14" nil t))))
+	     (if (member "Inconsolata" (font-family-list))
+		 ((set-face-attribute 'default nil
+				      :font "Inconsolata-14")
+		  (set-frame-font "Inconsolata-14" nil t)
+		  (setq font-size 14))
+	       (cond
+		((string-equal system-type "windows-nt")
+		 (set-face-attribute 'default nil
+				      :family "Consolas"
+				      :height 105)
+		  (setq font-size 10.5))))))
 
 ;; Editor config
 (use-package editorconfig
@@ -307,6 +315,9 @@
   :bind
   ("C-°" . helm-semantic-or-imenu))
 
+(use-package helm-ag
+  :ensure t)
+
 ;; move over camelCase words correctly
 (subword-mode +1)
 
@@ -356,7 +367,8 @@
 (use-package all-the-icons-dired
   :ensure t
   :config
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+  (when (member "all-the-icons" (font-family-list))
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
 
 ;; Column length waring
 (require 'whitespace)
@@ -365,19 +377,22 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'LaTeX-mode-hook 'whitespace-mode)
 
-;; (setq font-size 14)
 ;; (defun get-frame-height ()
 ;;   "Calculate the frame height from font and display size."
 ;;   (round (* (display-pixel-height)
 ;; 	    0.75		  ; scale pixel to points
 ;; 	    (/ 1.0 font-size)	  ; devide by font size to get number of lines
-;; 	    0.8			  ; use 80 % of screen height
+;; 	    0.6			  ; use 60 % of screen height
 ;; 	    )))
 
+;; fit frame height to display size
+(setq frame-height 65)
+(message "frame height is %s" frame-height)
+(add-to-list 'default-frame-alist '(height . frame-height))
+
 ;; fit frame to buffer
-(add-to-list 'default-frame-alist '(height . 40))
 (require 'autofit-frame)
-(setq-default fit-frame-min-height 40)
+(setq-default fit-frame-min-height frame-height)
 
 (defun fit-frame-hook (frame)
   "Normal hook to fit the current FRAME using `fit-frame'.
