@@ -377,22 +377,39 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'LaTeX-mode-hook 'whitespace-mode)
 
-;; (defun get-frame-height ()
-;;   "Calculate the frame height from font and display size."
-;;   (round (* (display-pixel-height)
-;; 	    0.75		  ; scale pixel to points
-;; 	    (/ 1.0 font-size)	  ; devide by font size to get number of lines
-;; 	    0.6			  ; use 60 % of screen height
-;; 	    )))
+(defun get-frame-height ()
+  "Calculate the frame height in lines.
+The calculation is based on the font and display size."
+  (unless (boundp 'font-size)
+	  (setq font-size 10))
+  (round (* (display-pixel-height)
+	    0.75		  ; scale pixel to points
+	    (/ 1.0 font-size)	  ; devide by font size to get number of lines
+	    0.8			  ; use 80% of screen height
+	    )))
 
-;; fit frame height to display size
-(setq frame-height 65)
-(message "frame height is %s" frame-height)
-(add-to-list 'default-frame-alist '(height . frame-height))
+;; (add-hook 'after-make-frame-functions
+;; 	  '(lambda (frame)
+;; 	     (select-frame frame)
+;; 	     ;; fit frame height to display size
+;; 	     (setq frame-height (get-frame-height))
+;; 	     (message "frame height is set to %s" frame-height)
+;; 	     (add-to-list 'default-frame-alist
+;; 			  '(height . 55))
+
+;; 	     ;; fit frame to buffer
+;; 	     (require 'autofit-frame)
+;; 	     (setq-default fit-frame-min-height 55)))
+;; (message "display size is %s" (display-pixel-height))
+
+;; (setq frame-height (get-frame-height))
+;; (message "frame height is set to %s" frame-height)
+(add-to-list 'default-frame-alist
+	     '(height . 55))
 
 ;; fit frame to buffer
 (require 'autofit-frame)
-(setq-default fit-frame-min-height frame-height)
+(setq-default fit-frame-min-height 55)
 
 (defun fit-frame-hook (frame)
   "Normal hook to fit the current FRAME using `fit-frame'.
