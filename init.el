@@ -266,6 +266,7 @@
   (global-company-mode t)
   (company-idle-delay 0)
   (company-minimum-prefix-length 1)
+  (company-dabbrev-downcase nil)
   :config
   (progn
     ;; Enable company mode in every programming mode
