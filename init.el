@@ -173,21 +173,21 @@
                            (:sunset  . solarized-dark)))
   (circadian-setup))
 
-;; set custom font and fallback if font is not installed
+;; set font type
+(if (member "Inconsolata" (font-family-list))
+    ((add-to-list 'default-frame-alist '(font . "Inconsolata"))
+     (set-face-attribute 'default t :font "Inconsolata"))
+  (cond
+   ((string-equal system-type "windows-nt")
+    (add-to-list 'default-frame-alist '(font . "Consolas"))
+    (set-face-attribute 'default t :font "Consolas"))))
+
+;; set font size
 (add-hook 'after-make-frame-functions
-	  '(lambda (frame)
-	     (select-frame frame)
-	     (if (member "Inconsolata" (font-family-list))
-		 ((set-face-attribute 'default nil
-				      :font "Inconsolata-14")
-		  (set-frame-font "Inconsolata-14" nil t)
-		  (setq font-size 14))
-	       (cond
-		((string-equal system-type "windows-nt")
-		 (set-face-attribute 'default nil
-				      :family "Consolas"
-				      :height 105)
-		  (setq font-size 10.5))))))
+          '(lambda (frame)
+             (select-frame frame)
+             (set-face-attribute 'default (selected-frame) :height 120)
+             (setq face-height 120)))
 
 ;; Editor config
 (use-package editorconfig
@@ -367,8 +367,7 @@
 (use-package all-the-icons-dired
   :ensure t
   :config
-  (when (member "all-the-icons" (font-family-list))
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 ;; Column length waring
 (require 'whitespace)
@@ -394,8 +393,7 @@ The calculation is based on the font and display size."
 ;; 	     ;; fit frame height to display size
 ;; 	     (setq frame-height (get-frame-height))
 ;; 	     (message "frame height is set to %s" frame-height)
-;; 	     (add-to-list 'default-frame-alist
-;; 			  '(height . 55))
+;; 	     (add-to-list 'default-frame-alist '(height . 55))
 
 ;; 	     ;; fit frame to buffer
 ;; 	     (require 'autofit-frame)
@@ -404,12 +402,13 @@ The calculation is based on the font and display size."
 
 ;; (setq frame-height (get-frame-height))
 ;; (message "frame height is set to %s" frame-height)
+
 (add-to-list 'default-frame-alist
-	     '(height . 55))
+	     '(height . 50))
 
 ;; fit frame to buffer
 (require 'autofit-frame)
-(setq-default fit-frame-min-height 55)
+(setq-default fit-frame-min-height 50)
 
 (defun fit-frame-hook (frame)
   "Normal hook to fit the current FRAME using `fit-frame'.
