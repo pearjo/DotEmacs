@@ -173,21 +173,21 @@
                            (:sunset  . solarized-dark)))
   (circadian-setup))
 
-;; set font type
-(if (member "Inconsolata" (font-family-list))
-    ((add-to-list 'default-frame-alist '(font . "Inconsolata"))
-     (set-face-attribute 'default t :font "Inconsolata"))
-  (cond
-   ((string-equal system-type "windows-nt")
-    (add-to-list 'default-frame-alist '(font . "Consolas"))
-    (set-face-attribute 'default t :font "Consolas"))))
-
-;; set font size
-(add-hook 'after-make-frame-functions
-          '(lambda (frame)
-             (select-frame frame)
-             (set-face-attribute 'default (selected-frame) :height 120)
-             (setq face-height 120)))
+;; set default font in initial window and for any new window
+(cond
+ ((string-equal system-type "windows-nt") ; Microsoft Windows
+  (add-to-list 'initial-frame-alist '(font . "Consolas-10"))
+  (add-to-list 'default-frame-alist '(font . "Consolas-10"))
+  (setq face-height 100))
+ ((string-equal system-type "darwin") ; macOS
+  (add-to-list 'initial-frame-alist '(font . "Menlo"))
+  (add-to-list 'default-frame-alist '(font . "Menlo"))
+  (setq face-height 100))
+ ((string-equal system-type "gnu/linux") ; linux
+  (message "set font for linux")
+  (add-to-list 'initial-frame-alist '(font . "Inconsolata-14"))
+  (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
+  (setq face-height 140)))
 
 ;; Editor config
 (use-package editorconfig
