@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: begin
 # key: begin
-# group: begin
 # --
 \begin{$1}
 $2
