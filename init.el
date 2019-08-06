@@ -176,8 +176,8 @@
 ;; set default font in initial window and for any new window
 (cond
  ((string-equal system-type "windows-nt") ; Microsoft Windows
-  (add-to-list 'initial-frame-alist '(font . "Consolas-10"))
-  (add-to-list 'default-frame-alist '(font . "Consolas-10"))
+  (add-to-list 'initial-frame-alist '(font . "Consolas-11"))
+  (add-to-list 'default-frame-alist '(font . "Consolas-11"))
   (setq face-height 100))
  ((string-equal system-type "darwin") ; macOS
   (add-to-list 'initial-frame-alist '(font . "Menlo"))
