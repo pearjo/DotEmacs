@@ -184,7 +184,6 @@
   (add-to-list 'default-frame-alist '(font . "Menlo"))
   (setq face-height 100))
  ((string-equal system-type "gnu/linux") ; linux
-  (message "set font for linux")
   (add-to-list 'initial-frame-alist '(font . "Inconsolata-14"))
   (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
   (setq face-height 140)))
@@ -481,7 +480,11 @@ set the width to `fill-column' + `fit-frame-fill-column-margin'."
 ;;; Spell checking
 ;;
 ;; dictionary setup
-(setq ispell-program-name "aspell")
+(cond
+ ((string-equal system-type "windows-nt") ; Microsoft Windows
+  (setq ispell-program-name "hunspell.exe"))
+ ((string-equal system-type "gnu/linux") ; linux
+  (setq ispell-program-name "aspell"))
 (setq ispell-really-aspell t)
 (setq ispell-extra-args '("--sug-mode=fast"))
 (setq ispell-list-command "--list")
