@@ -329,6 +329,9 @@
   (kill-emacs))
 
 ;; Dired
+;; load dired+
+(use-package dired+)
+
 ;; use only one buffer for dired
 (defadvice dired-advertised-find-file (around dired-subst-directory activate)
   "Replace current buffer if file is a directory."
@@ -367,7 +370,9 @@
 (use-package all-the-icons-dired
   :ensure t
   :config
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+  (cond
+   ((string-equal system-type "gnu/linux") ; GNU/Linux
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))))
 
 ;; Column length waring
 (require 'whitespace)
@@ -484,7 +489,7 @@ set the width to `fill-column' + `fit-frame-fill-column-margin'."
  ((string-equal system-type "windows-nt") ; Microsoft Windows
   (setq ispell-program-name "hunspell.exe"))
  ((string-equal system-type "gnu/linux") ; linux
-  (setq ispell-program-name "aspell"))
+  (setq ispell-program-name "aspell")))
 (setq ispell-really-aspell t)
 (setq ispell-extra-args '("--sug-mode=fast"))
 (setq ispell-list-command "--list")
@@ -758,7 +763,10 @@ Switch between English and German."
 ;;
 ;;; Visual Basic
 ;;
-(require 'visual-basic-mode)
+(use-package visual-basic-mode)
+(autoload 'visual-basic-mode "visual-basic-mode" "Visual Basic mode." t)
+(push '("\\.\\(?:frm\\|\\(?:ba\\|cl\\|vb\\)s\\)\\'" . visual-basic-mode)
+      auto-mode-alist)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;

@@ -29,11 +29,13 @@
   "An `all-the-icons' segment for the Git Version Control icon."
   (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
     (concat
-     (if (member "all-the-icons" (font-family-list))
-         (propertize (format " %s" (all-the-icons-octicon "git-branch"))
-                     'face `(:height 1 :family ,(all-the-icons-octicon-family))
-                     'display '(raise 0))
-       (propertize (format "Git")))
+     (cond
+      ((string-equal system-type "gnu/linux") ; GNU/Linux
+       (propertize (format " %s" (all-the-icons-octicon "git-branch"))
+                   'face `(:height 1 :family ,(all-the-icons-octicon-family))
+                   'display '(raise 0)))
+      ((string-equal system-type "windows-nt") ; Microsoft Windows
+       (propertize (format "Git"))))
      (propertize (format " %s" branch))
      (propertize " "))))
 
