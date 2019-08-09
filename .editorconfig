@@ -15,3 +15,11 @@ max_line_length = 80
 [*.rst]
 max_line_length = 80
 indent_size = 3
+
+[*.vb]
+end_of_line = crlf
+max_line_length = 200
+indent_size = 4
+
+[*.xml]
+max_line_length = 200
