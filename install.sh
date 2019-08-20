@@ -1,4 +1,7 @@
 # copy init
+if [ ! -d "~/.emacs.d" ];then
+    mkdir -p ~/.emacs.d
+fi
 cp -f init.el ~/.emacs.d/init.el
 
 # copy snippets
