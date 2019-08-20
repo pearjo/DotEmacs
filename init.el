@@ -742,11 +742,21 @@ Switch between English and German."
 ;; robe
 ;; NOTE: To install robe, pry and pry-doc needs to be installed
 ;;       using gem.
+(use-package ruby-mode
+  :ensure t
+  :mode "\\.rb\\'"
+  :mode "Rakefile\\'"
+  :mode "Gemfile\\'"
+  :mode "Berksfile\\'"
+  :mode "Vagrantfile\\'"
+  :interpreter "ruby"
+
 (use-package robe
   :ensure t
-  :config
+  :bind ("C-M-." . robe-jump)
+  :init
   (add-hook 'ruby-mode-hook 'robe-mode)
-  (add-to-list 'company-backends 'company-robe))
+  (push 'company-robe company-backends))
 
 (use-package flymake-ruby
   :ensure t
