@@ -381,16 +381,16 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'LaTeX-mode-hook 'whitespace-mode)
 
-(defun get-frame-height ()
-  "Calculate the frame height in lines.
-The calculation is based on the font and display size."
-  (unless (boundp 'font-size)
-	  (setq font-size 10))
-  (round (* (display-pixel-height)
-	    0.75		  ; scale pixel to points
-	    (/ 1.0 font-size)	  ; devide by font size to get number of lines
-	    0.8			  ; use 80% of screen height
-	    )))
+;; (defun get-frame-height ()
+;;   "Calculate the frame height in lines.
+;; The calculation is based on the font and display size."
+;;   (unless (boundp 'font-size)
+;; 	  (setq font-size 10))
+;;   (round (* (display-pixel-height)
+;; 	    0.75		  ; scale pixel to points
+;; 	    (/ 1.0 font-size)	  ; devide by font size to get number of lines
+;; 	    0.8			  ; use 80% of screen height
+;; 	    )))
 
 ;; (add-hook 'after-make-frame-functions
 ;; 	  '(lambda (frame)
@@ -415,14 +415,14 @@ The calculation is based on the font and display size."
 (require 'autofit-frame)
 (setq-default fit-frame-min-height 50)
 
-(defun fit-frame-hook (frame)
-  "Normal hook to fit the current FRAME using `fit-frame'.
-The function `fit-frame' is called with a negative prefix argument to
-set the width to `fill-column' + `fit-frame-fill-column-margin'."
-  (interactive)
-  (let ((current-prefix-arg -1)
-        (select-frame frame))
-    (call-interactively 'fit-frame)))
+;; (defun fit-frame-hook (frame)
+;;   "Normal hook to fit the current FRAME using `fit-frame'.
+;; The function `fit-frame' is called with a negative prefix argument to
+;; set the width to `fill-column' + `fit-frame-fill-column-margin'."
+;;   (interactive)
+;;   (let ((current-prefix-arg -1)
+;;         (select-frame frame))
+;;     (call-interactively 'fit-frame)))
 
 (defun center-frame-hook (frame)
   "Center the current FRAME on the monitor."
@@ -433,7 +433,7 @@ set the width to `fill-column' + `fit-frame-fill-column-margin'."
                       (- (/ (display-pixel-height) 2)
                          (/ (frame-pixel-height) 2))))
 
-(add-hook 'after-make-frame-functions 'fit-frame-hook)
+;; (add-hook 'after-make-frame-functions 'fit-frame-hook)
 (add-hook 'after-make-frame-functions 'center-frame-hook)
 
 (put 'downcase-region 'disabled nil)
@@ -461,7 +461,7 @@ set the width to `fill-column' + `fit-frame-fill-column-margin'."
 		    :overline nil
 		    :underline nil)
 
-;; ;; hide minor modes
+;; hide minor modes
 (define-minor-mode minor-mode-blackout-mode
   "Hides minor modes from the mode line."
   t)
@@ -487,8 +487,10 @@ set the width to `fill-column' + `fit-frame-fill-column-margin'."
 ;; dictionary setup
 (cond
  ((string-equal system-type "windows-nt") ; Microsoft Windows
+  (message "Using hunspell.exe as spell checker")
   (setq ispell-program-name "hunspell.exe"))
  ((string-equal system-type "gnu/linux") ; linux
+  (message "Using aspell as spell checker")
   (setq ispell-program-name "aspell")))
 (setq ispell-really-aspell t)
 (setq ispell-extra-args '("--sug-mode=fast"))
@@ -749,7 +751,7 @@ Switch between English and German."
   :mode "Gemfile\\'"
   :mode "Berksfile\\'"
   :mode "Vagrantfile\\'"
-  :interpreter "ruby"
+  :interpreter "ruby")
 
 (use-package robe
   :ensure t
@@ -771,12 +773,17 @@ Switch between English and German."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;; Visual Basic
+;;; TypeScript
 ;;
-(use-package visual-basic-mode)
-(autoload 'visual-basic-mode "visual-basic-mode" "Visual Basic mode." t)
-(push '("\\.\\(?:frm\\|\\(?:ba\\|cl\\|vb\\)s\\)\\'" . visual-basic-mode)
-      auto-mode-alist)
+(use-package typescript-mode
+  :ensure t)
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
