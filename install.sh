@@ -27,3 +27,6 @@ if [ ! -d "~/.config/systemd/user/" ];then
     mkdir -p ~/.config/systemd/user/
 fi
 cp -f emacs.service ~/.config/systemd/user/
+
+# copy editorconfig file
+cp -f editorconfig ~/.editorconfig
