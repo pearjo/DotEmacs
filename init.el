@@ -365,7 +365,7 @@
 
 (add-hook 'dired-mode-hook
           (lambda ()
-            (local-set-key (kbd "<dead-circumflex>") 'dired-up-directory)))
+            (local-set-key (kbd "U") 'dired-up-directory)))
 
 (use-package all-the-icons-dired
   :ensure t
