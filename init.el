@@ -360,12 +360,16 @@
      	     (dired up)
      	     (dired-goto-file dir))))))
 
-(setq dired-listing-switches "-lGh1v --group-directories-first")
+;; Change dired listing only for linux
+(cond
+ ((string-equal system-type "gnu/linux") ; GNU/Linux
+  (setq dired-listing-switches "-lGh1v --group-directories-first")))
 (global-auto-revert-mode 1)
 
 (add-hook 'dired-mode-hook
           (lambda ()
-            (local-set-key (kbd "U") 'dired-up-directory)))
+            (local-set-key (kbd "U") 'dired-up-directory)
+            (set-variable 'font-lock-maximum-decoration nil)))
 
 (use-package all-the-icons-dired
   :ensure t
