@@ -13,5 +13,8 @@ xcopy snippets %emacs_path%\snippets /S /Y /E
 xcopy lisp %emacs_path%\lisp /S /Y /E
 
 rem copy fonts
-copy fonts\*.ttf %windir%\Fonts /Y
-copy fonts\Inconsolata\*.ttf %windir%\Fonts /Y
+rem copy fonts\*.ttf %windir%\Fonts /Y
+rem copy fonts\Inconsolata\*.ttf %windir%\Fonts /Y
+
+rem copy editorconfig
+copy editorconfig C:\.editorconfig
