@@ -316,7 +316,29 @@
   ("C-°" . helm-semantic-or-imenu))
 
 (use-package helm-ag
-  :ensure t)
+  :ensure t
+  :commands (helm-ag helm-projectile-ag)
+  :init (setq helm-ag-insert-at-point 'symbol
+              helm-ag-command-option "--path-to-ignore ~/.agignore"))
+
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-global-mode)
+  (setq projectile-enable-caching t))
+
+(use-package helm-projectile
+  :ensure t
+  :bind ("M-p" . helm-projectile-find-file)
+  :config
+  (helm-projectile-on))
+
+(use-package helm-swoop
+  :ensure t
+  :bind (("M-i" . helm-swoop)
+         ("M-I" . helm-swoop-back-to-last-point)
+         ("C-c M-i" . helm-multi-swoop)
+         ("C-x M-i" . helm-multi-swoop-all)))
 
 ;; move over camelCase words correctly
 (subword-mode +1)
