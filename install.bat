@@ -7,14 +7,19 @@ if not exist %emacs_path% (
    mkdir %emacs_path% 2> nul
 )
 
+if not exist %appdata%\org (
+   mkdir %appdata%\org 2> nul
+   mkdir %appdata%\org\notes 2> nul
+   copy NUL %appdata%\org\tasks.org
+)
+
 rem copy files
 copy init.el %emacs_path% /y
 xcopy snippets %emacs_path%\snippets /S /Y /E
 xcopy lisp %emacs_path%\lisp /S /Y /E
 
 rem copy fonts
-rem copy fonts\*.ttf %windir%\Fonts /Y
-rem copy fonts\Inconsolata\*.ttf %windir%\Fonts /Y
+copy fonts\ttf-bitstream-vera-1.10\*.ttf %windir%\Fonts /Y
 
 rem copy editorconfig
 copy editorconfig C:\.editorconfig

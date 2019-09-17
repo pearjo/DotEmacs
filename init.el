@@ -176,16 +176,16 @@
 ;; set default font in initial window and for any new window
 (cond
  ((string-equal system-type "windows-nt") ; Microsoft Windows
-  (add-to-list 'initial-frame-alist '(font . "Consolas-11"))
-  (add-to-list 'default-frame-alist '(font . "Consolas-11"))
+  (add-to-list 'initial-frame-alist '(font . "Bitstream Vera Sans Mono"))
+  (add-to-list 'default-frame-alist '(font . "Bitstream Vera Sans Mono"))
   (setq face-height 100))
  ((string-equal system-type "darwin") ; macOS
-  (add-to-list 'initial-frame-alist '(font . "Menlo"))
-  (add-to-list 'default-frame-alist '(font . "Menlo"))
+  (add-to-list 'initial-frame-alist '(font . "Monaco"))
+  (add-to-list 'default-frame-alist '(font . "Monaco"))
   (setq face-height 100))
  ((string-equal system-type "gnu/linux") ; linux
-  (add-to-list 'initial-frame-alist '(font . "Inconsolata-14"))
-  (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
+  (add-to-list 'initial-frame-alist '(font . "Bitstream Vera Sans Mono"))
+  (add-to-list 'default-frame-alist '(font . "Bitstream Vera Sans Mono"))
   (setq face-height 140)))
 
 ;; Editor config
