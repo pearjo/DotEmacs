@@ -30,3 +30,10 @@ cp -f emacs.service ~/.config/systemd/user/
 
 # copy editorconfig file
 cp -f editorconfig ~/.editorconfig
+
+# initialize org directory
+if [ ! -d "~/org" ];then
+    mkdir -p ~/org
+    mkdir -p ~/org/notes
+    touch ~/org/tasks.org
+fi

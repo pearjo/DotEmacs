@@ -830,6 +830,14 @@ Switch between English and German."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+;;; Org mode
+;;
+(setq org-agenda-files (quote
+                        ("~/org/tasks.org"
+                         "~/org/notes/")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;;; Maintain emacs
 ;;
 ;; update packages
