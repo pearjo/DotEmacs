@@ -19,7 +19,7 @@ xcopy snippets %emacs_path%\snippets /S /Y /E
 xcopy lisp %emacs_path%\lisp /S /Y /E
 
 rem copy fonts
-copy fonts\ttf-bitstream-vera-1.10\*.ttf %windir%\Fonts /Y
+copy fonts\cascadia-code\*.ttf %windir%\Fonts /Y
 
 rem copy editorconfig
 copy editorconfig C:\.editorconfig
