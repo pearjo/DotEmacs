@@ -84,11 +84,16 @@
       scroll-conservatively 10
       scroll-preserve-screen-position 1)
 
-;; Horizontal scrolling mouse events should actually scroll left and right.
-(global-set-key (kbd "<mouse-6>") (lambda () (interactive)
-				    (if truncate-lines (scroll-right 1))))
-(global-set-key (kbd "<mouse-7>") (lambda () (interactive)
-				    (if truncate-lines (scroll-left 1))))
+;; Horizontal scrolling mouse events should actually scroll left and
+;; right.
+(global-set-key (kbd "<mouse-6>") (lambda ()
+                                    (interactive)
+				    (if truncate-lines
+                                        (scroll-right 1))))
+(global-set-key (kbd "<mouse-7>") (lambda ()
+                                    (interactive)
+				    (if truncate-lines
+                                        (scroll-left 1))))
 
 ;; Package configs
 (require 'package)
@@ -355,7 +360,8 @@
 (use-package dired+)
 
 ;; use only one buffer for dired
-(defadvice dired-advertised-find-file (around dired-subst-directory activate)
+(defadvice dired-advertised-find-file
+    (around dired-subst-directory activate)
   "Replace current buffer if file is a directory."
   (interactive)
   (let ((orig (current-buffer))
@@ -404,8 +410,13 @@
 (require 'whitespace)
 (setq whitespace-style '(face empty lines-tail trailing))
 (setq whitespace-line-column nil)
-(add-hook 'prog-mode-hook 'whitespace-mode)
-(add-hook 'LaTeX-mode-hook 'whitespace-mode)
+
+(add-hook 'after-change-major-mode-hook
+          '(lambda ()
+             (interactive)
+             (whitespace-mode 0)
+             (setq whitespace-line-column fill-column)
+             (whitespace-mode 1)))
 
 ;; (defun get-frame-height ()
 ;;   "Calculate the frame height in lines.
@@ -692,7 +703,7 @@ Switch between English and German."
   "OpenFOAM C++ style."
   (c-set-style "OpenFOAM_HGW"))
 
-(add-hook 'c-mode-common-hook 'openfoam-hgw-c-mode-hook)
+;; (add-hook 'c-mode-common-hook 'openfoam-hgw-c-mode-hook)
 
 ;; check comments in C++ code
 (add-hook 'c++-mode-hook
@@ -734,13 +745,13 @@ Switch between English and German."
 
 (use-package irony-eldoc
   :ensure t
-  :config
+  :init
   (add-hook 'irony-mode-hook 'irony-eldoc))
 
 (use-package flycheck-irony
   :ensure t
   :after flycheck
-  :config
+  :init
   (add-hook 'flycheck-mode-hook 'flycheck-irony-setup))
 
 (use-package flycheck-clang-analyzer
@@ -748,6 +759,11 @@ Switch between English and German."
   :after flycheck
   :config
   (flycheck-clang-analyzer-setup))
+
+(use-package qt-c-style
+  :init
+  (add-hook 'c-mode-common-hook 'qt-set-c-style)
+  (add-hook 'c-mode-common-hook 'qt-make-newline-indent))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -801,8 +817,7 @@ Switch between English and German."
 (use-package rubocop
   :ensure t
   :init
-  (add-hook 'ruby-mode-hook 'rubocop-mode)
-  :diminish rubocop-mode)
+  (add-hook 'ruby-mode-hook #'rubocop-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
