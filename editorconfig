@@ -15,17 +15,18 @@ indent_size = 3
 
 [*.vb]
 end_of_line = crlf
-max_line_length = 200
 indent_size = 4
 
 [*.xml]
-max_line_length = 200
 indent_size = 4
 
-[*.json]
-max_line_length = 120
+[*.pro]
+indent_size = 4
+max_line_length = 100
 
-[*.html]
-indent_size = 2
-charset = utf-8
+[*.qml]
+indent_size = 4
 max_line_length = 80
+
+[*.h,*.hpp]
+indent_size = 4
