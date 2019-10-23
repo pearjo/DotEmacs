@@ -314,39 +314,6 @@
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 
-;; Helm
-(use-package helm
-  :ensure t
-  :config
-  (semantic-mode 1)
-  :bind
-  ("C-°" . helm-semantic-or-imenu))
-
-(use-package helm-ag
-  :ensure t
-  :commands (helm-ag helm-projectile-ag)
-  :init (setq helm-ag-insert-at-point 'symbol
-              helm-ag-command-option "--path-to-ignore ~/.agignore"))
-
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-global-mode)
-  (setq projectile-enable-caching t))
-
-(use-package helm-projectile
-  :ensure t
-  :bind ("M-p" . helm-projectile-find-file)
-  :config
-  (helm-projectile-on))
-
-(use-package helm-swoop
-  :ensure t
-  :bind (("M-i" . helm-swoop)
-         ("M-I" . helm-swoop-back-to-last-point)
-         ("C-c M-i" . helm-multi-swoop)
-         ("C-x M-i" . helm-multi-swoop-all)))
-
 ;; move over camelCase words correctly
 (subword-mode +1)
 
@@ -736,6 +703,7 @@ Switch between English and German."
 (load "my-fonts")
 (load "my-cc-mode")
 (load "my-qml-mode")
+(load "my-helm-mode")
 ;; (load "my-yaml-mode")
 ;; (load "my-mmm-mode")
 
