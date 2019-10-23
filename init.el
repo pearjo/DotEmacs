@@ -630,107 +630,6 @@ Switch between English and German."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; C/C++
-;;
-;; OpenFOAM
-(c-add-style "OpenFOAM_HGW"
-	     '(
-     (c-basic-offset . 4)
-     (c-tab-always-indent . t)
-     (indent-tabs-mode . nil)
-     (c-comment-only-line-offset . (0 . 0))
-     (c-indent-comments-syntactically-p . t)
-     (c-block-comments-indent-p nil)
-     (c-cleanup-list .
-	 '((defun-close-semi) (list-close-comma) (scope-operator)))
-     (c-backslash-column . 48)
-     (c-offsets-alist .
-     (
-     (c . +)                     ;; inside a multi-line C style block  comment
-     (defun-open . 0)            ;; brace that opens a function definition
-     (defun-close . 0)           ;; brace that closes a function definition
-     (defun-block-intro . +)     ;; the first line in a top-level defun
-     (class-open . 0)            ;; brace that opens a class definition
-     (class-close . 0)           ;; brace that closes a class definition
-     (inline-open . +)           ;; brace that opens an in-class inline method
-     (inline-close . 0)          ;; brace that closes an in-class inline method
-     (topmost-intro . 0)         ;; the first line in a topmost construct
-				 ;; definition
-     (topmost-intro-cont . 0)    ;; topmost definition continuation lines
-     (member-init-intro . +)     ;; first line in a member initialization list
-     (member-init-cont . 0)      ;; subsequent member initialization list lines
-     (inher-intro . 0)           ;; first line of a multiple inheritance list
-     (inher-cont . +)            ;; subsequent multiple inheritance lines
-     (block-open . 0)            ;; statement block open brace
-     (block-close . 0)           ;; statement block close brace
-     (brace-list-open . 0)       ;; open brace of an enum or static array list
-     (brace-list-close . 0)      ;; open brace of an enum or static array list
-     (brace-list-intro . +)      ;; first line in an enum or static array list
-     (brace-list-entry . 0)      ;; subsequent lines in an enum or static array
-				 ;; list
-     (statement . 0)             ;; a C/C++/ObjC statement
-     (statement-cont . +)        ;; a continuation of a C/C++/ObjC statement
-     (statement-block-intro . +) ;; the first line in a new statement block
-     (statement-case-intro . +)  ;; the first line in a case `block'
-     (statement-case-open . +)   ;; the first line in a case `block'
-				 ;; starting with brace
-     (substatement . +)          ;; the first line after an if/while/for/do/else
-     (substatement-open . 0)     ;; the brace that opens a substatement block
-     (case-label . +)            ;; a case or default label
-     (access-label . -)          ;; C++ private/protected/public access label
-     (label . -)                 ;; any non-special C/C++/ObjC label
-     (do-while-closure . 0)      ;; the `while' that ends a do/while construct
-     (else-clause . 0)           ;; the `else' of an if/else construct
-     (comment-intro . 0)         ;; line containing only a comment introduction
-     (arglist-intro . +)         ;; the first line in an argument list
-     (arglist-cont . 0)          ;; subsequent argument list lines when no
-				 ;; subsequent argument list lines
-				 ;; when no the
-				 ;; arglist opening paren
-     (arglist-cont-nonempty . 0) ;; subsequent argument list lines when at
-				 ;; subsequent argument list lines
-				 ;; when at line
-				 ;; as the arglist opening paren
-     (arglist-close . 0)         ;; line as the arglist opening paren
-     (stream-op . +)             ;; lines continuing a stream operator construct
-     (inclass . +)               ;; the construct is nested inside a class
-				 ;; definition
-     (cpp-macro . +)             ;; the construct is nested inside a class
-				 ;; definition
-     (friend . 0)                ;; a C++ friend declaration
-     (namespace-open  . 0)
-     (namespace-close . 0)
-     (innamespace     . 0)))))
-
-(defun openfoam-hgw-c-mode-hook ()
-  "OpenFOAM C++ style."
-  (c-set-style "OpenFOAM_HGW"))
-
-;; (add-hook 'c-mode-common-hook 'openfoam-hgw-c-mode-hook)
-
-;; check comments in C++ code
-(add-hook 'c++-mode-hook
-	  (lambda ()
-	    (flyspell-prog-mode)))
-
-(use-package irony
-  :ensure t
-  :config
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'objc-mode-hook 'irony-mode)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
-
-(use-package company-irony
-  :ensure t
-  :after company
-  :config
-  (add-to-list 'company-backends 'company-irony))
-
-(use-package company-irony-c-headers
-  :ensure t
-  :after company
-  :config
-  (add-to-list 'company-backends 'company-irony-c-headers))
 
 (when (boundp 'w32-pipe-read-delay)
   (setq w32-pipe-read-delay 0))
@@ -739,33 +638,12 @@ Switch between English and German."
 (when (boundp 'w32-pipe-buffer-size)
   (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
 
-(defun create-etags (dir)
-  "Create tags file for source files in DIR."
-  (interactive "Ddirectory: ")
-  (eshell-command
-   (format "find %s -type f -name '*.[c,cpp,c++,C,h,H]' | etags -" dir)))
+;; (defun create-etags (dir)
+;;   "Create tags file for source files in DIR."
+;;   (interactive "Ddirectory: ")
+;;   (eshell-command
+;;    (format "find %s -type f -name '*.[c,cpp,c++,C,h,H]' | etags -" dir)))
 
-(use-package irony-eldoc
-  :ensure t
-  :init
-  (add-hook 'irony-mode-hook 'irony-eldoc))
-
-(use-package flycheck-irony
-  :ensure t
-  :after flycheck
-  :init
-  (add-hook 'flycheck-mode-hook 'flycheck-irony-setup))
-
-(use-package flycheck-clang-analyzer
-  :ensure t
-  :after flycheck
-  :config
-  (flycheck-clang-analyzer-setup))
-
-(use-package qt-c-style
-  :init
-  (add-hook 'c-mode-common-hook 'qt-set-c-style)
-  (add-hook 'c-mode-common-hook 'qt-make-newline-indent))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -856,6 +734,8 @@ Switch between English and German."
 
 ;; Load my settings
 (load "my-fonts")
+(load "my-cc-mode")
+(load "my-qml-mode")
 ;; (load "my-yaml-mode")
 ;; (load "my-mmm-mode")
 

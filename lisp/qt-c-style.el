@@ -20,9 +20,9 @@
 
 ;;; Commentary:
 
-;; Provides the qt C/C++ coding style. You may wish to add
+;; Provides the qt C/C++ coding style.  You may wish to add
 ;; `qt-set-c-style' to your `c-mode-common-hook' after requiring this
-;; file. For example:
+;; file.  For example:
 ;;
 ;;    (add-hook 'c-mode-common-hook 'qt-set-c-style)
 ;;
@@ -71,7 +71,6 @@ Suitable for inclusion in `c-offsets-alist'."
     (c-basic-offset . 4)
     (fill-column . 100)
     (indent-tabs-mode . nil)
-    (c-comment-only-line-offset . 0)
     (c-hanging-braces-alist . ((defun-open after)
                                (defun-close before after)
                                (class-open after)
@@ -94,8 +93,9 @@ Suitable for inclusion in `c-offsets-alist'."
      . (c-semi&comma-no-newlines-for-oneline-inliners
         c-semi&comma-inside-parenlist
         c-semi&comma-no-newlines-before-nonblanks))
-    (c-indent-comments-syntactically-p . nil)
-    (comment-column . 40)
+    (c-indent-comments-syntactically-p . 1)
+    (c-comment-only-line-offset . 4)
+    (comment-column . 80)
     (c-cleanup-list . (brace-else-brace
                        brace-elseif-brace
                        brace-catch-brace
@@ -125,8 +125,10 @@ Suitable for inclusion in `c-offsets-alist'."
                         (statement-case-open . +)
                         (statement-case-intro . +) ; case w/o {
                         (access-label . /)
-                        (innamespace . 0))))
-  "Qt C/C++ Programming Style")
+                        (innamespace . 0)))
+    (c-access-key . "\\<\\(signals\\|public\\|protected\\|private\\|publicslots\\|protected slots\\|private slots\\):")
+    (c-basic-offset . 4))
+  "Qt C/C++ Programming Style.")
 
 (defun qt-set-c-style ()
   "Set the current buffer's c-style to Qt C/C++ Programming
