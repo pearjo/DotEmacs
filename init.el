@@ -98,17 +98,19 @@
 ;; Package configs
 (require 'package)
 (setq package-enable-at-startup nil)
-(setq package-archives '(("org"   . "http://orgmode.org/elpa/")
-			 ("gnu"   . "http://elpa.gnu.org/packages/")
+(setq package-archives '(("org"   . "https://orgmode.org/elpa/")
+			 ("gnu"   . "https://elpa.gnu.org/packages/")
 			 ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
 ;; Load path
 (add-to-list 'load-path "~/.emacs.d/lisp/")
+(let ((default-directory "~/.emacs.d/lisp/"))
+  (normal-top-level-add-subdirs-to-load-path))
 
 ;; Backup files
 (setq create-lockfiles nil)
-(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+(setq backup-directory-alist '(("" . "~/.emacs.d/backup/")))
 ;; (setq make-backup-files nil)
 
 ;; Keep a list of recently opened files
