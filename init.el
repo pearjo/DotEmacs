@@ -853,6 +853,12 @@ Switch between English and German."
                         ("~/org/tasks.org"
                          "~/org/notes/")))
 
+
+;; Load my settings
+(load "my-fonts")
+;; (load "my-yaml-mode")
+;; (load "my-mmm-mode")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Maintain emacs
