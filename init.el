@@ -704,7 +704,7 @@ Switch between English and German."
 (load "my-cc-mode")
 (load "my-qml-mode")
 (load "my-helm-mode")
-;; (load "my-yaml-mode")
+(load "my-yaml-mode")
 ;; (load "my-mmm-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
