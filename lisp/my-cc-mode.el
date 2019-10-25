@@ -23,6 +23,14 @@
     (add-hook 'objc-mode-hook 'irony-mode)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
+    ;; Optimize irony on windows
+    (when (boundp 'w32-pipe-read-delay)
+      (setq w32-pipe-read-delay 0))
+
+    ;; Set the buffer size to 64K on Windows (from the original 4K)
+    (when (boundp 'w32-pipe-buffer-size)
+      (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
+
     ;; Use compilation database first, clang_complete as fallback.
     (setq-default irony-cdb-compilation-databases
                   '(irony-cdb-libclang irony-cdb-clang-complete))))
@@ -51,27 +59,27 @@
   (add-to-list 'company-backends
                '(company-irony-c-headers company-irony)))
 
-(use-package rtags
-  :ensure t
-  :init
-  (progn
-    (setq rtags-path "~/.emacs.d/modules/rtags/bin")
-    (unless '(rtags-executable-find "rc")
-      (message "Binary rc is not installed!"))
-    (unless '(rtags-executable-find "rdm")
-      (message "Binary rdm is not installed!"))
-    (rtags-start-process-unless-running)
-    (define-key c-mode-base-map (kbd "M-.")
-      'rtags-find-symbol-at-point)
-    (define-key c-mode-base-map (kbd "M-,")
-      'rtags-find-references-at-point)
-    (define-key c-mode-base-map (kbd "M-?")
-      'rtags-display-summary)
-    (rtags-enable-standard-keybindings)
+;; (use-package rtags
+;;   :ensure t
+;;   :init
+;;   (progn
+;;     (setq rtags-path "~/.emacs.d/modules/rtags/bin")
+;;     (unless '(rtags-executable-find "rc")
+;;       (message "Binary rc is not installed!"))
+;;     (unless '(rtags-executable-find "rdm")
+;;       (message "Binary rdm is not installed!"))
+;;     (rtags-start-process-unless-running)
+;;     (define-key c-mode-base-map (kbd "M-.")
+;;       'rtags-find-symbol-at-point)
+;;     (define-key c-mode-base-map (kbd "M-,")
+;;       'rtags-find-references-at-point)
+;;     (define-key c-mode-base-map (kbd "M-?")
+;;       'rtags-display-summary)
+;;     (rtags-enable-standard-keybindings)
 
-    (setq rtags-use-helm t)
-    ;; Shutdown rdm when leaving emacs.
-    (add-hook 'kill-emacs-hook 'rtags-quit-rdm)))
+;;     (setq rtags-use-helm t)
+;;     ;; Shutdown rdm when leaving emacs.
+;;     (add-hook 'kill-emacs-hook 'rtags-quit-rdm)))
 
 ;; (use-package company-rtags
 ;;   :ensure t
@@ -106,10 +114,16 @@
 ;;   (add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
 ;;   (add-hook 'objc-mode-hook #'my-flycheck-rtags-setup))
 
-(use-package helm-rtags
-  :ensure t
-  :init
-  (setq rtags-display-result-backend 'helm))
+;; (use-package helm-rtags
+;;   :ensure t
+;;   :init
+;;   (setq rtags-display-result-backend 'helm))
+
+(defun create-etags (dir)
+  "Create tags file for source files in DIR."
+  (interactive "Ddirectory: ")
+  (eshell-command
+   (format "find %s -type f -name '*.[c,cpp,c++,C,h,H]' | etags -" dir)))
 
 (use-package qt-c-style
   :init

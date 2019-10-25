@@ -120,6 +120,7 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
 (require 'use-package)
 
 ;; Extensible vi layer for Emacs
@@ -578,24 +579,6 @@ Switch between English and German."
                     (TeX-process-set-variable file 'TeX-command-next
                                               TeX-command-default))
                   nil t :help "Create nomenclature file")))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; C/C++
-
-(when (boundp 'w32-pipe-read-delay)
-  (setq w32-pipe-read-delay 0))
-
-;; Set the buffer size to 64K on Windows (from the original 4K)
-(when (boundp 'w32-pipe-buffer-size)
-  (setq irony-server-w32-pipe-buffer-size (* 64 1024)))
-
-;; (defun create-etags (dir)
-;;   "Create tags file for source files in DIR."
-;;   (interactive "Ddirectory: ")
-;;   (eshell-command
-;;    (format "find %s -type f -name '*.[c,cpp,c++,C,h,H]' | etags -" dir)))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
