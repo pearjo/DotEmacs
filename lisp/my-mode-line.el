@@ -73,12 +73,12 @@
 (setq-default mode-line-format
               (list
                " "
-               '(:eval (propertize (cond ((equal (format "%s" evil-state) "insert") "I")
-	                                 ((equal (format "%s" evil-state) "normal") "N")
-	                                 ((equal (format "%s" evil-state) "visual") "V")
-                                         ((equal (format "%s" evil-state) "emacs") "E")
-	                                 (t (format "%s" evil-state)))
-                                   'help-echo (format "Evil mode: %s" evil-state)))
+               ;; '(:eval (propertize (cond ((equal (format "%s" evil-state) "insert") "I")
+	       ;;                           ((equal (format "%s" evil-state) "normal") "N")
+	       ;;                           ((equal (format "%s" evil-state) "visual") "V")
+               ;;                           ((equal (format "%s" evil-state) "emacs") "E")
+	       ;;                           (t (format "%s" evil-state)))
+               ;;                     'help-echo (format "Evil mode: %s" evil-state)))
                mode-line-front-space
                mode-line-mule-info
                mode-line-modified
