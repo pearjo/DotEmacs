@@ -250,7 +250,7 @@
 (setq show-paren-delay 0)
 
 ;; move over camelCase words correctly
-(subword-mode +1)
+(global-subword-mode +1)
 
 ;; define function to shutdown emacs server instance
 (defun server-shutdown ()
