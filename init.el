@@ -204,53 +204,6 @@
 ;; Overwrite selected region
 (delete-selection-mode 1)
 
-;; Move lines and regions
-(defun move-line-up ()
-  "Move line up."
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2))
-
-(defun move-line-down ()
-  "Move line down."
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1))
-
-(defun move-region (start end n)
-  "Move the current region from START to END up or down by N lines."
-  (interactive "r\np")
-  (let ((line-text (delete-and-extract-region start end)))
-    (forward-line n)
-    (let ((start (point)))
-      (insert line-text)
-      (setq deactivate-mark nil)
-      (set-mark start))))
-
-(defun move-region-up (start end n)
-  "Move the current region from START to END up by N lines."
-  (interactive "r\np")
-  (move-region start end (if (null n) -1 (- n))))
-
-(defun move-region-down (start end n)
-  "Move the current region form START to END down by N lines."
-  (interactive "r\np")
-  (move-region start end (if (null n) 1 n)))
-
-(defun move-line-region-up (&optional start end n)
-  "Move a line or region from START to END up by N lines."
-  (interactive "r\np")
-  (if (use-region-p) (move-region-up start end n) (move-line-up)))
-
-(defun move-line-region-down (&optional start end n)
-  "Move a line or region from START to END down by N lines."
-  (interactive "r\np")
-  (if (use-region-p) (move-region-down start end n) (move-line-down)))
-
-(global-set-key (kbd "M-<up>") 'move-line-region-up)
-(global-set-key (kbd "M-<down>") 'move-line-region-down)
-
 ;; auto complete using company
 (use-package company
   :ensure t
@@ -373,71 +326,10 @@
              (setq whitespace-line-column fill-column)
              (whitespace-mode 1)))
 
-;; (defun get-frame-height ()
-;;   "Calculate the frame height in lines.
-;; The calculation is based on the font and display size."
-;;   (unless (boundp 'font-size)
-;; 	  (setq font-size 10))
-;;   (round (* (display-pixel-height)
-;; 	    0.75		  ; scale pixel to points
-;; 	    (/ 1.0 font-size)	  ; devide by font size to get number of lines
-;; 	    0.8			  ; use 80% of screen height
-;; 	    )))
-
-;; (add-hook 'after-make-frame-functions
-;; 	  '(lambda (frame)
-;; 	     (select-frame frame)
-;; 	     ;; fit frame height to display size
-;; 	     (setq frame-height (get-frame-height))
-;; 	     (message "frame height is set to %s" frame-height)
-;; 	     (add-to-list 'default-frame-alist '(height . 55))
-
-;; 	     ;; fit frame to buffer
-;; 	     (require 'autofit-frame)
-;; 	     (setq-default fit-frame-min-height 55)))
-;; (message "display size is %s" (display-pixel-height))
-
-;; (setq frame-height (get-frame-height))
-;; (message "frame height is set to %s" frame-height)
-
 (add-to-list 'default-frame-alist
 	     '(height . 50))
 
-;; fit frame to buffer
-(require 'autofit-frame)
-(setq-default fit-frame-min-height 50)
-
-;; (defun fit-frame-hook (frame)
-;;   "Normal hook to fit the current FRAME using `fit-frame'.
-;; The function `fit-frame' is called with a negative prefix argument to
-;; set the width to `fill-column' + `fit-frame-fill-column-margin'."
-;;   (interactive)
-;;   (let ((current-prefix-arg -1)
-;;         (select-frame frame))
-;;     (call-interactively 'fit-frame)))
-
-(defun center-frame-hook (frame)
-  "Center the current FRAME on the monitor."
-  (interactive)
-  (set-frame-position (select-frame frame)
-                      (- (/ (display-pixel-width) 2)
-                         (/ (frame-pixel-width) 2))
-                      (- (/ (display-pixel-height) 2)
-                         (/ (frame-pixel-height) 2))))
-
-;; (add-hook 'after-make-frame-functions 'fit-frame-hook)
-(add-hook 'after-make-frame-functions 'center-frame-hook)
-
 (put 'downcase-region 'disabled nil)
-
-(defun sudo-save ()
-  "Save file as sudo."
-  (interactive)
-  (if (not buffer-file-name)
-      (write-file (concat "/sudo:root@localhost:"
-                          (ido-read-file-name "File:")))
-    (write-file (concat "/sudo:root@localhost:"
-                        buffer-file-name))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:;;;;;;;;;;;
 ;;
@@ -668,11 +560,13 @@ Switch between English and German."
 
 
 ;; Load my settings
+(load "my-func")
 (load "my-fonts")
 (load "my-cc-mode")
 (load "my-qml-mode")
 (load "my-helm-mode")
 (load "my-yaml-mode")
+(load "my-fit-frame")
 ;; (load "my-mmm-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
