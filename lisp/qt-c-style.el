@@ -93,8 +93,8 @@ Suitable for inclusion in `c-offsets-alist'."
      . (c-semi&comma-no-newlines-for-oneline-inliners
         c-semi&comma-inside-parenlist
         c-semi&comma-no-newlines-before-nonblanks))
-    (c-indent-comments-syntactically-p . 1)
-    (c-comment-only-line-offset . 4)
+    (c-indent-comments-syntactically-p . t)
+    (c-comment-only-line-offset . (0 . 0))
     (comment-column . 80)
     (c-cleanup-list . (brace-else-brace
                        brace-elseif-brace
