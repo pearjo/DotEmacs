@@ -94,5 +94,24 @@
     (write-file (concat "/sudo:root@localhost:"
                         buffer-file-name))))
 
+(defun copy-line (arg)
+  "Copy lines (as many as prefix ARG) in the kill."
+  (interactive "p")
+  (let ((beg (line-beginning-position))
+        (end (line-end-position arg)))
+    (when mark-active
+      (if (> (point) (mark))
+          (setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
+        (setq end (save-excursion (goto-char (mark)) (line-end-position)))))
+    (if (eq last-command 'copy-line)
+        (kill-append (buffer-substring beg end) (< end beg))
+      (kill-ring-save beg end)))
+  (kill-append "\n" nil)
+  (beginning-of-line (or (and arg (1+ arg)) 2))
+  (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
+
+;; optional key binding
+(global-set-key "\C-c\C-k" 'copy-line)
+
 (provide 'my-func)
 ;;; my-func.el ends here
