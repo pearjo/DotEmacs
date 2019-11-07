@@ -13,8 +13,8 @@
 ;;; Code:
 (cond
  ((string-equal system-type "windows-nt") ; Microsoft Windows
-  (add-to-list 'initial-frame-alist '(font . "Cascadia Code-11"))
-  (add-to-list 'default-frame-alist '(font . "Cascadia Code-11")))
+  (add-to-list 'initial-frame-alist '(font . "Consolas-11"))
+  (add-to-list 'default-frame-alist '(font . "Consolas-11")))
  ((string-equal system-type "darwin") ; macOS
   (add-to-list 'initial-frame-alist '(font . "Monaco-11"))
   (add-to-list 'default-frame-alist '(font . "Monaco-11")))
