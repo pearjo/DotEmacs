@@ -16,31 +16,37 @@
         (if (projectile-project-p)
             (projectile-project-p)
           (default-directory)))
-  (eshell-command
    (cond
     ((string-equal system-type "windows-nt") ; Microsoft Windows
-     (concat
-      " Get-ChildItem -Path " output-directory " -Recurse -Include "
-      "*.ad[absm],*.[CFHMSacfhlmpsty],*.def,*.in[cs],*.s[as],*.src,*.cc"
-      "hh,*.[chy]++,*.[ch]pp,*.[chy]xx,*.pdb,*.[ch]s,*.[Cc][Oo][Bb],*."
-      "[eh]rl,*.f90,*.for,*.java,*.[cem]l,*.clisp,*.lisp,*.[Ll][Ss][Pp]"
-      "[Mm]akefile*,*.pas,*.[Pp][LlMm],*.psw,*.lm,*.pc,*.prolog,*.oak,"
-      "*.p[sy],*.sch,*.scheme,*.[Ss][Cc][Mm],*.[Ss][Mm],*.bib,"
-      "*.cl[os],*.ltx,*.sty,*.TeX,*.tex,*.texi,*.texinfo,*.txi,"
-      "*.x[bp]m,*.yy,*.[Ss][Qq][Ll] -File -Exclude moc_* -Name | "
-      "etags -- -a -o " output-directory "TAGS"))
+     (defvar win-directory)
+     (setq win-directory
+           (replace-regexp-in-string "/" "\\" output-directory t t))
+     (async-shell-command
+      (concat
+       "dir " win-directory " /s | "
+       "findstr /i \""
+       "\\.ad[absm] \\.[CFHMSacfhlmpsty] \\.def \\.in[cs] \\.s[as] "
+       "\\.src \\.cc \\.hh \\.[chy]++ \\.[ch]pp \\.[chy]xx \\.pdb "
+       "\\.[ch]s \\.[Cc][Oo][Bb] \\.[eh]rl \\.f90 \\.for \\.java "
+       "\\.[cem]l \\.clisp \\.lisp \\.[Ll][Ss][Pp] [Mm]akefile* "
+       "\\.pas \\.[Pp][LlMm] \\.psw \\.lm \\.pc \\.prolog \\.oak "
+       "\\.p[sy] \\.sch \\.scheme \\.[Ss][Cc][Mm] \\.[Ss][Mm] \\.bib "
+       "\\.cl[os] \\.ltx \\.sty \\.TeX \\.tex \\.texi \\.texinfo "
+       "\\.txi \\.x[bp]m \\.yy \\.[Ss][Qq][Ll]\" | "
+       "etags.exe - -a -o " win-directory "TAGS")))
     ((string-equal system-type "gnu/linux") ; linux
-     (concat
-      "find " output-directory " -type f -regextype posix-extended "
-      "-regex '^.*\\.("
-      "ad[absm]|[CFHMSacfhlmpsty]|def|in[cs]|s[as]|src|cc"
-      "hh|[chy]++|[ch]pp|[chy]xx|pdb|[ch]s|[Cc][Oo][Bb]|"
-      "[eh]rl|f90|for|java|[cem]l|clisp|lisp|[Ll][Ss][Pp]"
-      "[Mm]akefile*|pas|[Pp][LlMm]|psw|lm|pc|prolog|oak|"
-      "p[sy]|sch|scheme|[Ss][Cc][Mm]|[Ss][Mm]|bib|cl[os]|"
-      "ltx|sty|TeX|tex|texi|texinfo|txi|x[bp]m|yy|"
-      "[Ss][Qq][Ll])$' -print | xargs etags -a -o "
-      output-directory "TAGS")))))
+     (eshell-command
+      (concat
+       "find " output-directory " -type f -regextype posix-extended "
+       "-regex '^.*\\.("
+       "ad[absm]|[CFHMSacfhlmpsty]|def|in[cs]|s[as]|src|cc"
+       "hh|[chy]++|[ch]pp|[chy]xx|pdb|[ch]s|[Cc][Oo][Bb]|"
+       "[eh]rl|f90|for|java|[cem]l|clisp|lisp|[Ll][Ss][Pp]"
+       "[Mm]akefile*|pas|[Pp][LlMm]|psw|lm|pc|prolog|oak|"
+       "p[sy]|sch|scheme|[Ss][Cc][Mm]|[Ss][Mm]|bib|cl[os]|"
+       "ltx|sty|TeX|tex|texi|texinfo|txi|x[bp]m|yy|"
+       "[Ss][Qq][Ll])$' -print | xargs etags -a -o "
+       output-directory "TAGS")))))
 
 (defadvice xref-find-definitions (before c-tag-file activate)
   "Automatically create tags file."
