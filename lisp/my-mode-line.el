@@ -21,9 +21,7 @@
 ;;; Commentary:
 
 ;;; Code:
-
 (require 'all-the-icons)
-(require 'evil)
 
 (defun -custom-modeline-github-vc ()
   "An `all-the-icons' segment for the Git Version Control icon."
