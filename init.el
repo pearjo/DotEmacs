@@ -149,36 +149,8 @@
 ;;     'minibuffer-keyboard-quit))
 
 ;; Theme
-(use-package solarized-theme
-  :ensure t
-  :defer
-  :config
-  ;; Don't change the font for some headings and titles
-  (setq solarized-use-variable-pitch nil)
-
-  ;; Use more italics
-  (setq solarized-use-more-italic t)
-
-  ;; Use less colors for indicators such as git:gutter, flycheck and
-  ;; similar
-  (setq solarized-emphasize-indicators nil)
-
-  ;; Don't change size of org-mode headlines (but keep other
-  ;; size-changes)
-  (setq solarized-scale-org-headlines nil)
-
-  ;; make the modeline high contrast
-  (setq solarized-high-contrast-mode-line t)
-
-  ;; make the fringe stand out from the background
-  (setq solarized-distinct-fringe-background t)
-
-  ;; Avoid all font-size changes
-  (setq solarized-height-minus-1 1.0)
-  (setq solarized-height-plus-1 1.0)
-  (setq solarized-height-plus-2 1.0)
-  (setq solarized-height-plus-3 1.0)
-  (setq solarized-height-plus-4 1.0))
+(use-package spacemacs-theme
+  :ensure t)
 
 ;; load theme depending on the day time
 (use-package circadian
@@ -187,8 +159,8 @@
   ;; coordinates of Hamburg, HH, Germany
   (setq calendar-latitude 53.55)
   (setq calendar-longitude 9.99)
-  (setq circadian-themes '((:sunrise . solarized-light)
-                           (:sunset  . solarized-dark)))
+  (setq circadian-themes '((:sunrise . spacemacs-light)
+                           (:sunset  . spacemacs-dark)))
   (circadian-setup))
 
 ;; Editor config
