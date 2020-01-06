@@ -23,16 +23,16 @@
            (replace-regexp-in-string "/" "\\" output-directory t t))
      (async-shell-command
       (concat
-       "dir " win-directory " /s | "
-       "findstr /i \""
-       "\\.ad[absm] \\.[CFHMSacfhlmpsty] \\.def \\.in[cs] \\.s[as] "
-       "\\.src \\.cc \\.hh \\.[chy]++ \\.[ch]pp \\.[chy]xx \\.pdb "
-       "\\.[ch]s \\.[Cc][Oo][Bb] \\.[eh]rl \\.f90 \\.for \\.java "
-       "\\.[cem]l \\.clisp \\.lisp \\.[Ll][Ss][Pp] [Mm]akefile* "
-       "\\.pas \\.[Pp][LlMm] \\.psw \\.lm \\.pc \\.prolog \\.oak "
-       "\\.p[sy] \\.sch \\.scheme \\.[Ss][Cc][Mm] \\.[Ss][Mm] \\.bib "
-       "\\.cl[os] \\.ltx \\.sty \\.TeX \\.tex \\.texi \\.texinfo "
-       "\\.txi \\.x[bp]m \\.yy \\.[Ss][Qq][Ll]\" | "
+       "dir " win-directory " /s/b | "
+       "findstr \""
+       ".*ad[absm]$ .*[CFHMSacfhlmpsty]$ .*def$ .*in[cs]$ .*s[as]$ "
+       ".*src$ .*cc$ .*hh$ .*[chy]++$ .*[ch]pp$ .*[chy]xx$ .*pdb$ "
+       ".*[ch]s$ .*[Cc][Oo][Bb]$ .*[eh]rl$ .*f90$ .*for$ .*java$ "
+       ".*[cem]l$ .*clisp$ .*lisp$ .*[Ll][Ss][Pp]$ [Mm]akefile "
+       ".*pas$ .*[Pp][LlMm]$ .*psw$ .*lm$ .*pc$ .*prolog$ .*oak$ "
+       ".*p[sy]$ .*sch$ .*scheme$ .*[Ss][Cc][Mm]$ .*[Ss][Mm]$ .*bib$ "
+       ".*cl[os]$ .*ltx$ .*sty$ .*TeX$ .*tex$ .*texi$ .*texinfo$ "
+       ".*txi$ .*x[bp]m$ .*yy$ .*[Ss][Qq][Ll]$\" | "
        "etags.exe - -a -o " win-directory "TAGS")))
     ((string-equal system-type "gnu/linux") ; linux
      (eshell-command
