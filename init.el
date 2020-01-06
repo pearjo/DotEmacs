@@ -577,6 +577,7 @@ Switch between English and German."
 (load "my-helm-mode")
 (load "my-yaml-mode")
 (load "my-fit-frame")
+(load "my-vbnet-mode")
 ;; (load "my-mmm-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
