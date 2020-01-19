@@ -550,6 +550,7 @@ Switch between English and German."
 (load "my-yaml-mode")
 (load "my-fit-frame")
 (load "my-vbnet-mode")
+(load "my-markdown-mode")
 ;; (load "my-mmm-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
