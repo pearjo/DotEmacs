@@ -10,7 +10,8 @@
 ;;; Code:
 (require 'use-package)
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :ensure t)
 
 (provide 'my-markdown-mode)
 ;;; my-markdown-mode.el ends here
