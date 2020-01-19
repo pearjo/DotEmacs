@@ -123,31 +123,6 @@
 
 (require 'use-package)
 
-;; Extensible vi layer for Emacs
-;; (use-package evil
-;;   :ensure t
-;;   :config
-;;   (evil-mode 1)
-;;   (define-key evil-insert-state-map (kbd "C-c") 'copy-region-as-kill)
-;;   (define-key evil-insert-state-map (kbd "C-v") 'yank)
-;;   (define-key evil-insert-state-map (kbd "C-x") 'kill-region)
-;;   (define-key evil-insert-state-map (kbd "C-z") 'undo)
-;;   (define-key evil-insert-state-map (kbd "C-S-z") 'undo-tree-redo)
-;;   (define-key evil-insert-state-map (kbd "C-a") 'mark-whole-buffer)
-;;   ;; esc quits
-;;   (define-key evil-normal-state-map [escape] 'keyboard-quit)
-;;   (define-key evil-visual-state-map [escape] 'keyboard-quit)
-;;   (define-key minibuffer-local-map [escape]
-;;     'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-ns-map [escape]
-;;     'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-completion-map [escape]
-;;     'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-must-match-map [escape]
-;;     'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-isearch-map [escape]
-;;     'minibuffer-keyboard-quit))
-
 ;; Theme
 (use-package spacemacs-theme
   :ensure t)
