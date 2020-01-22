@@ -124,8 +124,8 @@
 (require 'use-package)
 
 ;; Theme
-(use-package spacemacs-theme
-  :ensure t)
+(use-package spacemacs-common
+  :ensure spacemacs-theme)
 
 ;; load theme depending on the day time
 (use-package circadian
