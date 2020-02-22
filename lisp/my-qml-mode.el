@@ -10,14 +10,14 @@
 ;;; Code:
 (require 'use-package)
 
-(use-package company-qml
-  :ensure t
-  :after company
-  :init
-  (add-to-list 'company-backends 'company-qml))
+;; (use-package company-qml
+;;   :ensure t
+;;   :after company
+;;   :init
+;;   (add-to-list 'company-backends 'company-qml))
 
-(use-package parsec
-  :ensure t)
+;; (use-package parsec
+;;   :ensure t)
 
 (use-package qml-mode
   :ensure t
