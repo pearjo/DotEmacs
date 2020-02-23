@@ -517,15 +517,16 @@ Switch between English and German."
 
 
 ;; Load my settings
-(load "my-func")
-(load "my-fonts")
 (load "my-cc-mode")
-(load "my-qml-mode")
-(load "my-helm-mode")
-(load "my-yaml-mode")
+(load "my-dart-mode")
 (load "my-fit-frame")
-(load "my-vbnet-mode")
+(load "my-fonts")
+(load "my-func")
+(load "my-helm-mode")
 (load "my-markdown-mode")
+(load "my-qml-mode")
+(load "my-vbnet-mode")
+(load "my-yaml-mode")
 ;; (load "my-mmm-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
