@@ -52,73 +52,17 @@
   :init
   (add-hook 'irony-mode-hook #'irony-eldoc))
 
-(use-package company-irony-c-headers
-  :ensure t
-  :after company
-  :init
-  (add-to-list 'company-backends
-               '(company-irony-c-headers company-irony)))
-
-;; (use-package rtags
-;;   :ensure t
-;;   :init
-;;   (progn
-;;     (setq rtags-path "~/.emacs.d/modules/rtags/bin")
-;;     (unless '(rtags-executable-find "rc")
-;;       (message "Binary rc is not installed!"))
-;;     (unless '(rtags-executable-find "rdm")
-;;       (message "Binary rdm is not installed!"))
-;;     (rtags-start-process-unless-running)
-;;     (define-key c-mode-base-map (kbd "M-.")
-;;       'rtags-find-symbol-at-point)
-;;     (define-key c-mode-base-map (kbd "M-,")
-;;       'rtags-find-references-at-point)
-;;     (define-key c-mode-base-map (kbd "M-?")
-;;       'rtags-display-summary)
-;;     (rtags-enable-standard-keybindings)
-
-;;     (setq rtags-use-helm t)
-;;     ;; Shutdown rdm when leaving emacs.
-;;     (add-hook 'kill-emacs-hook 'rtags-quit-rdm)))
-
-;; (use-package company-rtags
+;; (use-package company-irony-c-headers
 ;;   :ensure t
 ;;   :after company
-;;   :config
-;;   (progn
-;;     (define-key c-mode-base-map (kbd "M-.")
-;;       (function rtags-find-symbol-at-point))
-;;     (define-key c-mode-base-map (kbd "M-,")
-;;       (function rtags-find-references-at-point))
-;;     (setq rtags-completions-enabled t)
-;;     (setq rtags-autostart-diagnostics t)
-;;     (rtags-diagnostics)
-;;     (push 'company-rtags company-backends)
-;;     (global-company-mode)))
-
-;; (use-package flycheck-rtags
-;;   :ensure t
-;;   :after flycheck
 ;;   :init
-;;   ;; Optional explicitly select the RTags Flycheck checker for c or
-;;   ;; c++ major mode.  Turn off Flycheck highlighting, use the RTags
-;;   ;; one.  Turn off automatic Flycheck syntax checking rtags does this
-;;   ;; manually.
-;;   (defun my-flycheck-rtags-setup ()
-;;     "Configure flycheck-rtags for better experience."
-;;     (flycheck-select-checker 'rtags)
-;;     (setq-local flycheck-highlighting-mode nil)
-;;     (setq-local flycheck-check-syntax-automatically nil)
-;;     (rtags-set-periodic-reparse-timeout 2.0))
-;;   (add-hook 'c-mode-hook #'my-flycheck-rtags-setup)
-;;   (add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
-;;   (add-hook 'objc-mode-hook #'my-flycheck-rtags-setup))
+;;   (add-to-list 'company-backends
+;;                '(company-irony-c-headers company-irony)))
 
 ;; (use-package helm-rtags
 ;;   :ensure t
 ;;   :init
 ;;   (setq rtags-display-result-backend 'helm))
-
 
 (use-package qt-c-style
   :init
