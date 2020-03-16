@@ -15,7 +15,8 @@
   :config
   (semantic-mode 1)
   :bind
-  ("C-°" . helm-semantic-or-imenu))
+  ("C-°" . helm-semantic-or-imenu)
+  ("M-x" . helm-M-x))
 
 (use-package helm-ag
   :ensure t
@@ -28,7 +29,10 @@
   :config
   (progn
     (projectile-global-mode)
-    (setq projectile-enable-caching t)))
+    (setq projectile-enable-caching t)
+    (setq projectile-globally-ignored-directories
+          (append '("build"
+                    ".git")))))
 
 (use-package helm-projectile
   :ensure t
