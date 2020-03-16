@@ -46,54 +46,11 @@
 (global-set-key (kbd "C-<tab>") 'helm-buffers-list)
 (global-set-key (kbd "C-c $") 'toggle-truncate-lines)
 
-;; Minimal UI
-(setq inhibit-startup-screen t)
-(scroll-bar-mode -1)
-(tool-bar-mode   -1)
-(tooltip-mode    -1)
-(menu-bar-mode   -1)
-(setq cursor-type 'box)
-(column-number-mode 1)
-(setq-default frame-title-format '("%f"))
-
-;; display line numbers
-(add-hook 'after-make-frame-functions
-	  '(lambda (frame)
-	     (select-frame frame)
-	     (if (version<= "26.0.50" emacs-version)
-		 (global-display-line-numbers-mode)
-	       (global-linum-mode 1))))
-
-;; line wrapping
-;; (global-visual-line-mode 1)
-(set-default 'truncate-lines 1)
-
 ;; kill buffers
 (defun kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
-
-;; smooth scrolling
-(setq scroll-margin 5
-      mouse-wheel-scroll-amount '(1 ((shift) . 1))
-      mouse-wheel-follow-mouse 't
-      mouse-wheel-progressive-speed nil
-      fast-but-imprecise-scrolling nil
-      scroll-step 1
-      scroll-conservatively 10
-      scroll-preserve-screen-position 1)
-
-;; Horizontal scrolling mouse events should actually scroll left and
-;; right.
-(global-set-key (kbd "<mouse-6>") (lambda ()
-                                    (interactive)
-				    (if truncate-lines
-                                        (scroll-right 1))))
-(global-set-key (kbd "<mouse-7>") (lambda ()
-                                    (interactive)
-				    (if truncate-lines
-                                        (scroll-left 1))))
 
 ;; Package configs
 (require 'package)
@@ -122,21 +79,6 @@
   (package-install 'use-package))
 
 (require 'use-package)
-
-;; Theme
-(use-package spacemacs-common
-  :ensure spacemacs-theme)
-
-;; load theme depending on the day time
-(use-package circadian
-  :ensure t
-  :config
-  ;; coordinates of Hamburg, HH, Germany
-  (setq calendar-latitude 53.55)
-  (setq calendar-longitude 9.99)
-  (setq circadian-themes '((:sunrise . spacemacs-light)
-                           (:sunset  . spacemacs-dark)))
-  (circadian-setup))
 
 ;; Editor config
 (use-package editorconfig
@@ -518,6 +460,7 @@ Switch between English and German."
 
 ;; Load my settings
 (load "my-cc-mode")
+(load "my-custom-ui")
 (load "my-dart-mode")
 (load "my-fit-frame")
 (load "my-fonts")
