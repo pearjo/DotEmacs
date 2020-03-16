@@ -11,16 +11,13 @@
 (require 'use-package)
 
 (use-package dart-mode
-  :ensure t)
+  :ensure t
+  :init
+  (add-hook 'dart-mode-hook 'eglot-ensure))
 
-(use-package pos-tip
-  :ensure t)
-
-(use-package company-dart)
-
-(add-hook 'dart-mode-hook (lambda ()
- (set (make-local-variable 'company-backends)
-  '(company-dart (company-dabbrev company-yankpad)))))
+(use-package flutter
+  :ensure t
+  :bind ("C-M-x" . #'flutter-run-or-hot-reload))
 
 (provide 'my-dart-mode)
 ;;; my-dart-mode.el ends here
