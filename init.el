@@ -467,6 +467,7 @@ Switch between English and German."
 (load "my-func")
 (load "my-helm-mode")
 (load "my-markdown-mode")
+(load "my-misc-modes")
 (load "my-qml-mode")
 (load "my-vbnet-mode")
 (load "my-yaml-mode")
