@@ -462,6 +462,7 @@ Switch between English and German."
 (load "my-cc-mode")
 (load "my-custom-ui")
 (load "my-dart-mode")
+(load "my-eglot-mode")
 (load "my-fit-frame")
 (load "my-fonts")
 (load "my-func")
