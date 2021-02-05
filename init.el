@@ -88,9 +88,7 @@
 
 ;; icon set
 (use-package all-the-icons
-  :ensure t
-  :config
-  (require 'font-lock+))
+  :ensure t)
 
 ;; Use the undo-tree
 (use-package undo-tree
@@ -203,8 +201,7 @@
 
 (add-hook 'dired-mode-hook
           (lambda ()
-            (local-set-key (kbd "U") 'dired-up-directory)
-            (set-variable 'font-lock-maximum-decoration nil)))
+            (local-set-key (kbd "U") 'dired-up-directory)))
 
 (use-package all-the-icons-dired
   :ensure t
