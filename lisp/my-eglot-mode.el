@@ -13,7 +13,10 @@
 (require 'use-package)
 
 (use-package eglot
-  :ensure t)
+  :ensure t
+  :hook
+  (python-mode . eglot-ensure)
+  (dart-mode . eglot-ensure))
 
 (provide 'my-eglot-mode)
 ;;; my-eglot-mode.el ends here

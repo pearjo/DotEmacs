@@ -13,26 +13,27 @@
 ;;  excists.
 
 ;;; Code:
+(require 'eglot)
 (require 'use-package)
 
-(use-package lsp-mode :ensure t)
-(use-package lsp-dart
-  :ensure t
-  :hook (dart-mode . lsp)
-  :custom
-  (lsp-dart-sdk-dir "/home/joe/flutter/bin/cache/dart-sdk"))
-
-;; Optional Flutter packages
-(use-package hover :ensure t) ;; run app from desktop without emulator
+(add-to-list 'eglot-server-programs
+             (list 'dart-mode
+                   (executable-find "dart")
+                   (expand-file-name
+                    "snapshots/analysis_server.dart.snapshot"
+                    (file-name-directory
+                     (file-truename
+                      (executable-find "dart"))))
+                   "--lsp"))
 
 (use-package dart-mode
-  :ensure t)
-
-(use-package flutter
   :ensure t
-  :bind ("C-M-x" . #'flutter-run-or-hot-reload)
-  :custom
-  (flutter-sdk-path "/home/joe/flutter"))
+  :init
+  (with-eval-after-load 'projectile
+    (add-to-list 'projectile-project-root-files-bottom-up
+                 "pubspec.yaml")
+    (add-to-list 'projectile-project-root-files-bottom-up
+                 "BUILD")))
 
 (provide 'my-dart-mode)
 ;;; my-dart-mode.el ends here
