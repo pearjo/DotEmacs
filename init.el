@@ -210,17 +210,8 @@
    ((string-equal system-type "gnu/linux") ; GNU/Linux
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))))
 
-;; Column length waring
-(require 'whitespace)
-(setq whitespace-style '(face empty lines-tail trailing))
-(setq whitespace-line-column nil)
-
-(add-hook 'after-change-major-mode-hook
-          '(lambda ()
-             (interactive)
-             (whitespace-mode 0)
-             (setq whitespace-line-column fill-column)
-             (whitespace-mode 1)))
+;; Column length warning
+(global-display-fill-column-indicator-mode 1)
 
 (add-to-list 'default-frame-alist
 	     '(height . 50))

@@ -12,6 +12,7 @@
 ;; fit frame to buffer
 (require 'autofit-frame)
 (setq-default fit-frame-min-height 50)
+(setq-default fit-frame-fill-column-margin 20)
 
 (defun center-frame-hook (frame)
   "Center the current FRAME on the monitor."
