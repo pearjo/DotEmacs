@@ -434,6 +434,7 @@ Switch between English and German."
 (load "my-fonts")
 (load "my-func")
 (load "my-helm-mode")
+;; (load "my-js-mode")
 (load "my-markdown-mode")
 (load "my-misc-modes")
 (load "my-python-mode")
