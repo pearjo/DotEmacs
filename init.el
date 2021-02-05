@@ -361,27 +361,6 @@ Switch between English and German."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;; Python
-;;
-;; elpy
-(use-package elpy
-  :ensure t
-  :commands elpy-enable
-  :init (with-eval-after-load 'python (elpy-enable)))
-
-;; PEP8 Compliance
-(use-package py-autopep8
-  :ensure t
-  :config
-  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
-
-;; check comments in Python code
-(add-hook 'python-mode-hook
-	  (lambda ()
-	    (flyspell-prog-mode)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
 ;;; Ruby
 ;;
 ;; robe
@@ -457,6 +436,7 @@ Switch between English and German."
 (load "my-helm-mode")
 (load "my-markdown-mode")
 (load "my-misc-modes")
+(load "my-python-mode")
 (load "my-qml-mode")
 (load "my-vbnet-mode")
 (load "my-yaml-mode")
