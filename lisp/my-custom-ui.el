@@ -62,6 +62,9 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
+(use-package solarized-theme
+  :ensure t)
+
 ;; load theme depending on the day time
 (use-package circadian
   :ensure t
@@ -69,8 +72,8 @@
   ;; coordinates of Hamburg, HH, Germany
   (setq calendar-latitude 53.55)
   (setq calendar-longitude 9.99)
-  (setq circadian-themes '((:sunrise . doom-one-light)
-                           (:sunset  . doom-one)))
+  (setq circadian-themes '((:sunrise . solarized-light)
+                           (:sunset  . solarized-dark)))
   (circadian-setup))
 
 (add-hook 'after-make-frame-functions
