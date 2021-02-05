@@ -15,7 +15,7 @@ fromphone=true,fromemail=true,11pt]{scrlttr2}
 
 \setkomafont{backaddress}{\normalfont}
 \setkomavar{fromname}{Joe Nicholas \textsc{Pearson}}
-\setkomavar{fromaddress}{Weißenburger Straße 8\\\\22049 Hamburg}
+\setkomavar{fromaddress}{Großheidestraße 27\\\\22303 Hamburg}
 \setkomavar{fromphone}{+49~(0)~1578~7269660}
 \setkomavar{fromemail}{Joe.Pearson@mail.de}
 \setkomavar{signature}{Joe Nicholas \textsc{Pearson}}
