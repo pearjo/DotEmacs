@@ -1906,7 +1906,7 @@
 ;;
 ;;; Code:
 
-(eval-when-compile (require 'cl)) ;; case (plus, for Emacs 20: dolist, pop, push)
+(eval-when-compile (require 'cl-lib)) ;; case (plus, for Emacs 20: dolist, pop, push)
 (eval-when-compile (require 'easymenu)) ;; easy-menu-create-menu
 
 (require 'dired) ;; dired-revert

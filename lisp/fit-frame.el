@@ -293,13 +293,15 @@
 ;;
 ;;; Code:
 
-(eval-when-compile (when (< emacs-major-version 21) (require 'cl))) ;; dolist
+(eval-when-compile
+  (when (< emacs-major-version 21)
+    (require 'cl-lib))) ;; dolist
 
 ;; Quiet the byte compiler.
 (defvar image-minor-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
- 
+
 ;;; User options ---------------------------------------------------
 
 ;;;###autoload
@@ -423,7 +425,7 @@ Each item in the alist is of form (MODE . LINES).
   :type '(repeat (cons :format "%v" (symbol :tag "Major Mode")
                        (integer :tag "Header Lines to Ignore")))
   :group 'fit-frame)
- 
+
 ;;; Commands ---------------------------------------------------
 
 ;;;###autoload
@@ -637,7 +639,7 @@ This function assumes that FRAME has only one window."
       (if (fboundp 'thumfr-really-iconify-frame)
           'thumfr-really-iconify-frame
         'iconify-frame)))
- 
+
 ;;; Non-Interactive Functions -------------------------------------------
 
 (defun fit-frame-max-width (&optional frame)
