@@ -44,7 +44,12 @@
 (global-set-key (kbd "C-<next>") 'next-buffer)
 (global-set-key (kbd "C-<prior>") 'previous-buffer)
 (global-set-key (kbd "C-<tab>") 'helm-buffers-list)
-(global-set-key (kbd "C-c $") 'toggle-truncate-lines)
+
+;; Fix key issues on a mac
+(if (string-equal "darwin" (symbol-name system-type))
+    (progn
+      (setq mac-option-key-is-meta t)
+      (setq mac-right-option-modifier nil)))
 
 ;; kill buffers
 (defun kill-other-buffers ()
@@ -190,21 +195,25 @@
      	     (dired up)
      	     (dired-goto-file dir))))))
 
-;; Change dired listing only for linux
+;; Make OS specific changes
 (cond
  ((string-equal system-type "gnu/linux") ; GNU/Linux
-  (setq dired-listing-switches "-lGh1v --group-directories-first")))
+  (setq dired-listing-switches "-lh1v --group-directories-first"))
+ ((string-equal system-type "darwin") ; macOS
+  (setq dired-use-ls-dired nil)))
+
 (global-auto-revert-mode 1)
 
 (add-hook 'dired-mode-hook
           (lambda ()
+            (dired-hide-details-mode)
             (local-set-key (kbd "U") 'dired-up-directory)))
 
 (use-package all-the-icons-dired
   :ensure t
   :config
   (cond
-   ((string-equal system-type "gnu/linux") ; GNU/Linux
+   ((string-equal system-type (or "darwin" "gnu/linux")) ; GNU/Linux
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))))
 
 ;; Column length warning
