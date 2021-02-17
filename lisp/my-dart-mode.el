@@ -13,27 +13,27 @@
 ;;  excists.
 
 ;;; Code:
-(require 'eglot)
 (require 'use-package)
 
-(add-to-list 'eglot-server-programs
-             (list 'dart-mode
-                   (executable-find "dart")
-                   (expand-file-name
-                    "snapshots/analysis_server.dart.snapshot"
-                    (file-name-directory
-                     (file-truename
-                      (executable-find "dart"))))
-                   "--lsp"))
 
 (use-package dart-mode
   :ensure t
+  :after eglot
   :init
   (with-eval-after-load 'projectile
     (add-to-list 'projectile-project-root-files-bottom-up
                  "pubspec.yaml")
     (add-to-list 'projectile-project-root-files-bottom-up
-                 "BUILD")))
+                 "BUILD"))
+  (add-to-list 'eglot-server-programs
+               (list 'dart-mode
+                     (executable-find "dart")
+                     (expand-file-name
+                      "cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot"
+                      (file-name-directory
+                       (file-truename
+                        (executable-find "dart"))))
+                     "--lsp")))
 
 (provide 'my-dart-mode)
 ;;; my-dart-mode.el ends here
