@@ -161,9 +161,6 @@
   (kill-emacs))
 
 ;; Dired
-;; load dired+
-(use-package dired+)
-
 ;; use only one buffer for dired
 (defadvice dired-advertised-find-file
     (around dired-subst-directory activate)
