@@ -27,6 +27,10 @@
 		 (global-display-line-numbers-mode)
 	       (global-linum-mode 1))))
 
+(if (version<= "26.0.50" emacs-version)
+		 (global-display-line-numbers-mode)
+	       (global-linum-mode 1))
+
 ;; line wrapping
 (set-default 'truncate-lines 1)
 
