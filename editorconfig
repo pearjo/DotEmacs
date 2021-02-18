@@ -4,10 +4,25 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = space
 
+[*.h,*.hpp]
+indent_size = 4
+
+[*.pro]
+indent_size = 4
+max_line_length = 100
+
 [*.py]
 charset = utf-8
 indent_size = 4
 max_line_length  = 80
+
+[*.qml]
+indent_size = 4
+max_line_length = 100
+
+[*.rb]
+max_line_length = 80
+indent_size = 2
 
 [*.rst]
 max_line_length = 80
@@ -18,15 +33,4 @@ end_of_line = crlf
 indent_size = 4
 
 [*.xml]
-indent_size = 4
-
-[*.pro]
-indent_size = 4
-max_line_length = 100
-
-[*.qml]
-indent_size = 4
-max_line_length = 80
-
-[*.h,*.hpp]
 indent_size = 4
