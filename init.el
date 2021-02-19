@@ -281,6 +281,10 @@
 (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
   (add-hook hook (lambda () (flyspell-mode -1))))
 
+;; check code comments
+(dolist (hook '(prog-mode-hook))
+  (add-hook hook (lambda () (flyspell-prog-mode))))
+
 (defun fd-switch-dictionary()
   "Change dictionaries.
 Switch between English and German."
