@@ -55,19 +55,13 @@
 				    (if truncate-lines
                                         (scroll-left 1))))
 
-(use-package doom-themes
-  :ensure t
-  :defer
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+(use-package dracula-theme
+  :ensure t)
 
 (use-package solarized-theme
-  :ensure t)
+  :ensure t
+  :config
+  (setq solarized-use-variable-pitch nil))
 
 ;; load theme depending on the day time
 (use-package circadian
@@ -77,7 +71,7 @@
   (setq calendar-latitude 53.55)
   (setq calendar-longitude 9.99)
   (setq circadian-themes '((:sunrise . solarized-light)
-                           (:sunset  . solarized-dark)))
+                           (:sunset  . dracula)))
   (circadian-setup))
 
 (add-hook 'after-make-frame-functions
