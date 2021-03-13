@@ -50,7 +50,13 @@
     (progn
       (setq mac-option-key-is-meta t)
       (setq mac-right-option-modifier nil)
-      (global-set-key (kbd "M-l") "@")))
+      (global-set-key (kbd "M-l") "@")
+      ;; For keyboards with no right options key
+      (global-set-key (kbd "M-5") "[")
+      (global-set-key (kbd "M-6") "]")
+      (global-set-key (kbd "M-7") "|")
+      (global-set-key (kbd "M-8") "{")
+      (global-set-key (kbd "M-9") "}")))
 
 ;; kill buffers
 (defun kill-other-buffers ()
