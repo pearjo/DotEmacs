@@ -49,7 +49,8 @@
 (if (string-equal "darwin" (symbol-name system-type))
     (progn
       (setq mac-option-key-is-meta t)
-      (setq mac-right-option-modifier nil)))
+      (setq mac-right-option-modifier nil)
+      (global-set-key (kbd "M-l") "@")))
 
 ;; kill buffers
 (defun kill-other-buffers ()
