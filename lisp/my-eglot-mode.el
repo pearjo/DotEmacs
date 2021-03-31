@@ -15,6 +15,7 @@
 (use-package eglot
   :ensure t
   :hook
+  (cc-mode . eglot-ensure)
   (python-mode . eglot-ensure)
   (dart-mode . eglot-ensure))
 
