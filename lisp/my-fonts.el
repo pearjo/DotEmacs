@@ -20,9 +20,9 @@
   (add-to-list 'default-frame-alist '(font . "Monaco-11")))
  ((string-equal system-type "gnu/linux") ; linux
   (add-to-list 'initial-frame-alist
-               '(font . "Ubuntu Mono-14"))
+               '(font . "JetBrains Mono-10"))
   (add-to-list 'default-frame-alist
-               '(font . "Ubuntu Mono-14"))))
+               '(font . "JetBrains Mono-10"))))
 
 (provide 'my-fonts)
 ;;; my-fonts.el ends here
