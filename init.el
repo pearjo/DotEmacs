@@ -451,6 +451,7 @@ Switch between English and German."
 (load "my-fonts")
 (load "my-func")
 (load "my-helm-mode")
+(load "my-helper")
 ;; (load "my-js-mode")
 (load "my-markdown-mode")
 (load "my-misc-modes")
