@@ -269,13 +269,11 @@
 ;;; Spell checking
 ;;
 ;; dictionary setup
-(cond
- ((string-equal system-type "windows-nt") ; Microsoft Windows
-  (message "Using hunspell.exe as spell checker")
-  (setq ispell-program-name "hunspell.exe"))
- ((string-equal system-type "gnu/linux") ; linux
+(if (string-equal system-type "windows-nt") ; Microsoft Windows
+    ((message "Using hunspell.exe as spell checker")
+     (setq ispell-program-name "hunspell.exe"))
   (message "Using aspell as spell checker")
-  (setq ispell-program-name "aspell")))
+  (setq ispell-program-name "aspell"))
 (setq ispell-really-aspell t)
 (setq ispell-extra-args '("--sug-mode=fast"))
 (setq ispell-list-command "--list")
