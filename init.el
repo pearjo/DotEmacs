@@ -459,6 +459,9 @@ Switch between English and German."
 (load "my-yaml-mode")
 ;; (load "my-mmm-mode")
 
+(if (string-equal system-type "darwin") ; macOS specifics
+    (load "my-mac-stuff"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Maintain emacs
