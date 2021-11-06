@@ -8,10 +8,14 @@ cp -f init.el ~/.emacs.d/init.el
 cp -rf snippets ~/.emacs.d/
 
 # copy fonts
-if [ ! -d "~/.local/share/fonts" ];then
-    mkdir -p ~/.local/share/fonts
+if [[ $(uname -s) == Darwin ]];then
+    cp -rf fonts/* ~/Library/Fonts
+else
+    if [ ! -d "~/.local/share/fonts" ];then
+        mkdir -p ~/.local/share/fonts
+    fi
+    cp -rf fonts/* ~/.local/share/fonts/
 fi
-cp -rf fonts/* ~/.local/share/fonts/
 
 # copy lisp
 cp -rf lisp ~/.emacs.d/
