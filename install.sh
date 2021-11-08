@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # copy init
 if [ ! -d "~/.emacs.d" ];then
     mkdir -p ~/.emacs.d
