@@ -459,13 +459,14 @@ Switch between English and German."
 (load "my-func")
 (load "my-helm-mode")
 (load "my-helper")
-;; (load "my-js-mode")
 (load "my-markdown-mode")
 (load "my-misc-modes")
 (load "my-python-mode")
 (load "my-qml-mode")
+(load "my-rust-mode")
 (load "my-vbnet-mode")
 (load "my-yaml-mode")
+;; (load "my-js-mode")
 ;; (load "my-mmm-mode")
 
 (if (string-equal system-type "darwin") ; macOS specifics

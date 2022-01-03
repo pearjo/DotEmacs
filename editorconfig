@@ -34,6 +34,9 @@ max_line_length = 100
 [*.rb]
 indent_size = 2
 
+[*.rs]
+indent_size = 4
+
 [*.rst]
 indent_size = 3
 
