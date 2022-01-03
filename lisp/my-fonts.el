@@ -12,17 +12,12 @@
 
 ;;; Code:
 (cond
- ((string-equal system-type "windows-nt") ; Microsoft Windows
-  (add-to-list 'initial-frame-alist '(font . "Consolas-11"))
-  (add-to-list 'default-frame-alist '(font . "Consolas-11")))
- ((string-equal system-type "darwin") ; macOS
-  (add-to-list 'initial-frame-alist '(font . "Monaco-11"))
-  (add-to-list 'default-frame-alist '(font . "Monaco-11")))
- ((string-equal system-type "gnu/linux") ; linux
-  (add-to-list 'initial-frame-alist
-               '(font . "JetBrains Mono-10"))
-  (add-to-list 'default-frame-alist
-               '(font . "JetBrains Mono-10"))))
+ ((string-equal system-type "darwin")
+  (add-to-list 'initial-frame-alist '(font . "Monaco"))
+  (add-to-list 'default-frame-alist '(font . "Monaco")))
+ (t
+  (add-to-list 'initial-frame-alist '(font . "Fira Code"))
+  (add-to-list 'default-frame-alist '(font . "Fira Code"))))
 
 (provide 'my-fonts)
 ;;; my-fonts.el ends here
