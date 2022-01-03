@@ -1,11 +1,23 @@
+# top-most EditorConfig file
+root = true
+
 [*]
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = space
+max_line_length  = 80
 
 [*.h,*.hpp]
 indent_size = 4
+
+# Tab indentation (no size specified)
+[{Makefile,*.mk}]
+indent_style = tab
+
+# Don't set a line length for text files
+[*.{md,txt}]
+max_line_length = off
 
 [*.pro]
 indent_size = 4
@@ -14,18 +26,15 @@ max_line_length = 100
 [*.py]
 charset = utf-8
 indent_size = 4
-max_line_length  = 80
 
 [*.qml]
 indent_size = 4
 max_line_length = 100
 
 [*.rb]
-max_line_length = 80
 indent_size = 2
 
 [*.rst]
-max_line_length = 80
 indent_size = 3
 
 [*.vb]
