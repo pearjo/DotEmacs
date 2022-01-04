@@ -20,7 +20,7 @@ else
 fi
 
 # copy lisp
-cp -rf lisp ~/.emacs.d/
+cp -rf elisp ~/.emacs.d/
 
 if [[ $(uname -s) == Linux ]]; then
   # copy desktop file

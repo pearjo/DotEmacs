@@ -1,5 +1,6 @@
 ;;; my-fonts.el --- My font settings
 
+;; TODO: Update all Copyright notes
 ;; Copyright (C) 2019  Joe Pearson
 
 ;; Author: Joe Pearson
@@ -9,6 +10,8 @@
 
 ;;  For different operation systems, different fonts are loaded and
 ;;  installed.
+;;  TODO: Move font setting from other files to here and download font in
+;;  installer only!
 
 ;;; Code:
 (cond

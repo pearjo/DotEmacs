@@ -1,62 +1,35 @@
-;;; init.el --- emacs configuration file
-;;
-;; Copyright (C) 2019 Joe Pearson
-;;
-;; Author: Joe Pearson <pearjo@protonmail.com>
-;; Keywords: emacs, init
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 3, or (at your option)
-;; any later version.
+;;; init.el --- My Emacs Initialization File  -*- lexical-binding: t; -*-
 
-;; This program is distributed in the hope that it will be useful,
+;; Copyright (C) 2019-2022  Joe Pearson
+
+;; Author: Joe Pearson <pearjo@protonmail.com>
+;; Keywords: convenience
+
+;; Package-Requires: ((use-package))
+
+;; This file is not part of GNU Emacs.
+
+;; This file is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This file is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
-
+;;
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
-;; Floor, Boston, MA 02110-1301, USA.
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Commentary:
-;;
-;;    Emacs config file.
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Code:
+;; along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;: Editor configuration
-;;
-;; dead keys
-(require 'iso-transl)
+;;; Code:
+(require 'iso-transl) ;; dead keys
 
 ;; Custom key bindings
 (global-set-key (kbd "C-#") 'comment-line)
 (global-set-key (kbd "C-<next>") 'next-buffer)
 (global-set-key (kbd "C-<prior>") 'previous-buffer)
 (global-set-key (kbd "C-<tab>") 'helm-buffers-list)
-
-;; Fix key issues on a mac
-(if (string-equal "darwin" (symbol-name system-type))
-    (progn
-      (setq mac-option-key-is-meta t)
-      (setq mac-right-option-modifier nil)
-      (global-set-key (kbd "M-l") "@")
-      ;; For keyboards with no right options key
-      (global-set-key (kbd "M-5") "[")
-      (global-set-key (kbd "M-6") "]")
-      (global-set-key (kbd "M-7") "|")
-      (global-set-key (kbd "M-8") "{")
-      (global-set-key (kbd "M-9") "}")))
 
 ;; kill buffers
 (defun kill-other-buffers ()
@@ -73,8 +46,8 @@
 (package-initialize)
 
 ;; Load path
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(let ((default-directory "~/.emacs.d/lisp/"))
+(add-to-list 'load-path "~/.emacs.d/elisp/")
+(let ((default-directory "~/.emacs.d/elisp/"))
   (normal-top-level-add-subdirs-to-load-path))
 
 ;; Backup files
@@ -390,15 +363,6 @@ Switch between English and German."
 ;; robe
 ;; NOTE: To install robe, pry and pry-doc needs to be installed
 ;;       using gem.
-(use-package ruby-mode
-  :ensure t
-  :mode "\\.rb\\'"
-  :mode "Rakefile\\'"
-  :mode "Gemfile\\'"
-  :mode "Berksfile\\'"
-  :mode "Vagrantfile\\'"
-  :interpreter "ruby")
-
 (use-package robe
   :ensure t
   :bind ("C-M-." . robe-jump)
@@ -416,61 +380,19 @@ Switch between English and German."
   :init
   (add-hook 'ruby-mode-hook #'rubocop-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; TypeScript
-;;
-(use-package typescript-mode
-  :ensure t)
-
-(use-package tide
-  :ensure t
-  :after (typescript-mode company flycheck)
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Version control
-;;
-;; use magit
-(use-package magit
-  :ensure t)
-
-(global-set-key (kbd "C-x g") 'magit-status)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Org mode
-;;
-(setq org-agenda-files (quote
-                        ("~/org/tasks.org"
-                         "~/org/notes/")))
-
+(load-library "modes")
+(if (string-equal system-type "darwin")
+    (load "darwin-config"))
 
 ;; Load my settings
 (load "my-cc-mode")
 (load "my-custom-ui")
-(load "my-dart-mode")
-(load "my-eglot-mode")
 (load "my-fit-frame")
 (load "my-fonts")
 (load "my-func")
 (load "my-helm-mode")
 (load "my-helper")
-(load "my-markdown-mode")
-(load "my-misc-modes")
-(load "my-python-mode")
-(load "my-qml-mode")
-(load "my-rust-mode")
 (load "my-vbnet-mode")
-(load "my-yaml-mode")
-;; (load "my-js-mode")
-;; (load "my-mmm-mode")
-
-(if (string-equal system-type "darwin") ; macOS specifics
-    (load "my-mac-stuff"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
