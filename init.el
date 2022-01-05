@@ -66,21 +66,6 @@
 
 (require 'use-package)
 
-;; Editor config
-(use-package editorconfig
-  :ensure t
-  :config
-  (editorconfig-mode 1)
-  (add-hook 'editorconfig-after-apply-functions
-            '(lambda (props)
-               (let ((max-line-length (gethash 'max_line_length props)))
-                 (cond ((equal max-line-length "off")
-                        (visual-line-mode 1)
-                        (display-fill-column-indicator-mode -1))
-                   (t
-                     (visual-line-mode -1)
-                     (display-fill-column-indicator-mode 1)))))))
-
 ;; icon set
 (use-package all-the-icons
   :ensure t)

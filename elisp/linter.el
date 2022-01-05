@@ -50,6 +50,20 @@
 (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
   (add-hook hook (lambda () (flyspell-mode -1))))
 
+(use-package editorconfig
+  :ensure t
+  :init
+  (editorconfig-mode 1)
+  (add-hook 'editorconfig-after-apply-functions
+            '(lambda (props)
+               (let ((max-line-length (gethash 'max_line_length props)))
+                 (cond ((equal max-line-length "off")
+                        (visual-line-mode 1)
+                        (display-fill-column-indicator-mode -1))
+                       (t
+                        (visual-line-mode -1)
+                        (display-fill-column-indicator-mode 1)))))))
+
 (use-package flycheck
   :ensure t
   :init
