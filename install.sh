@@ -37,4 +37,4 @@ if [[ $(uname -s) == Linux ]]; then
 fi
 
 # copy editorconfig file
-cp -f editorconfig ~/.editorconfig
+cp -f .editorconfig ~/.editorconfig

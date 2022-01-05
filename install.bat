@@ -22,4 +22,4 @@ rem copy fonts
 copy fonts\cascadia-code\*.ttf %windir%\Fonts /Y
 
 rem copy editorconfig
-copy editorconfig C:\.editorconfig
+copy .editorconfig C:\.editorconfig
