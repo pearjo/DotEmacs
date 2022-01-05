@@ -305,8 +305,8 @@ Switch between English and German."
 (use-package robe
   :ensure t
   :bind ("C-M-." . robe-jump)
+  :hook ruby-mode
   :init
-  (add-hook 'ruby-mode-hook 'robe-mode)
   (push 'company-robe company-backends))
 
 (load-library "linter")

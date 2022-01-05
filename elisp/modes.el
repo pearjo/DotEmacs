@@ -1,6 +1,6 @@
 ;;; modes.el --- Load various modes  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022  Joe Pearson
+;; Copyright (C) 2022 Joe Pearson
 
 ;; Author: Joe Pearson <pearjo@protonmail.com>
 ;; Keywords: c, convenience, languages
@@ -68,21 +68,19 @@
                         (executable-find "dart"))))
                      "--lsp")))
 
-;; Language Server Protocol implementation for Emacs.
+;; language Server Protocol implementation for Emacs
 (use-package eglot
   :ensure t
-  :hook
-  (cc-mode . eglot-ensure)
-  (python-mode . eglot-ensure)
-  (dart-mode . eglot-ensure))
+  :hook ((cc-mode . eglot-ensure)
+         (python-mode . eglot-ensure)
+         (dart-mode . eglot-ensure)))
 
 (use-package helm
   :ensure t
+  :bind (("C-°" . helm-semantic-or-imenu)
+         ("M-x" . helm-M-x))
   :config
-  (semantic-mode 1)
-  :bind
-  ("C-°" . helm-semantic-or-imenu)
-  ("M-x" . helm-M-x))
+  (semantic-mode 1))
 
 (use-package helm-ag
   :ensure t
@@ -113,20 +111,18 @@
 (use-package projectile
   :ensure t
   :config
-  (progn
-    (projectile-global-mode)
-    (setq projectile-enable-caching t)
-    (setq projectile-globally-ignored-directories
-          (append '("build" ".git")))))
+  (projectile-global-mode)
+  (setq projectile-enable-caching t)
+  (setq projectile-globally-ignored-directories
+        (append '("build" ".git"))))
 
 ;; Use `flyspell-prog-mode' to check comments in Python code.  The
 ;; variable `pyvenv-workon' is set automatically via dir-locals.
 (use-package pyvenv
   :ensure t
+  :hook (python-mode . flyspell-prog-mode)
   :config
-  (pyvenv-tracking-mode 1)
-  :hook
-  (python-mode . flyspell-prog-mode))
+  (pyvenv-tracking-mode 1))
 
 (use-package qml-mode
   :ensure t)
@@ -157,11 +153,10 @@
   :mode "Vagrantfile\\'"
   :interpreter "ruby")
 
-;; Use `flyspell-prog-mode' to check comments in Rust code.
+;; use `flyspell-prog-mode' to check comments in Rust code
 (use-package rust-mode
   :ensure t
-  :hook
-  (rust-mode . flyspell-prog-mode))
+  :hook (rust-mode . flyspell-prog-mode))
 
 ;; display available keybindings in popup
 (use-package which-key
