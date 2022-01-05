@@ -271,7 +271,6 @@
 (load "my-fit-frame")
 (load "my-fonts")
 (load "my-helm-mode")
-(load "my-vbnet-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;

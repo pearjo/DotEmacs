@@ -166,6 +166,9 @@
   :ensure t
   :hook (rust-mode . flyspell-prog-mode))
 
+(use-package vbnet-mode
+  :mode "\\.\\(frm\\|bas\\|cls\\|vb\\)$")
+
 ;; display available keybindings in popup
 (use-package which-key
   :ensure t
