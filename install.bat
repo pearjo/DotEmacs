@@ -16,6 +16,7 @@ if not exist %appdata%\org (
 rem copy files
 copy init.el %emacs_path% /y
 xcopy snippets %emacs_path%\snippets /S /Y /E
+xcopy submodules %emacs_path%\submodules /S /Y /E
 xcopy elisp %emacs_path%\elisp /S /Y /E
 
 rem copy fonts

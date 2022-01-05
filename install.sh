@@ -9,6 +9,9 @@ cp -f init.el ~/.emacs.d/init.el
 # copy snippets
 cp -rf snippets ~/.emacs.d/
 
+# copy submodules
+cp -rf submodules ~/.emacs.d/
+
 # copy fonts
 if [[ $(uname -s) == Darwin ]]; then
     cp -rf fonts/* ~/Library/Fonts
