@@ -184,6 +184,7 @@
 (add-to-list 'default-frame-alist
 	     '(height . 50))
 
+(put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:;;;;;;;;;;;
