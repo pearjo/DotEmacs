@@ -59,6 +59,10 @@
   :ensure t
   :hook (ruby-mode . flymake-ruby-load))
 
+(use-package qt-c-style
+  :hook ((c-mode-common . qt-set-c-style)
+         (c-mode-common . qt-make-newline-indent)))
+
 (use-package rubocop
   :ensure t
   :hook ruby-mode)

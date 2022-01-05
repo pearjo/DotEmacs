@@ -321,7 +321,6 @@ Switch between English and German."
 (global-set-key (kbd "M-<down>") 'move-line-region-down)
 
 ;; Load my settings
-(load "my-cc-mode")
 (load "my-custom-ui")
 (load "my-fit-frame")
 (load "my-fonts")

@@ -129,10 +129,11 @@
   (python-mode . flyspell-prog-mode))
 
 (use-package qml-mode
+  :ensure t)
+
+(use-package qt-pro-mode
   :ensure t
-  :init
-  (autoload 'qml-mode "qml-mode" "Editing Qt Declarative." t)
-  (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
+  :mode ("\\.pro\\'" "\\.pri\\'"))
 
 (use-package reftex
   :ensure t
