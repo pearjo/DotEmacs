@@ -381,17 +381,21 @@ Switch between English and German."
   (add-hook 'ruby-mode-hook #'rubocop-mode))
 
 (load-library "modes")
+(load-library "utils")
 (if (string-equal system-type "darwin")
     (load "darwin-config"))
+
+(require 'utils)
+(global-set-key "\C-c\C-k" 'copy-line)
+(global-set-key (kbd "M-<up>") 'move-line-region-up)
+(global-set-key (kbd "M-<down>") 'move-line-region-down)
 
 ;; Load my settings
 (load "my-cc-mode")
 (load "my-custom-ui")
 (load "my-fit-frame")
 (load "my-fonts")
-(load "my-func")
 (load "my-helm-mode")
-(load "my-helper")
 (load "my-vbnet-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
