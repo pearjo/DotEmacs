@@ -1,6 +1,6 @@
 ;;; init.el --- My Emacs Initialization File  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2019-2022  Joe Pearson
+;; Copyright (C) 2019-2022 Joe Pearson
 
 ;; Author: Joe Pearson <pearjo@protonmail.com>
 ;; Keywords: convenience
@@ -251,26 +251,6 @@
 ;;; Spell checking
 ;;
 ;; dictionary setup
-(if (string-equal system-type "windows-nt") ; Microsoft Windows
-    ((message "Using hunspell.exe as spell checker")
-     (setq ispell-program-name "hunspell.exe"))
-  (message "Using aspell as spell checker")
-  (setq ispell-program-name "aspell"))
-(setq ispell-really-aspell t)
-(setq ispell-extra-args '("--sug-mode=fast"))
-(setq ispell-list-command "--list")
-(setq ispell-dictionary "english")
-(setq flyspell-issue-message-flag nil)
-
-;; flyspell in other modes
-(dolist (hook '(text-mode-hook))
-  (add-hook hook (lambda () (flyspell-mode 1))))
-(dolist (hook '(change-log-mode-hook log-edit-mode-hook))
-  (add-hook hook (lambda () (flyspell-mode -1))))
-
-;; check code comments
-(dolist (hook '(prog-mode-hook))
-  (add-hook hook (lambda () (flyspell-prog-mode))))
 
 (defun fd-switch-dictionary()
   "Change dictionaries.
@@ -283,15 +263,6 @@ Switch between English and German."
     ))
 
 (global-set-key (kbd "C-d")   'fd-switch-dictionary)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Code checker
-;;
-;; flycheckr
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -338,16 +309,7 @@ Switch between English and German."
   (add-hook 'ruby-mode-hook 'robe-mode)
   (push 'company-robe company-backends))
 
-(use-package flymake-ruby
-  :ensure t
-  :config
-  (add-hook 'ruby-mode-hook 'flymake-ruby-load))
-
-(use-package rubocop
-  :ensure t
-  :init
-  (add-hook 'ruby-mode-hook #'rubocop-mode))
-
+(load-library "linter")
 (load-library "modes")
 (load-library "utils")
 (if (string-equal system-type "darwin")
