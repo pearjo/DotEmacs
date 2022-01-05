@@ -23,13 +23,6 @@
 ;; along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Code:
-(require 'iso-transl) ;; dead keys
-
-;; Custom key bindings
-(global-set-key (kbd "C-#") 'comment-line)
-(global-set-key (kbd "C-<next>") 'next-buffer)
-(global-set-key (kbd "C-<prior>") 'previous-buffer)
-(global-set-key (kbd "C-<tab>") 'helm-buffers-list)
 
 ;; Package configs
 (require 'package)
@@ -216,8 +209,6 @@
             (throw 'done t)))
         mode-line-modes))
 
-(global-set-key (kbd "C-c m") 'minor-mode-blackout-mode)
-
 (use-package my-mode-line)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -258,13 +249,11 @@
 (load-library "linter")
 (load-library "modes")
 (load-library "utils")
+(load-library "keys")
 (if (string-equal system-type "darwin")
     (load "darwin-config"))
 
 (require 'utils)
-(global-set-key "\C-c\C-k" 'copy-line)
-(global-set-key (kbd "M-<up>") 'move-line-region-up)
-(global-set-key (kbd "M-<down>") 'move-line-region-down)
 
 ;; Load my settings
 (load "my-custom-ui")
