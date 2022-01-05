@@ -43,7 +43,15 @@
   (setq-default TeX-parse-self t)
   (setq-default TeX-source-correlate-mode t)
   (setq-default TeX-master nil)
-  (setq-default bibtex-align-at-equal-sign t))
+  (setq-default bibtex-align-at-equal-sign t)
+  (eval-after-load "tex"
+    '(add-to-list 'TeX-command-list
+                  '("Nomenclature" "makeindex %s.nlo -s nomencl.ist -o %s.nls"
+                    (lambda (name command file)
+                      (TeX-run-compile name command file)
+                      (TeX-process-set-variable file 'TeX-command-next
+                                                TeX-command-default))
+                    nil t :help "Create nomenclature file"))))
 
 
 ;; There is a bug in the `lsp-dart-flutter-daemon--running-p' function
