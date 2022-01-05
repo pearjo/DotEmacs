@@ -121,6 +121,12 @@
   (interactive "r\np")
   (if (use-region-p) (move-region-down start end n) (move-line-down)))
 
+(defun server-shutdown ()
+  "Save buffers, quit, and shutdown (kill) server."
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs))
+
 (defun sudo-save ()
   "Save file as sudo."
   (interactive)

@@ -31,12 +31,6 @@
 (global-set-key (kbd "C-<prior>") 'previous-buffer)
 (global-set-key (kbd "C-<tab>") 'helm-buffers-list)
 
-;; kill buffers
-(defun kill-other-buffers ()
-  "Kill all other buffers."
-  (interactive)
-  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
-
 ;; Package configs
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -133,13 +127,6 @@
 ;; move over camelCase words correctly
 (global-subword-mode +1)
 
-;; define function to shutdown emacs server instance
-(defun server-shutdown ()
-  "Save buffers, Quit, and Shutdown (kill) server."
-  (interactive)
-  (save-some-buffers)
-  (kill-emacs))
-
 ;; Dired
 ;; use only one buffer for dired
 (defadvice dired-advertised-find-file
@@ -231,24 +218,6 @@
 (global-set-key (kbd "C-c m") 'minor-mode-blackout-mode)
 
 (use-package my-mode-line)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Spell checking
-;;
-;; dictionary setup
-
-(defun fd-switch-dictionary()
-  "Change dictionaries.
-Switch between English and German."
-  (interactive)
-  (let* ((dic ispell-current-dictionary)
-	 (change (if (string= dic "deutsch8") "english" "deutsch8")))
-    (ispell-change-dictionary change)
-    (message "Dictionary switched from %s to %s" dic change)
-    ))
-
-(global-set-key (kbd "C-d")   'fd-switch-dictionary)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
