@@ -31,6 +31,21 @@
 ;;; Code:
 (require 'use-package)
 
+(use-package auctex
+  :defer t
+  :ensure t
+  :hook ((LaTeX-mode . visual-line-mode)
+         (LaTeX-mode . flyspell-mode)
+         (LaTeX-mode . LaTeX-math-mode)
+         (LaTeX-mode . turn-on-reftex))
+  :init
+  (setq-default TeX-auto-save nil)
+  (setq-default TeX-parse-self t)
+  (setq-default TeX-source-correlate-mode t)
+  (setq-default TeX-master nil)
+  (setq-default bibtex-align-at-equal-sign t))
+
+
 ;; There is a bug in the `lsp-dart-flutter-daemon--running-p' function
 ;; of the lsp-dart-daemon.  Use `get-buffer' to check if a buffer
 ;; already exists.
@@ -118,6 +133,19 @@
   :init
   (autoload 'qml-mode "qml-mode" "Editing Qt Declarative." t)
   (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
+
+(use-package reftex
+  :ensure t
+  :bind (("C-c t" . reftex-toc)
+         ("C-c c" . reftex-citation)
+         ("C-c l" . reftex-label)
+         ("C-c r" . reftex-reference)
+         ("C-c v" . reftex-view-crossref)
+         ("C-c g" . reftex-grep-document))
+  :init
+  (setq-default reftex-plug-into-AUCTeX t)
+  (setq-default reftex-save-parse-info nil)
+  (setq-default reftex-keep-temporary-buffers nil))
 
 (use-package ruby-mode
   :ensure t

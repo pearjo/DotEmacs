@@ -298,38 +298,6 @@ Switch between English and German."
 ;;; TeX/LaTeX
 ;;
 ;; AUCTeX
-(use-package auctex
-  :defer t
-  :ensure t
-  :config
-  ;; RefTeX
-  (use-package reftex
-    :ensure t)
-  ;; LaTeX hooks
-  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-  ;; (add-hook 'LaTeX-mode-hook 'reftex-initialize-temporary-buffers)
-  :init (progn
-	  (setq-default TeX-auto-save nil)
-	  (setq-default TeX-parse-self t)
-	  (setq-default TeX-source-correlate-mode t)
-	  (setq-default TeX-master nil)
-          ;; (setq-default preview-transparent-color fffff)
-	  ;; BibTeX settings
-	  (setq-default bibtex-align-at-equal-sign t)
-	  ;; RefTeX settings
-	  (setq-default reftex-plug-into-AUCTeX t)
-	  (setq-default reftex-save-parse-info nil)
-	  (setq-default reftex-keep-temporary-buffers nil))
-  :bind
-  ("C-c t" . reftex-toc)
-  ("C-c c" . reftex-citation)
-  ("C-c l" . reftex-label)
-  ("C-c r" . reftex-reference)
-  ("C-c v" . reftex-view-crossref)
-  ("C-c g" . reftex-grep-document))
 
 (use-package company-auctex
   :ensure t
