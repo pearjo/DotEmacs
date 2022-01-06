@@ -49,57 +49,6 @@
 (let ((default-directory "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
 
-(use-package undo-tree
-  :ensure t
-  :config
-  (global-undo-tree-mode 1))
-
-(use-package company
-  :ensure t
-  :custom
-  (global-company-mode t)
-  (company-idle-delay 0)
-  (company-minimum-prefix-length 1)
-  (company-dabbrev-downcase nil)
-  :config
-  (progn
-    ;; Enable company mode in every programming mode
-    (add-hook 'prog-mode-hook 'company-mode)
-    ;; Set my own default company backends
-    (setq-default
-     company-backends
-     '(company-files
-       company-keywords
-       company-dabbrev-code
-       company-dabbrev))))
-
-(use-package yasnippet
-  :ensure t
-  :config
-  (yas-global-mode 1)
-  (setq yas-indent-line 'auto)
-  (add-hook 'Snippet-mode 'require-final-newline nil))
-
-(defvar company-mode/enable-yas t
-  "Enable yasnippet for all backends.")
-
-(defun company-mode/backend-with-yas (backend)
-  "Fix things for BACKEND."
-  (if (or (not company-mode/enable-yas)
-	  (and (listp backend) (member 'company-yasnippet backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet))))
-
-(setq company-backends
-      (mapcar #'company-mode/backend-with-yas company-backends))
-
-;; autopair brackets and highlight them
-(require 'autopair)
-(autopair-global-mode)
-(show-paren-mode 1)
-(setq show-paren-delay 0)
-
 ;; use only one buffer for dired
 (defadvice dired-advertised-find-file
     (around dired-subst-directory activate)
@@ -147,29 +96,9 @@
    ((string-equal system-type (or "darwin" "gnu/linux"))
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))))
 
-(use-package company-auctex
-  :ensure t
-  :defer t
-  :hook ((LaTeX-mode . company-auctex-init)))
-
-(use-package company-reftex
-  :ensure t
-  :init (progn
-          (add-to-list 'company-backends 'company-reftex-labels)
-	  (add-to-list 'company-backends 'company-reftex-citations)))
-
-(use-package helm-bibtex
-  :ensure t)
-
-(use-package robe
-  :ensure t
-  :bind ("C-M-." . robe-jump)
-  :hook ruby-mode
-  :init
-  (push 'company-robe company-backends))
-
 (load-library "linter")
 (load-library "modes")
+(load-library "convenience")
 (load-library "utils")
 (load-library "frame-config")
 (load-library "keys")
@@ -177,7 +106,6 @@
     (load "darwin-config"))
 
 (load "my-fonts")
-(load "my-helm-mode")
 
 ;; backup files
 (setq create-lockfiles nil)

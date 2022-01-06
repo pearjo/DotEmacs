@@ -76,53 +76,12 @@
                         (executable-find "dart"))))
                      "--lsp")))
 
-;; language Server Protocol implementation for Emacs
-(use-package eglot
-  :ensure t
-  :hook ((cc-mode . eglot-ensure)
-         (python-mode . eglot-ensure)
-         (dart-mode . eglot-ensure)))
-
-(use-package helm
-  :ensure t
-  :bind (("C-°" . helm-semantic-or-imenu)
-         ("M-x" . helm-M-x))
-  :config
-  (semantic-mode 1))
-
-(use-package helm-ag
-  :ensure t
-  :commands (helm-ag helm-projectile-ag)
-  :init
-  (setq helm-ag-insert-at-point 'symbol
-        helm-ag-command-option "--path-to-ignore ~/.agignore"))
-
-(use-package helm-projectile
-  :ensure t
-  :bind ("M-p" . helm-projectile-find-file)
-  :config (helm-projectile-on))
-
-(use-package helm-swoop
-  :ensure t
-  :bind (("M-i" . helm-swoop)
-         ("M-I" . helm-swoop-back-to-last-point)
-         ("C-c M-i" . helm-multi-swoop)
-         ("C-x M-i" . helm-multi-swoop-all)))
-
 (use-package magit
   :ensure t
   :bind ("C-x g" . magit-status))
 
 (use-package markdown-mode
   :ensure t)
-
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-global-mode)
-  (setq projectile-enable-caching t)
-  (setq projectile-globally-ignored-directories
-        (append '("build" ".git" "submodules"))))
 
 ;; Use `flyspell-prog-mode' to check comments in Python code.  The
 ;; variable `pyvenv-workon' is set automatically via dir-locals.
