@@ -49,53 +49,6 @@
 (let ((default-directory "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; use only one buffer for dired
-(defadvice dired-advertised-find-file
-    (around dired-subst-directory activate)
-  "Replace current buffer if file is a directory."
-  (interactive)
-  (let ((orig (current-buffer))
-        (filename (dired-get-filename)))
-    ad-do-it
-    (when (and (file-directory-p filename)
-               (not (eq (current-buffer) orig)))
-      (kill-buffer orig))))
-
-(eval-after-load "dired"
-  ;; don't remove `other-window', the caller expects it to be there
-  '(defun dired-up-directory (&optional other-window)
-     "Run Dired on parent directory of current directory."
-     (interactive "P")
-     (let* ((dir (dired-current-directory))
-     	    (orig (current-buffer))
-     	    (up (file-name-directory (directory-file-name dir))))
-       (or (dired-goto-file (directory-file-name dir))
-     	   ;; Only try dired-goto-subdir if buffer has more than one dir.
-     	   (and (cdr dired-subdir-alist)
-     		(dired-goto-subdir up))
-     	   (progn
-     	     (kill-buffer orig)
-     	     (dired up)
-     	     (dired-goto-file dir))))))
-
-(cond
- ((string-equal system-type "gnu/linux") ; GNU/Linux
-  (setq dired-listing-switches "-lh1v --group-directories-first"))
- ((string-equal system-type "darwin") ; macOS
-  (setq dired-use-ls-dired nil)))
-
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (dired-hide-details-mode)
-            (local-set-key (kbd "U") 'dired-up-directory)))
-
-(use-package all-the-icons-dired
-  :ensure t
-  :config
-  (cond
-   ((string-equal system-type (or "darwin" "gnu/linux"))
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))))
-
 (load-library "linter")
 (load-library "modes")
 (load-library "convenience")
@@ -104,8 +57,6 @@
 (load-library "keys")
 (if (string-equal system-type "darwin")
     (load "darwin-config"))
-
-(load "my-fonts")
 
 ;; backup files
 (setq create-lockfiles nil)

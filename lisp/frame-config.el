@@ -121,6 +121,16 @@
                mode-line-modes
                mode-line-misc-info))
 
+;; For macOS use "Monaco" since its the most beautiful font, but not
+;; available on all platforms.
+(cond
+ ((eq system-type 'darwin)
+  (add-to-list 'initial-frame-alist '(font . "Monaco"))
+  (add-to-list 'default-frame-alist '(font . "Monaco")))
+ (t
+  (add-to-list 'initial-frame-alist '(font . "Fira Code"))
+  (add-to-list 'default-frame-alist '(font . "Fira Code"))))
+
 ;; minimal frame UI settings
 (setq inhibit-startup-screen t)
 (scroll-bar-mode -1)
