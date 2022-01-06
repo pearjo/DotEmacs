@@ -121,5 +121,74 @@
                mode-line-modes
                mode-line-misc-info))
 
+;; minimal frame UI settings
+(setq inhibit-startup-screen t)
+(scroll-bar-mode -1)
+(tool-bar-mode   -1)
+(tooltip-mode    -1)
+(menu-bar-mode   -1)
+(setq cursor-type 'box)
+(column-number-mode 1)
+(setq-default frame-title-format '("%f"))
+
+;; display line numbers
+(add-hook 'after-make-frame-functions
+	  '(lambda (frame)
+	     (select-frame frame)
+	     (if (version<= "26.0.50" emacs-version)
+		 (global-display-line-numbers-mode)
+	       (global-linum-mode 1))))
+
+(if (version<= "26.0.50" emacs-version)
+		 (global-display-line-numbers-mode)
+	       (global-linum-mode 1))
+
+;; line wrapping
+(set-default 'truncate-lines 1)
+
+;; smooth scrolling
+(setq scroll-margin 5
+      mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-wheel-follow-mouse 't
+      mouse-wheel-progressive-speed nil
+      fast-but-imprecise-scrolling nil
+      scroll-step 1
+      scroll-conservatively 10
+      scroll-preserve-screen-position 1)
+
+;; Horizontal scrolling mouse events should actually scroll left and
+;; right.
+(global-set-key (kbd "<mouse-6>") (lambda ()
+                                    (interactive)
+				    (if truncate-lines
+                                        (scroll-right 1))))
+(global-set-key (kbd "<mouse-7>") (lambda ()
+                                    (interactive)
+				    (if truncate-lines
+                                        (scroll-left 1))))
+
+(use-package dracula-theme
+  :ensure t)
+
+(use-package solarized-theme
+  :ensure t
+  :config
+  (setq solarized-use-variable-pitch nil))
+
+;; load theme depending on the day time
+(use-package circadian
+  :ensure t
+  :init
+  ;; coordinates of Hamburg, HH, Germany
+  (setq calendar-latitude 53.55)
+  (setq calendar-longitude 9.99)
+  (setq circadian-themes '((:sunrise . solarized-light)
+                           (:sunset  . dracula)))
+  (circadian-setup)
+  (add-hook 'after-make-frame-functions
+            (lambda (frame)
+              (with-selected-frame frame
+                (circadian-setup)))))
+
 (provide 'frame-config)
 ;;; frame-config.el ends here

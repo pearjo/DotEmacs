@@ -213,10 +213,7 @@
 (if (string-equal system-type "darwin")
     (load "darwin-config"))
 
-(require 'utils)
-
 ;; Load my settings
-(load "my-custom-ui")
 (load "my-fonts")
 (load "my-helm-mode")
 
