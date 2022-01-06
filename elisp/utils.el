@@ -1,6 +1,6 @@
 ;;; utils.el --- Utility functions  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2021,2022  Joe Pearson
+;; Copyright (C) 2021,2022 Joe Pearson
 
 ;; Author: Joe Pearson <pearjo@protonmail.com>
 ;; Keywords: convenience, tools

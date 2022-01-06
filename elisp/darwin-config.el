@@ -1,6 +1,6 @@
 ;;; darwin-config.el --- Darwin specific configurations  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2021-2022  Joe Pearson
+;; Copyright (C) 2021-2022 Joe Pearson
 
 ;; Author: Joe Pearson <pearjo@protonmail.com>
 ;; Keywords: c, convenience, languages

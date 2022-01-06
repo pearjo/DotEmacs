@@ -23,8 +23,6 @@
 ;; along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Code:
-
-;; Package configs
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives '(("org"   . "https://orgmode.org/elpa/")
@@ -32,39 +30,30 @@
 			 ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
-;; Load path
-(add-to-list 'load-path "~/.emacs.d/submodules/yaml-mode")
-(add-to-list 'load-path "~/.emacs.d/elisp/")
-(let ((default-directory "~/.emacs.d/elisp/"))
-  (normal-top-level-add-subdirs-to-load-path))
-
-;; Backup files
-(setq create-lockfiles nil)
-(setq backup-directory-alist '(("" . "~/.emacs.d/backup/")))
-;; (setq make-backup-files nil)
-
-;; Keep a list of recently opened files
-(recentf-mode 1)
-
-;; Bootstrap use-package
+;; bootstrap use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
 (require 'use-package)
 
-;; Use the undo-tree
+(use-package auto-package-update
+   :ensure t
+   :config
+   (setq auto-package-update-delete-old-versions t
+         auto-package-update-interval 4)
+   (auto-package-update-maybe))
+
+(add-to-list 'load-path "~/.emacs.d/submodules/yaml-mode")
+(add-to-list 'load-path "~/.emacs.d/elisp/")
+(let ((default-directory "~/.emacs.d/elisp/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
 (use-package undo-tree
   :ensure t
-  ;; :diminish undo-tree-mode
-  ;; :init
   :config
   (global-undo-tree-mode 1))
 
-;; Overwrite selected region
-(delete-selection-mode 1)
-
-;; auto complete using company
 (use-package company
   :ensure t
   :custom
@@ -84,7 +73,6 @@
        company-dabbrev-code
        company-dabbrev))))
 
-;; yasnippet
 (use-package yasnippet
   :ensure t
   :config
@@ -92,7 +80,6 @@
   (setq yas-indent-line 'auto)
   (add-hook 'Snippet-mode 'require-final-newline nil))
 
-;; Add yasnippet support for all company backends
 (defvar company-mode/enable-yas t
   "Enable yasnippet for all backends.")
 
@@ -113,10 +100,6 @@
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 
-;; move over camelCase words correctly
-(global-subword-mode +1)
-
-;; Dired
 ;; use only one buffer for dired
 (defadvice dired-advertised-find-file
     (around dired-subst-directory activate)
@@ -146,14 +129,11 @@
      	     (dired up)
      	     (dired-goto-file dir))))))
 
-;; Make OS specific changes
 (cond
  ((string-equal system-type "gnu/linux") ; GNU/Linux
   (setq dired-listing-switches "-lh1v --group-directories-first"))
  ((string-equal system-type "darwin") ; macOS
   (setq dired-use-ls-dired nil)))
-
-(global-auto-revert-mode 1)
 
 (add-hook 'dired-mode-hook
           (lambda ()
@@ -164,17 +144,8 @@
   :ensure t
   :config
   (cond
-   ((string-equal system-type (or "darwin" "gnu/linux")) ; GNU/Linux
+   ((string-equal system-type (or "darwin" "gnu/linux"))
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))))
-
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; TeX/LaTeX
-;;
-;; AUCTeX
 
 (use-package company-auctex
   :ensure t
@@ -187,17 +158,9 @@
           (add-to-list 'company-backends 'company-reftex-labels)
 	  (add-to-list 'company-backends 'company-reftex-citations)))
 
-;; BibTeX for Helm
 (use-package helm-bibtex
   :ensure t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Ruby
-;;
-;; robe
-;; NOTE: To install robe, pry and pry-doc needs to be installed
-;;       using gem.
 (use-package robe
   :ensure t
   :bind ("C-M-." . robe-jump)
@@ -213,20 +176,18 @@
 (if (string-equal system-type "darwin")
     (load "darwin-config"))
 
-;; Load my settings
 (load "my-fonts")
 (load "my-helm-mode")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Maintain emacs
-;;
-;; update packages
-(use-package auto-package-update
-   :ensure t
-   :config
-   (setq auto-package-update-delete-old-versions t
-         auto-package-update-interval 4)
-   (auto-package-update-maybe))
+;; backup files
+(setq create-lockfiles nil)
+(setq backup-directory-alist '(("" . "~/.emacs.d/backup/")))
+
+(recentf-mode 1) ;; keep a list of recently opened files
+(delete-selection-mode 1) ;; overwrite selected region
+(global-auto-revert-mode 1)
+(global-subword-mode +1) ;; move over camelCase words correctly
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
 
 ;;; init.el ends here

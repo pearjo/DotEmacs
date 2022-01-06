@@ -122,7 +122,7 @@
   (projectile-global-mode)
   (setq projectile-enable-caching t)
   (setq projectile-globally-ignored-directories
-        (append '("build" ".git"))))
+        (append '("build" ".git" "submodules"))))
 
 ;; Use `flyspell-prog-mode' to check comments in Python code.  The
 ;; variable `pyvenv-workon' is set automatically via dir-locals.
@@ -154,11 +154,8 @@
 
 (use-package ruby-mode
   :ensure t
-  :mode "\\.rb\\'"
-  :mode "Rakefile\\'"
-  :mode "Gemfile\\'"
-  :mode "Berksfile\\'"
-  :mode "Vagrantfile\\'"
+  :mode ("\\.rb\\'" "Rakefile\\'" "Gemfile\\'" "Berksfile\\'"
+         "Vagrantfile\\'")
   :interpreter "ruby")
 
 ;; use `flyspell-prog-mode' to check comments in Rust code
