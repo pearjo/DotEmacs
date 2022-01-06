@@ -53,10 +53,6 @@
 
 (require 'use-package)
 
-;; icon set
-(use-package all-the-icons
-  :ensure t)
-
 ;; Use the undo-tree
 (use-package undo-tree
   :ensure t
@@ -171,45 +167,8 @@
    ((string-equal system-type (or "darwin" "gnu/linux")) ; GNU/Linux
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))))
 
-;; Column length warning
-(global-display-fill-column-indicator-mode 1)
-
-(add-to-list 'default-frame-alist
-	     '(height . 50))
-
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:;;;;;;;;;;;
-;;
-;;; Mode line
-;;
-;; minimal ui of mode-line
-(set-face-attribute 'mode-line nil
-		    :box nil
-		    :overline nil
-		    :underline nil)
-(set-face-attribute 'mode-line-inactive nil
-		    :box nil
-		    :overline nil
-		    :underline nil)
-
-;; hide minor modes
-(define-minor-mode minor-mode-blackout-mode
-  "Hides minor modes from the mode line."
-  t)
-
-(catch 'done
-  (mapc (lambda (x)
-          (when (and (consp x)
-                     (equal (cadr x) '("" minor-mode-alist)))
-            (let ((original (copy-sequence x)))
-              (setcar x 'minor-mode-blackout-mode)
-              (setcdr x (list "" original)))
-            (throw 'done t)))
-        mode-line-modes))
-
-(use-package my-mode-line)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -249,6 +208,7 @@
 (load-library "linter")
 (load-library "modes")
 (load-library "utils")
+(load-library "frame-config")
 (load-library "keys")
 (if (string-equal system-type "darwin")
     (load "darwin-config"))
@@ -257,7 +217,6 @@
 
 ;; Load my settings
 (load "my-custom-ui")
-(load "my-fit-frame")
 (load "my-fonts")
 (load "my-helm-mode")
 
