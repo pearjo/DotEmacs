@@ -31,16 +31,13 @@
 (require 'use-package)
 
 ;; the linter for human language...
-(if (string-equal system-type "windows-nt")
-    ((message "Using hunspell.exe as spell checker")
-     (setq ispell-program-name "hunspell.exe"))
-  (message "Using aspell as spell checker")
-  (setq ispell-program-name "aspell"))
-(setq ispell-really-aspell t)
-(setq ispell-extra-args '("--sug-mode=fast"))
-(setq ispell-list-command "--list")
-(setq ispell-dictionary "english")
-(setq flyspell-issue-message-flag nil)
+(setq-default ispell-program-name (if (eq system-type 'windows-nt)
+                                      "hunspell.exe"
+                                    "aspell")
+              ispell-really-aspell t
+              ispell-extra-args '("--sug-mode=fast")
+              ispell-list-command "--list"
+              ispell-dictionary "english")
 
 ;; check spelling in code comments and various text modes
 (dolist (hook '(prog-mode-hook))
@@ -57,16 +54,18 @@
   (add-hook 'editorconfig-after-apply-functions
             '(lambda (props)
                (let ((max-line-length (gethash 'max_line_length props)))
-                 (cond ((equal max-line-length "off")
-                        (visual-line-mode 1)
-                        (display-fill-column-indicator-mode -1))
-                       (t
-                        (visual-line-mode -1)
-                        (display-fill-column-indicator-mode 1)))))))
+                 (cond
+                  ((equal max-line-length "off")
+                   (visual-line-mode 1)
+                   (display-fill-column-indicator-mode -1))
+                  (t
+                   (visual-line-mode -1)
+                   (display-fill-column-indicator-mode 1)))))))
 
 (use-package flycheck
   :ensure t
   :init
+  (setq-default flyspell-issue-message-flag nil)
   (global-flycheck-mode))
 
 (use-package flymake-ruby

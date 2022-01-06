@@ -22,6 +22,8 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
+;;; Commentary:
+
 ;;; Code:
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -56,7 +58,7 @@
 (load-library "custom-config")
 (load-library "frame-config")
 (load-library "keys")
-(if (string-equal system-type "darwin")
+(if (eq system-type 'darwin)
     (load "darwin-config"))
 
 ;;; init.el ends here

@@ -34,7 +34,7 @@
   :config
   (autopair-global-mode)
   (show-paren-mode 1)
-  (setq show-paren-delay 0))
+  (setq-default show-paren-delay 0))
 
 (use-package company
   :ensure t
@@ -97,8 +97,8 @@ If no project is found, `ido-find-file' is used instead."
   :after helm
   :commands (helm-ag helm-projectile-ag)
   :init
-  (setq helm-ag-insert-at-point 'symbol
-        helm-ag-command-option "--path-to-ignore ~/.agignore"))
+  (setq-default helm-ag-insert-at-point 'symbol
+                helm-ag-command-option "--path-to-ignore ~/.agignore"))
 
 (use-package helm-bibtex
   :ensure t
@@ -122,9 +122,9 @@ If no project is found, `ido-find-file' is used instead."
   :ensure t
   :config
   (projectile-global-mode)
-  (setq projectile-enable-caching t)
-  (setq projectile-globally-ignored-directories
-        (append '("build" ".git" "submodules"))))
+  (setq-default projectile-enable-caching t
+                projectile-globally-ignored-directories
+                (append '("build" ".git" "submodules"))))
 
 (use-package robe
   :ensure t
@@ -145,7 +145,6 @@ If no project is found, `ido-find-file' is used instead."
   :after company
   :config
   (yas-global-mode 1)
-  (setq yas-indent-line 'auto)
   (add-hook 'Snippet-mode 'require-final-newline nil)
   (defvar company-mode/enable-yas t
     "Enable yasnippet for all backends.")
@@ -154,10 +153,14 @@ If no project is found, `ido-find-file' is used instead."
     (if (or (not company-mode/enable-yas)
 	    (and (listp backend) (member 'company-yasnippet backend)))
         backend
-      (append (if (consp backend) backend (list backend))
+      (append (if (consp backend)
+                  backend
+                (list backend))
               '(:with company-yasnippet))))
-  (setq company-backends
-      (mapcar #'company-mode/backend-with-yas company-backends)))
+  (setq-default yas-indent-line 'auto
+                company-backends
+                (mapcar #'company-mode/backend-with-yas
+                        company-backends)))
 
 (provide 'convenience)
 ;;; convenience.el ends here

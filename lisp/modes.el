@@ -39,11 +39,11 @@
          (LaTeX-mode . LaTeX-math-mode)
          (LaTeX-mode . turn-on-reftex))
   :init
-  (setq-default TeX-auto-save nil)
-  (setq-default TeX-parse-self t)
-  (setq-default TeX-source-correlate-mode t)
-  (setq-default TeX-master nil)
-  (setq-default bibtex-align-at-equal-sign t)
+  (setq-default TeX-auto-save nil
+                TeX-parse-self t
+                TeX-source-correlate-mode t
+                TeX-master nil
+                bibtex-align-at-equal-sign t)
   (eval-after-load "tex"
     '(add-to-list 'TeX-command-list
                   '("Nomenclature" "makeindex %s.nlo -s nomencl.ist -o %s.nls"
@@ -107,9 +107,9 @@
          ("C-c v" . reftex-view-crossref)
          ("C-c g" . reftex-grep-document))
   :init
-  (setq-default reftex-plug-into-AUCTeX t)
-  (setq-default reftex-save-parse-info nil)
-  (setq-default reftex-keep-temporary-buffers nil))
+  (setq-default reftex-plug-into-AUCTeX t
+                reftex-save-parse-info nil
+                reftex-keep-temporary-buffers nil))
 
 (use-package ruby-mode
   :ensure t

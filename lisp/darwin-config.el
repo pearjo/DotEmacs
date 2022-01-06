@@ -28,20 +28,20 @@ that used by the user's shell.
 This is particularly useful under Mac OS X and macOS, where GUI
 apps are not started from a shell."
   (interactive)
-  (let ((path-from-shell (replace-regexp-in-string
-			  "[ \t\n]*$" "" (shell-command-to-string
-					  "$SHELL --login -c 'echo $PATH'"
-						    ))))
+  (let ((path-from-shell
+         (replace-regexp-in-string
+	  "[ \t\n]*$" "" (shell-command-to-string
+			  "$SHELL --login -c 'echo $PATH'"))))
     (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
+    (setq-default exec-path (split-string path-from-shell path-separator))))
 
 (set-exec-path-from-shell-path)
 
-;; Fix key issues on a mac
-(setq mac-option-key-is-meta t)
-(setq mac-right-option-modifier nil)
+;; fix key issues on a mac
+(setq-default mac-option-key-is-meta t
+              mac-right-option-modifier nil)
 (global-set-key (kbd "M-l") "@")
-;; For keyboards with no right options key
+;; for keyboards with no right options key
 (global-set-key (kbd "M-5") "[")
 (global-set-key (kbd "M-6") "]")
 (global-set-key (kbd "M-7") "|")

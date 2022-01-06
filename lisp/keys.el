@@ -34,5 +34,16 @@
 (global-set-key (kbd "M-<down>") 'move-line-region-down)
 (global-set-key (kbd "M-<up>") 'move-line-region-up)
 
+;; Horizontal scrolling mouse events should actually scroll left and
+;; right.
+(global-set-key (kbd "<mouse-6>") (lambda ()
+                                    (interactive)
+				    (if truncate-lines
+                                        (scroll-right 1))))
+(global-set-key (kbd "<mouse-7>") (lambda ()
+                                    (interactive)
+				    (if truncate-lines
+                                        (scroll-left 1))))
+
 (provide 'keys)
 ;;; keys.el ends here
