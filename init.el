@@ -53,20 +53,10 @@
 (load-library "modes")
 (load-library "convenience")
 (load-library "utils")
+(load-library "custom-config")
 (load-library "frame-config")
 (load-library "keys")
 (if (string-equal system-type "darwin")
     (load "darwin-config"))
-
-;; backup files
-(setq create-lockfiles nil)
-(setq backup-directory-alist '(("" . "~/.emacs.d/backup/")))
-
-(recentf-mode 1) ;; keep a list of recently opened files
-(delete-selection-mode 1) ;; overwrite selected region
-(global-auto-revert-mode 1)
-(global-subword-mode +1) ;; move over camelCase words correctly
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
 
 ;;; init.el ends here
