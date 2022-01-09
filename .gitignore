@@ -3,3 +3,6 @@
 
 # Byte-compiled files should only be build when running make.
 lisp/*.elc
+
+# Fonts are only temporary and downloaded by running make.
+font

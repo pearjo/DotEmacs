@@ -33,6 +33,15 @@ lisp = ./lisp
 snippets = ./snippets
 submodules = ./submodules
 
+ifeq ($(UNAME), Darwin)
+fontname = "SF Mono"
+fonturl = https://devimages-cdn.apple.com/design/resources/download/SF-Mono.dmg
+else
+fontname = "Cascadia Code"
+fonturl = https://github.com/microsoft/cascadia-code/releases/download/v2111.01/CascadiaCode-2111.01.zip
+endif
+fontfile = $(notdir $(fonturl))
+
 find_delete = -delete
 
 all: font bytecompile
@@ -41,8 +50,33 @@ all: font bytecompile
 bytecompile:
 	$(EMACS) $(BYTE_COMPILE_FLAGS) $(shell find $(lisp) -name '*.el')
 
+.PHONY: font
+font:
+ifeq ($(shell fc-list | grep -i $(fontname)),)
+	$(CURL) -L $(fonturl) --create-dirs -o ./font/$(fontfile)
+else
+	$(info Skip downloading $(fontname) since its already installed.)
+endif
+
 .PHONY: install
-install: all install-lisp install-snippets install-submodules
+install: all install-fonts install-lisp install-snippets install-submodules
+
+.PHONY: install-font
+install-font: font
+ifeq ($(shell fc-list | grep -i $(fontname)),)
+ifeq ($(suffix $(fontfile)), .dmg))
+	hdiutil mount -mountpoint /Volumes/$(basename $(fontfile)) ./font/$(fontfile)
+	installer -pkg /Volumes/$(basename $(fontfile))/*.pkg -target LocalSystem
+	hdiutil unmount /Volumes/$(basename $(fontfile))
+endif
+ifeq ($(suffix $(fontfile)), .zip))
+	$(UNZIP) ./font/$(fontfile) -d ./font/$(fontname)
+	cp -rf ./font/$(fontname) $(FONTSDEST)/
+endif
+	fc-cache -vf
+else
+	$(info Skip $(fontname) since its already installed.)
+endif
 
 .PHONY: install-lisp
 install-lisp: bytecompile

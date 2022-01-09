@@ -28,7 +28,10 @@
 (require 'use-package)
 
 (use-package all-the-icons
-  :ensure t)
+  :ensure t
+  :if (display-graphic-p)
+  :init
+  (all-the-icons-install-fonts t))
 
 (use-package all-the-icons-dired
   :ensure t
