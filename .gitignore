@@ -1,2 +1,5 @@
 # macOS metadata
 .DS_Store
+
+# Byte-compiled files should only be build when running make.
+lisp/*.elc
