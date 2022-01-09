@@ -56,12 +56,6 @@
   :after company
   :hook ((LaTeX-mode . company-auctex-init)))
 
-(use-package company-dart
-  :after company
-  :requires (pos-tip)
-  :init
-  (add-to-list 'company-backends 'company-dart))
-
 (use-package company-reftex
   :ensure t
   :after company
