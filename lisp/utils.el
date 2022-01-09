@@ -1,13 +1,42 @@
-;;; my-func.el --- My CC mode settings
+;;; utils.el --- Utility functions  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2019  Joe Pearson
+;; Copyright (C) 2021,2022 Joe Pearson
 
-;; Author: Joe Pearson
-;; Keywords: defun
+;; Author: Joe Pearson <pearjo@protonmail.com>
+;; Keywords: convenience, tools
 
-;;; Commentary:
+;; This file is not part of GNU Emacs.
+
+;; This file is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Code:
+
+(defun copy-line (arg)
+  "Copy lines (as many as prefix ARG) in the kill."
+  (interactive "p")
+  (let ((beg (line-beginning-position))
+        (end (line-end-position arg)))
+    (when mark-active
+      (if (> (point) (mark))
+          (setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
+        (setq end (save-excursion (goto-char (mark)) (line-end-position)))))
+    (if (eq last-command 'copy-line)
+        (kill-append (buffer-substring beg end) (< end beg))
+      (kill-ring-save beg end)))
+  (kill-append "\n" nil)
+  (beginning-of-line (or (and arg (1+ arg)) 2))
+  (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
 
 (defun create-etags ()
   "Create tag file."
@@ -17,7 +46,7 @@
             (projectile-project-p)
           (default-directory)))
    (cond
-    ((string-equal system-type "windows-nt") ; Microsoft Windows
+    ((eq system-type 'windows-nt)
      (defvar win-directory)
      (setq win-directory
            (replace-regexp-in-string "/" "\\" output-directory t t))
@@ -47,15 +76,6 @@
        "ltx|sty|TeX|tex|texi|texinfo|txi|x[bp]m|yy|"
        "[Ss][Qq][Ll])$' -print | xargs etags -a -o "
        output-directory "TAGS")))))
-
-(defadvice xref-find-definitions (before c-tag-file activate)
-  "Automatically create tags file."
-  (let ((tag-file (if (projectile-project-p)
-                      (concat (projectile-project-p) "TAGS")
-                    (concat default-directory "TAGS"))))
-    (unless (file-exists-p tag-file)
-      (create-etags))
-    (visit-tags-table tag-file)))
 
 ;; Move lines and regions
 (defun move-line-up ()
@@ -101,8 +121,11 @@
   (interactive "r\np")
   (if (use-region-p) (move-region-down start end n) (move-line-down)))
 
-(global-set-key (kbd "M-<up>") 'move-line-region-up)
-(global-set-key (kbd "M-<down>") 'move-line-region-down)
+(defun server-shutdown ()
+  "Save buffers, quit, and shutdown (kill) server."
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs))
 
 (defun sudo-save ()
   "Save file as sudo."
@@ -113,24 +136,32 @@
     (write-file (concat "/sudo:root@localhost:"
                         buffer-file-name))))
 
-(defun copy-line (arg)
-  "Copy lines (as many as prefix ARG) in the kill."
-  (interactive "p")
-  (let ((beg (line-beginning-position))
-        (end (line-end-position arg)))
-    (when mark-active
-      (if (> (point) (mark))
-          (setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
-        (setq end (save-excursion (goto-char (mark)) (line-end-position)))))
-    (if (eq last-command 'copy-line)
-        (kill-append (buffer-substring beg end) (< end beg))
-      (kill-ring-save beg end)))
-  (kill-append "\n" nil)
-  (beginning-of-line (or (and arg (1+ arg)) 2))
-  (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
+(defun toggle-camelcase-snakecase ()
+  "Toggle between camelcase and snakecase notation for the symbol at point."
+  (interactive)
+  (save-excursion
+    (let* ((bounds (bounds-of-thing-at-point 'symbol))
+           (start (car bounds))
+           (end (cdr bounds))
+           (currently-using-underscores-p (progn (goto-char start)
+                                                 (re-search-forward "_" end t))))
+      (cond
+       (currently-using-underscores-p
+        (upcase-initials-region start end)
+        (replace-string "_" "" nil start end)
+        (downcase-region start (1+ start)))
+       (t
+        (replace-regexp "\\([A-Z]\\)" "_\\1" nil (1+ start) end)
+        (downcase-region start (cdr (bounds-of-thing-at-point 'symbol))))))))
 
-;; optional key binding
-(global-set-key "\C-c\C-k" 'copy-line)
+(defadvice xref-find-definitions (before c-tag-file activate)
+  "Automatically create tags file."
+  (let ((tag-file (if (projectile-project-p)
+                      (concat (projectile-project-p) "TAGS")
+                    (concat default-directory "TAGS"))))
+    (unless (file-exists-p tag-file)
+      (create-etags))
+    (visit-tags-table tag-file)))
 
-(provide 'my-func)
-;;; my-func.el ends here
+(provide 'utils)
+;;; utils.el ends here

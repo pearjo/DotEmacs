@@ -1,28 +1,27 @@
 ;;; qt-c-style.el --- Qt's C/C++ style for c-mode
 
-;; Copyright (C) 2019  Joe Pearson
+;; Copyright (C) 2008 Google Inc. All Rights Reserved.
+;; Copyright (C) 2019 Joe Pearson
 
-;; Author: Joe Pearson
-;; Keywords: c
+;; Author: Joe Pearson <pearjo@protonmail.com>
+;; Keywords: c, tools
 
-;; This program is free software; you can redistribute it and/or
-;; modify it under the terms of the GNU General Public License
-;; as published by the Free Software Foundation; either version 3
-;; of the License, or (at your option) any later version.
+;; This file is not part of GNU Emacs.
 
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-
-;; You should have received a copy of the GNU General Public License
-;; along with this program. If not, see <http://www.gnu.org/licenses/>.
+;; This file is free software; you can redistribute it and/or modify
+;; it under the terms of either:
+;;
+;; a) the GNU General Public License as published by the Free Software
+;; Foundation; either version 1, or (at your option) any later version, or
+;;
+;; b) the "Artistic License".
 
 ;;; Commentary:
 
-;; Provides the qt C/C++ coding style.  You may wish to add
-;; `qt-set-c-style' to your `c-mode-common-hook' after requiring this
-;; file.  For example:
+;; This style is based upon the `google-c-style' library and changed
+;; according to Qt's code style.  You may wish to add `qt-set-c-style'
+;; to your `c-mode-common-hook' after requiring this file.  For
+;; example:
 ;;
 ;;    (add-hook 'c-mode-common-hook 'qt-set-c-style)
 ;;
@@ -45,7 +44,7 @@
 
 This implements title \"Function Declarations and Definitions\" of the Qt
 C++ Style Guide for the case where the previous line ends with an open
-parenthese.
+parentheses.
 
 \"Current C expression\", as per the Qt Style Guide and as clarified by
 subsequent discussions,
