@@ -30,7 +30,9 @@
   :ensure t
   :if (display-graphic-p)
   :init
-  (all-the-icons-install-fonts t))
+  (unless (string-search "all-the-icons"
+                         (shell-command-to-string (format "fc-list")))
+    (all-the-icons-install-fonts t)))
 
 (use-package all-the-icons-dired
   :ensure t
