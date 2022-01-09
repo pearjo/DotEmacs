@@ -27,7 +27,6 @@
 ;; various tasks like e.g. changing buffers or finding files.
 
 ;;; Code:
-(require 'use-package)
 
 ;; pairs brackets and highlights them
 (use-package autopair
@@ -39,7 +38,7 @@
 (use-package company
   :ensure t
   :defer t
-  :hook (after-init . global-company-mode)
+  :hook ((after-init . global-company-mode))
   :custom
   (company-idle-delay 0)
   (company-minimum-prefix-length 1)
@@ -66,15 +65,15 @@
 ;; language Server Protocol implementation for Emacs
 (use-package eglot
   :ensure t
-  :hook ((cc-mode . eglot-ensure)
-         (python-mode . eglot-ensure)
-         (dart-mode . eglot-ensure)))
+  :hook '((cc-mode . eglot-ensure)
+          (python-mode . eglot-ensure)
+          (dart-mode . eglot-ensure)))
 
 (use-package helm
   :ensure t
-  :bind (("C-°" . helm-semantic-or-imenu)
-         ("M-x" . helm-M-x)
-         ("C-x C-f" . helm-projectile-try-find-file))
+  :bind ((("C-°" . helm-semantic-or-imenu)
+          ("M-x" . helm-M-x)
+          ("C-x C-f" . helm-projectile-try-find-file)))
   :config
   (semantic-mode 1)
   (defun helm-projectile-try-find-file ()
@@ -107,10 +106,10 @@ If no project is found, `ido-find-file' is used instead."
 (use-package helm-swoop
   :ensure t
   :after helm
-  :bind (("M-i" . helm-swoop)
-         ("M-I" . helm-swoop-back-to-last-point)
-         ("C-c M-i" . helm-multi-swoop)
-         ("C-x M-i" . helm-multi-swoop-all)))
+  :bind ((("M-i" . helm-swoop)
+          ("M-I" . helm-swoop-back-to-last-point)
+          ("C-c M-i" . helm-multi-swoop)
+          ("C-x M-i" . helm-multi-swoop-all))))
 
 (use-package projectile
   :ensure t
@@ -123,7 +122,7 @@ If no project is found, `ido-find-file' is used instead."
 (use-package robe
   :ensure t
   :after company
-  :bind ("C-M-." . robe-jump)
+  :bind (("C-M-." . robe-jump))
   :hook ruby-mode
   :init
   (push 'company-robe company-backends))

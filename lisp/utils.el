@@ -46,7 +46,7 @@
             (projectile-project-p)
           (default-directory)))
    (cond
-    ((string-equal system-type "windows-nt") ; Microsoft Windows
+    ((eq system-type 'windows-nt)
      (defvar win-directory)
      (setq win-directory
            (replace-regexp-in-string "/" "\\" output-directory t t))

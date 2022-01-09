@@ -25,7 +25,6 @@
 ;;; Commentary:
 
 ;;; Code:
-(require 'use-package)
 
 (use-package all-the-icons
   :ensure t
@@ -36,7 +35,7 @@
 (use-package all-the-icons-dired
   :ensure t
   :if (or (eq system-type 'darwin) (eq system-type 'gnu/linux))
-  :hook (dired-mode . all-the-icons-dired-mode))
+  :hook ((dired-mode . all-the-icons-dired-mode)))
 
 ;; Use a dark and light theme and change them corresponding to the
 ;; daylight.
@@ -123,7 +122,7 @@
 
 (define-minor-mode mode-line-minor-blackout-mode
   "Hides minor modes from the mode line."
-  t)
+  :init-value t)
 
 (catch 'done
   (mapc (lambda (x)

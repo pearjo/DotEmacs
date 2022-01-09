@@ -356,7 +356,8 @@ For now, simply returns `last-command-event'"
 ;;;###autoload
 (define-minor-mode autopair-mode
   "Automagically pair braces and quotes like in TextMate."
-  nil " pair" nil
+  :init-value " pair"
+  :keymap nil
   (cond (autopair-mode
          ;; Setup the dynamic emulation keymap, i.e. sets `autopair--emulation-alist'
          ;;
@@ -731,7 +732,7 @@ list found by uplisting."
              escaped-p
              ;; ... inside a generic string
              (eq inside-string t)
-             ;; ... inside an unterminated string started by this char 
+             ;; ... inside an unterminated string started by this char
              (autopair--in-unterminated-string-p syntax-triplet)
              ;; ... the position at the end of buffer is inside an
              ;; unterminated string

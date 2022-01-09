@@ -28,7 +28,6 @@
 ;; languages loaded by the `modules' library more convenient.
 
 ;;; Code:
-(require 'use-package)
 
 ;; the linter for human language...
 (setq-default ispell-program-name (if (eq system-type 'windows-nt)
@@ -52,7 +51,7 @@
   :init
   (editorconfig-mode 1)
   (add-hook 'editorconfig-after-apply-functions
-            '(lambda (props)
+            #'(lambda (props)
                (let ((max-line-length (gethash 'max_line_length props)))
                  (cond
                   ((equal max-line-length "off")
@@ -70,11 +69,11 @@
 
 (use-package flymake-ruby
   :ensure t
-  :hook (ruby-mode . flymake-ruby-load))
+  :hook ((ruby-mode . flymake-ruby-load)))
 
 (use-package qt-c-style
-  :hook ((c-mode-common . qt-set-c-style)
-         (c-mode-common . qt-make-newline-indent)))
+  :hook '((c-mode-common . qt-set-c-style)
+          (c-mode-common . qt-make-newline-indent)))
 
 (use-package rubocop
   :ensure t

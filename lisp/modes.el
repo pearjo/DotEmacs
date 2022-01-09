@@ -29,15 +29,14 @@
 ;; `use-package' if not yet installed.
 
 ;;; Code:
-(require 'use-package)
 
 (use-package auctex
-  :defer t
   :ensure t
-  :hook ((LaTeX-mode . visual-line-mode)
-         (LaTeX-mode . flyspell-mode)
-         (LaTeX-mode . LaTeX-math-mode)
-         (LaTeX-mode . turn-on-reftex))
+  :defer t
+  :hook '((LaTeX-mode . visual-line-mode)
+          (LaTeX-mode . flyspell-mode)
+          (LaTeX-mode . LaTeX-math-mode)
+          (LaTeX-mode . turn-on-reftex))
   :init
   (setq-default TeX-auto-save nil
                 TeX-parse-self t
@@ -78,7 +77,7 @@
 
 (use-package magit
   :ensure t
-  :bind ("C-x g" . magit-status))
+  :bind (("C-x g" . magit-status)))
 
 (use-package markdown-mode
   :ensure t)
@@ -87,7 +86,7 @@
 ;; variable `pyvenv-workon' is set automatically via dir-locals.
 (use-package pyvenv
   :ensure t
-  :hook (python-mode . flyspell-prog-mode)
+  :hook ((python-mode . flyspell-prog-mode))
   :config
   (pyvenv-tracking-mode 1))
 
@@ -100,12 +99,12 @@
 
 (use-package reftex
   :ensure t
-  :bind (("C-c t" . reftex-toc)
-         ("C-c c" . reftex-citation)
-         ("C-c l" . reftex-label)
-         ("C-c r" . reftex-reference)
-         ("C-c v" . reftex-view-crossref)
-         ("C-c g" . reftex-grep-document))
+  :bind ((("C-c t" . reftex-toc)
+          ("C-c c" . reftex-citation)
+          ("C-c l" . reftex-label)
+          ("C-c r" . reftex-reference)
+          ("C-c v" . reftex-view-crossref)
+          ("C-c g" . reftex-grep-document)))
   :init
   (setq-default reftex-plug-into-AUCTeX t
                 reftex-save-parse-info nil
@@ -120,7 +119,7 @@
 ;; use `flyspell-prog-mode' to check comments in Rust code
 (use-package rust-mode
   :ensure t
-  :hook (rust-mode . flyspell-prog-mode))
+  :hook ((rust-mode . flyspell-prog-mode)))
 
 (use-package vbnet-mode
   :mode "\\.\\(frm\\|bas\\|cls\\|vb\\)$")
@@ -135,7 +134,7 @@
   :mode "\\.yml\\'"
   :init
   (add-hook 'yaml-mode-hook
-            '(lambda ()
+            #'(lambda ()
                (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
 
 (provide 'modes)
