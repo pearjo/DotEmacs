@@ -1,5 +1,7 @@
 # My Emacs Configuration
 
+![preview](preview.png)
+
 ## Install Configuration
 
 To install the configuration on GNU/Linux or Darwin, just run the
