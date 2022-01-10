@@ -16,15 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
-# On macOS we want to use Apple's SF Mono font which is sadly only as dmg image
-# available.
-if [[ $(uname -s) == Darwin ]]; then
-    fontname="SF Mono"
-    fonturl="https://devimages-cdn.apple.com/design/resources/download/SF-Mono.dmg"
-else
-    fontname="Cascadia Code"
-    fonturl="https://github.com/microsoft/cascadia-code/releases/download/v2111.01/CascadiaCode-2111.01.zip"
-fi
+fontname="SF Mono"
+fonturl="https://devimages-cdn.apple.com/design/resources/download/SF-Mono.dmg"
 
 lispdir=./lisp
 destdir=~/.emacs.d
@@ -57,15 +50,22 @@ if [[ -z $(fc-list | grep -i "$fontname") ]]; then
 
     case $fileext in
         dmg)
-            mountpoint=$(basename -s $fileext $fontfile)
-	    hdiutil mount -mountpoint /Volumes/$mountpoint ./font/$fontfile
-            if [[ $(whoami) != "root" ]]; then
-                echo "Failed to install '$fontname'!"
-                echo "Run this script as root."
-                exit 1
+            fontfilename=$(basename -s .$fileext $fontfile)
+            if [[ $(uname -s) == Darwin ]]; then
+	        hdiutil mount -mountpoint /Volumes/$fontfilename ./font/$fontfile
+                if [[ $(whoami) != "root" ]]; then
+                    echo "Failed to install '$fontname'!"
+                    echo "Run this script as root."
+                    exit 1
+                fi
+	        installer -pkg /Volumes/$fontfilename/*.pkg -target LocalSystem
+	        hdiutil unmount /Volumes/$fontfilename
+            else
+                7z -o./font/$fontfilename x ./font/$fontfile
+                7z -o./font/Payload x ./font/$fontfilename/**/*.pkg
+                7z -o./font x ./font/Payload/*
+                cp -rf ./font/Library/Fonts $fontdest/$fontfilename
             fi
-	    installer -pkg /Volumes/$mountpoint/*.pkg -target LocalSystem
-	    hdiutil unmount /Volumes/$mountpoint
             ;;
         zip)
             mkdir -p $fontsdest
@@ -92,4 +92,3 @@ if [[ $(uname -s) == Linux ]]; then
   fi
   cp -f emacs.service ~/.config/systemd/user/
 fi
-

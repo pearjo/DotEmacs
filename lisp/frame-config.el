@@ -185,15 +185,13 @@
                                 mode-line-modes
                                 mode-line-misc-info))
 
-;; For macOS use "Monaco" since its the most beautiful font, but not
-;; available on all platforms.
 (cond
- ((eq system-type 'darwin)
-  (add-to-list 'initial-frame-alist '(font . "SF Mono Medium"))
-  (add-to-list 'default-frame-alist '(font . "SF Mono Medium")))
- (t
+ ((eq system-type 'windows-nt)
   (add-to-list 'initial-frame-alist '(font . "Fira Code"))
-  (add-to-list 'default-frame-alist '(font . "Fira Code"))))
+  (add-to-list 'default-frame-alist '(font . "Fira Code")))
+ (t
+  (add-to-list 'initial-frame-alist '(font . "SF Mono Medium"))
+  (add-to-list 'default-frame-alist '(font . "SF Mono Medium"))))
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
