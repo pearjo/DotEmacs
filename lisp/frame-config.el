@@ -113,7 +113,7 @@
 ;; ls has different arguments on gnu/linux than on darwin
 (cond
  ((eq system-type 'gnu/linux)
-  (setq dired-listing-switches "-h1v --group-directories-first"))
+  (setq dired-listing-switches "-lh1v --group-directories-first"))
  ((eq system-type 'darwin)
   (setq dired-use-ls-dired nil)))
 
