@@ -47,6 +47,7 @@
    (auto-package-update-maybe))
 
 (add-to-list 'load-path "~/.emacs.d/submodules/yaml-mode")
+(add-to-list 'load-path "~/.emacs.d/submodules/rvm.el")
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (let ((default-directory "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))

@@ -116,6 +116,12 @@
          "Vagrantfile\\'")
   :interpreter "ruby")
 
+(use-package rvm
+  :config
+  (rvm-use-default)
+  :init
+  (advice-add 'inf-ruby-console-auto :before #'rvm-activate-corresponding-ruby))
+
 ;; use `flyspell-prog-mode' to check comments in Rust code
 (use-package rust-mode
   :ensure t
