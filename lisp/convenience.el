@@ -66,8 +66,9 @@
 (use-package eglot
   :ensure t
   :hook '((cc-mode . eglot-ensure)
+          (dart-mode . eglot-ensure)
           (python-mode . eglot-ensure)
-          (dart-mode . eglot-ensure)))
+          (ruby-mode . eglot-ensure)))
 
 (use-package helm
   :ensure t
@@ -119,13 +120,6 @@ If no project is found, `ido-find-file' is used instead."
                 projectile-globally-ignored-directories
                 (append '("build" ".git" "submodules"))))
 
-(use-package robe
-  :ensure t
-  :after company
-  :bind (("C-M-." . robe-jump))
-  :hook ruby-mode
-  :init
-  (push 'company-robe company-backends))
 
 ;; useful to jump faster back in time
 (use-package undo-tree

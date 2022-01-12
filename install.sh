@@ -92,3 +92,7 @@ if [[ $(uname -s) == Linux ]]; then
   fi
   cp -f emacs.service ~/.config/systemd/user/
 fi
+
+echo "Install Ruby gems required for the ruby-mode"
+gem install bundler
+bundle install
