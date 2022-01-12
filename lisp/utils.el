@@ -61,7 +61,7 @@
        ".*pas$ .*[Pp][LlMm]$ .*psw$ .*lm$ .*pc$ .*prolog$ .*oak$ "
        ".*p[sy]$ .*sch$ .*scheme$ .*[Ss][Cc][Mm]$ .*[Ss][Mm]$ .*bib$ "
        ".*cl[os]$ .*ltx$ .*sty$ .*TeX$ .*tex$ .*texi$ .*texinfo$ "
-       ".*txi$ .*x[bp]m$ .*yy$ .*[Ss][Qq][Ll]$\" | "
+       ".*txi$ .*x[bp]m$ .*yy$ .*[Ss][Qq][Ll]$ .*rb$\" | "
        "etags.exe - -a -o " win-directory "TAGS")))
     ((string-equal system-type "gnu/linux") ; linux
      (eshell-command
@@ -74,7 +74,7 @@
        "[Mm]akefile*|pas|[Pp][LlMm]|psw|lm|pc|prolog|oak|"
        "p[sy]|sch|scheme|[Ss][Cc][Mm]|[Ss][Mm]|bib|cl[os]|"
        "ltx|sty|TeX|tex|texi|texinfo|txi|x[bp]m|yy|"
-       "[Ss][Qq][Ll])$' -print | xargs etags -a -o "
+       "[Ss][Qq][Ll]|rb)$' -print | xargs etags -a -o "
        output-directory "TAGS")))))
 
 ;; Move lines and regions
