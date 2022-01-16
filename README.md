@@ -31,5 +31,5 @@ systemctl start --user emacs
 ## Note on Copyright Years
 
 In copyright notices then where a range of years appears, this is an
-inclusive range that applies to every year in the range.  For example:
+inclusive range that applies to every year in the range. For example:
 2005-2008 represents the years 2005, 2006, 2007, and 2008.
