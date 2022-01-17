@@ -75,6 +75,9 @@
                         (executable-find "dart"))))
                      "--lsp")))
 
+(use-package jenkinsfile-mode
+  :ensure t)
+
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status)))
