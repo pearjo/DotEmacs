@@ -140,7 +140,7 @@
   (which-key-mode))
 
 (use-package yaml-mode
-  :mode "\\.yml\\'"
+  :mode ("\\.yaml\\'" "\\.yml\\'")
   :init
   (add-hook 'yaml-mode-hook
             #'(lambda ()
