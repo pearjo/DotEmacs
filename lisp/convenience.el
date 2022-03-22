@@ -124,6 +124,8 @@ If no project is found, `ido-find-file' is used instead."
 ;; useful to jump faster back in time
 (use-package undo-tree
   :ensure t
+  :custom
+  (undo-tree-auto-save-history nil)
   :config
   (global-undo-tree-mode 1))
 
