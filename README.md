@@ -17,6 +17,23 @@ If your on Windows, run:
 install.bat
 ```
 
+## Fonts
+
+For macOS and GNU/Linux, Apple's [SF
+Mono](https://developer.apple.com/fonts/) font is used and for Window
+[Fira Code](https://github.com/tonsky/FiraCode) is configured as
+default font. To install a font from a disk image on GNU/Linux, run
+the following:
+
+```bash
+# unpack the disk image
+7z -o SF-Mono x SF-Mono.dmg
+# extract the package
+7z -o Payload x SF-Mono/**/*.pkg
+7z x Payload/*
+# now you can install the font files located at Library/Fonts
+```
+
 ## Emacs Daemon with systemd
 
 By running the `install.sh` script on GNU/Linux, a systemd
