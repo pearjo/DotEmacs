@@ -46,5 +46,8 @@ if [[ $(uname -s) == Linux ]]; then
 fi
 
 echo "Install Ruby gems required for the ruby-mode"
-gem install bundler
+if ! [ -x "$(command -v bundler)" ]; then
+  echo "Install missing bundler"
+  gem install --user-install bundler
+fi
 bundle install
